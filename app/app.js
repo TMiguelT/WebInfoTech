@@ -5,8 +5,8 @@
         .module("app", ['ngRoute'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
-                .when('/', {
-                    templateUrl: './about/about.html',
+                .when('/public', {
+                    templateUrl: './public/about/about.html',
                     controller: 'aboutController'
                 });
 

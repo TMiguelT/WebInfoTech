@@ -4,7 +4,7 @@ var mount = require('koa-mount');
 
 app
   .use(require("./routes/users")) //Mount the users API
-  .use(mount("/", static("public"))); //Mount the static file server
+  .use(mount("/public", static("public"))); //Mount the static file server
   
   /*
   .use(require(".routes/about"));
