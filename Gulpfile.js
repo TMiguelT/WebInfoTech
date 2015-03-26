@@ -11,4 +11,5 @@ gulp.task('clean', require('del').bind(null, ['.tmp', 'public']));
 
 gulp.task('build',
     ['clean',
-     'public']);
+     'public',
+     'less']);
