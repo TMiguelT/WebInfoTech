@@ -4,7 +4,7 @@ $(window).scroll(function() {
     $(".overlay").css("opacity", scrollVal / 400);
 
     if (scrollVal >= $('.main').offset().top)
-        $(".navbar").toggleClass('fadeInDown animated');
+        $(".navbar").addClass('fadeInDown animated');
     else
         $(".navbar").removeClass('fadeInDown animated');
 });
