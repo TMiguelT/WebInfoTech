@@ -11,5 +11,5 @@ gulp.task('build',
      'public',
      'less',
      'vendor_js',
-        'app_js'
+     'app_js'
     ]);
