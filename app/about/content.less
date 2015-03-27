@@ -1,0 +1,47 @@
+.main {
+  height: 100%;
+  padding: 5em 10em 0 10em;
+  text-align: center;
+  background-color: #efefef;
+  color: #444;
+}
+.main a {
+  color: #666;
+  text-decoration: none;
+}
+.main a:hover {
+  color: #222;
+}
+
+.main > .step {
+  width: 100%;
+  padding: 2em 5em 5em 5em;
+}
+
+.main > .step > .step-number {
+  width: 100px;
+  height: 100px;
+  //  background-color: green;
+  background: url("/img/icons/number1.svg");
+  background-size: 100px 100px;
+  display: inline-block;
+}
+
+.main > .step > .step-content,
+.main > .step > .step-title {
+  padding-top: 30px;
+}
+
+.main > .step > .step-title {
+  font: 4em/1.5 "Oswald", sans-serif;
+}
+
+@media only screen and (max-device-width: 800px) {
+  .main {
+    padding: 5em 2em 0 2em;
+  }
+
+  .main > .step {
+    padding: 2em 2em 2em 2em;
+  }
+}
