@@ -31,11 +31,11 @@
         init();
 
         function getNonFocussedElementStyle(loc, i, multiplier) {
-            return "background-color:" + $scope.colors[i] + "; -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + ";";
+            return "background-color:" + $scope.colors[i] + "; transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + ";";
         }
 
         function getFocussedElementStyle(i) {
-            return "background-color:" + $scope.colors[i] + "; transform: translateZ(150px)";
+            return "background-color:" + $scope.colors[i] + "; transform: translateZ(150px); -webkit-transform: translateZ(150px)";
         }
 
         function goLeft() {

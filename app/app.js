@@ -12,11 +12,10 @@
                 .when('/about', {
                     templateUrl: './public/about/about.html',
                     controller: 'aboutController'
+                })
+                .when('/game/:photoId', {
+                    templateUrl: './public/game/game.html',
+                    controller: 'gameController'
                 });
-
-            $locationProvider.html5Mode({
-                enabled: true,
-                requireBase: false
-            });
         }]);
 })();

@@ -11,10 +11,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#about">1. What?</a></li>
-                    <li><a href="#register">2. Register</a></li>
-                    <li><a href="#find">3. Find</a></li>
-                    <li><a href="#share">4. Share</a></li>
+                    <li class="active"><a href="" ng-click="goTo('about')">1. What?</a></li>
+                    <li><a href="">2. Register</a></li>
+                    <li><a href="">3. Find</a></li>
+                    <li><a href="">4. Share</a></li>
                 </ul>
             </div>
         </div>
@@ -26,13 +26,13 @@
         <div class="heading">
             <h1>Geogram</h1>
         </div>
-        <hgroup ng-click="goToRegistrationSteps()">
+        <hgroup ng-click="goTo('about')">
             <h1>Start</h1>
         </hgroup>
     </div>
     <div class="overlay"></div>
 </header>
-<section class="main">
+<section class="main about">
     <div class="step">
         <div class="step-number">
 
@@ -47,10 +47,11 @@
         </div>
     </div>
 </section>
-<section class="main">
+<section class="main coverFlow">
     <div class="recentPhotos">
         <div class="cover-flow--container" ng-controller="coverFlowController">
-            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}" ng-click="changeIndex($index)" ng-repeat="color in colors">
+            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
+                 ng-click="changeIndex($index)" ng-repeat="color in colors">
             </div>
         </div>
     </div>

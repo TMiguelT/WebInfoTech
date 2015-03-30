@@ -1,0 +1,102 @@
+.photo-description,
+.game {
+  width: 100%;
+  height: 100%;
+  positiion: relative;
+  padding: 2em 10em 0 10em;
+}
+
+.photo-description {
+  background-color: #e4e4e4;
+}
+
+.game {
+  background-color: #ADC1D5;
+}
+
+.photo-description--title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.photo-description--content {
+  display: table;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: rgb(250, 250, 250);
+  border: rgb(200, 200, 200) 1px solid;
+}
+
+.photo-description--left {
+  float:left;
+  display: table-cell;
+  padding:10px
+}
+
+.photo-description--right {
+  display: table;
+  padding:10px;
+}
+
+.photo-description--photo {
+  width: 400px;
+  height: auto;
+}
+
+.photo-description--comments {
+  padding-bottom: 20px;
+}
+
+.tag-title {
+  font-weight: bold;
+}
+
+.tag {
+  background-color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  border: rgb(197, 197, 197) 1px solid;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background-color: #ECECEC;
+}
+
+.comment {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 10px;
+}
+
+.comment-name {
+  font-weight: bold;
+}
+
+.comment-content {
+  padding-left: 5%;
+}
+
+.comment-datetime {
+  float:right;
+}
+
+//.photo-description--description {
+//  font-weight: bold;
+//}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: 0px;
+}
+
+.table {
+  background-color: rgb(244, 244, 244);
+  margin-bottom: 0px;
+}
+
+@media only screen and (max-device-width: 800px) {
+  .photo-description,
+  .game {
+    padding: 0;
+  }
+}

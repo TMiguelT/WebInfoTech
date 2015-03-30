@@ -2,11 +2,11 @@
     "use strict";
 
     function aboutController($scope) {
-        $scope.goToRegistrationSteps = function() {
+        $scope.goTo = function(className) {
             $('html, body').animate({
-                scrollTop: $('.main').offset().top
+                scrollTop: $('.' + className).offset().top
             },500);
-        };
+        }
     }
 
     angular
