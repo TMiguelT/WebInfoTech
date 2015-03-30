@@ -1,7 +1,9 @@
 'use strict';
-
+var del = require('del');
 var gulp = require('gulp');
 
-gulp.task('clean', require('del').bind(null, ['.tmp', 'public']));
+gulp.task('clean', function (cb) {
+    del(['.tmp', 'public'], cb);
+});
 
 
