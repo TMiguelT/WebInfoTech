@@ -7,6 +7,17 @@
                 scrollTop: $('.' + className).offset().top
             },500);
         }
+
+        $(window).scroll(function() {
+            var scrollVal = $(window).scrollTop();
+
+            $(".overlay").css("opacity", scrollVal / 400);
+
+            if (scrollVal >= $('.main').offset().top)
+                $(".navbar").addClass('fadeInDown animated');
+            else
+                $(".navbar").removeClass('fadeInDown animated');
+        });
     }
 
     angular
