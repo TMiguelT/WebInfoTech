@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute', 'ngLodash'])
+        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
@@ -25,5 +25,5 @@
                     templateUrl: './public/login/login.html',
                     controller: 'loginController'
                 });
-        }]);
+        }])
 })();
