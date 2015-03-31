@@ -16,6 +16,7 @@
                 .when('/game/:photoId', {
                     templateUrl: './public/game/game.html',
                     controller: 'gameController'
+                })
                 .when('/user', {
                     templateUrl: './public/user/user.html',
                     controller: 'userController'
