@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
-gulp.task('public', ['clean'], function() {
+gulp.task('public', function() {
     return gulp.src(['./app/**/*',
         '!./app/**/*.less',
         '!./app/index.html',

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute'])
+        .module("app", ['ngRoute', 'ngLodash'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
@@ -16,6 +16,13 @@
                 .when('/game/:photoId', {
                     templateUrl: './public/game/game.html',
                     controller: 'gameController'
+                .when('/user', {
+                    templateUrl: './public/user/user.html',
+                    controller: 'userController'
+                })
+                .when('/login', {
+                    templateUrl: './public/login/login.html',
+                    controller: 'loginController'
                 });
         }]);
 })();
