@@ -1,3 +1,5 @@
+// This is so fucking messy lol
+
 .photo-description,
 .game {
   width: 100%;
@@ -19,7 +21,8 @@
   margin-bottom: 40px;
 }
 
-.photo-description--content {
+.photo-description--content,
+.game--content{
   display: table;
   border-radius: 10px;
   padding: 20px;
@@ -45,6 +48,31 @@
 
 .photo-description--comments {
   padding-bottom: 20px;
+}
+
+.photo-description--tags {
+  padding-top: 20px;
+  float: right;
+}
+
+.photo-description--buttons {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.photo-description--buttons > button {
+  width: 150px;
+  height: 50px;
+}
+
+.play-button {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.play-button > button {
+  width: 305px;
+  height: 70px;
 }
 
 .tag-title {
@@ -81,6 +109,23 @@
   float:right;
 }
 
+.comment-form {
+  height: 100px;
+  padding-top: 15px;
+}
+
+.comment-form--share {
+  float: left;
+  margin-top: 15px;
+  margin-left: 20px;
+}
+
+.comment-form--post {
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
 //.photo-description--description {
 //  font-weight: bold;
 //}
@@ -95,8 +140,17 @@
 }
 
 @media only screen and (max-device-width: 800px) {
+  .site {
+    height: auto;
+  }
   .photo-description,
   .game {
     padding: 0;
+  }
+
+  .photo-description,
+  .photo-description--content,
+  .photo-description--photo{
+    width: 100%;
   }
 }
