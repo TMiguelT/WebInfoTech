@@ -60,6 +60,8 @@
 
 <section class="game">
     <div class="game--content">
-        <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker idKey="photo.id" coords="photo.geoData.coords"></ui-gmap-marker>
+        </ui-gmap-google-map>
     </div>
 </section>
