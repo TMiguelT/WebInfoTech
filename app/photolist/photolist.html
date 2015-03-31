@@ -1,0 +1,88 @@
+
+<section class = photo-list>
+    <div class="photo-list-title"><h1>Photos</h1> </div>
+
+    <div class="photo-list-content" ng-controller="photolistController as photoCtrl" >
+        <!--Search bar-->
+        <div class="photo-list-buttons">
+            <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
+                    Order by
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('name')">Name</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('type')">Type</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('distance')">Distance</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true">
+                View
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownView">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy('list')">List</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="photoCtrl.viewBy('grid')">Grid</a></li>
+            </ul>
+            </div>
+            <div class="input-group" style="float:right">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                      </span>
+                <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+        </div>
+
+
+        <!-- Photo Headings-->
+        <div class="container-fluid" >
+            <div class="photo-list-photos">
+                <div class="col-sm-4">
+                    <label>Photo</label>
+                </div>
+                <div class="col-sm-1">
+                    <label>Name</label>
+                </div>
+                <div class="col-sm-1">
+                    <label>Type</label>
+                </div>
+                <div class="col-sm-4">
+                    <label>Description</label>
+                </div>
+                <div class="col-sm-1">
+                    <label>Tags</label>
+                </div>
+                <div class="col-sm-1">
+                    <label>User</label>
+                </div>
+            </div>
+
+            <!-- Photo List-->
+            <div class="row" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
+                <div class="photo-list-photos">
+                    <div class="col-sm-4">
+                        <img src="./public/photos/{{photo.image}}" img class="img-responsive" alt="{{photo.name}}">
+                    </div>
+                    <div class="col-sm-1">
+                        {{photo.name}}
+                    </div>
+                    <div class="col-sm-1">
+                        {{photo.type}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{photo.description}}
+                    </div>
+                    <div class="col-sm-1">
+                        <p ng-repeat="tag in photo.tags">
+                            {{tag}}
+                        </p>
+                    </div>
+                    <div class="col-sm-1">
+                        {{photo.user}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
