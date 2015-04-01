@@ -14,5 +14,6 @@ gulp.task('build', function (cb) {
             'vendor_js',
             'app_js'
         ],
-        cb);
+        cb
+    );
 });
