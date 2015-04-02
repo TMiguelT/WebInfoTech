@@ -5,7 +5,7 @@
     </div>
 
     <div class="photo-description--content">
-            <div class="photo-description--left">
+            <div class="col-md-5" style="text-align: center;">
                 <img class="photo-description--photo" src="./public/photos/flinders.jpg" />
                 <div class="photo-description--buttons">
                     <button class="btn btn-default">Like</button>
@@ -15,7 +15,7 @@
                     <button class="btn btn-success">Play</button>
                 </div>
             </div>
-            <div class="photo-description--right">
+            <div class="col-md-7">
                 <div class="photo-description--description">
                     <h4>Description</h4>
                     <div>
@@ -60,8 +60,18 @@
 
 <section class="game">
     <div class="game--content">
+        <div class="game--navHelper">
+            <div class="game--arrow">
+
+            </div>
+            <div>5.3km away<br/>South of your position</div>
+        </div>
         <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-            <ui-gmap-marker idKey="photo.id" coords="photo.geoData.coords"></ui-gmap-marker>
+            <ui-gmap-marker idKey="photo.id" coords="photo.geoData.coords">
+                <ui-gmap-window show="true">
+                    Your Position
+                </ui-gmap-window>
+            </ui-gmap-marker>
         </ui-gmap-google-map>
     </div>
 </section>
