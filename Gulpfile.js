@@ -20,7 +20,7 @@ gulp.task('build', function (cb) {
 
 gulp.task('watch', function() {
   	gulp.watch(['./app/app.js','./app/**/*.js'], ['app_js']);
-  	gulp.watch(['./app/app.less'], ['less']);  
+  	gulp.watch(['./app/app.less', './app/**/*.less'], ['less']);
   	gulp.watch([
   		'./app/**/*',
         '!./app/**/*.less',

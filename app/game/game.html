@@ -1,43 +1,36 @@
 <section class="photo-description">
 
     <div class="photo-description--title">
-        <h1>Flinders Street Railway Station</h1>
+        <h1>{{ photo.name }}</h1>
     </div>
 
     <div class="photo-description--content">
-            <div class="photo-description--left">
+            <div class="col-md-5" style="text-align: center;">
+                <div>{{ photo.finds }} Finds</div>
                 <img class="photo-description--photo" src="./public/photos/flinders.jpg" />
-                <div class="photo-description--buttons">
-                    <button class="btn btn-default">Like</button>
+                <div>{{ photo.likes }} likes {{photo.dislikes}} dislikes</div>
+                <div class="share-button">
                     <button class="btn btn-default">Share</button>
                 </div>
                 <div class="play-button">
                     <button class="btn btn-success">Play</button>
                 </div>
             </div>
-            <div class="photo-description--right">
+            <div class="col-md-7">
                 <div class="photo-description--description">
                     <h4>Description</h4>
                     <div>
-                        Flinders Street railway station is a railway station on the corner of Flinders and Swanston Streets in Melbourne, Australia. It serves the entire metropolitan rail network. Backing onto the city reach of the Yarra River in the heart of the city, the complex covers two whole city blocks and extends from Swanston Street to Queen Street.
+                       {{ photo.description }}
                     </div>
                 </div>
                 <div class="photo-description--comments">
-                    <h4>Comments (2)</h4>
-                    <div class="comment">
+                    <h4>Comments ({{ photo.comments.length }})</h4>
+                    <div class="comment" ng-repeat="comment in photo.comments">
                         <div>
-                            <span class="comment-name">John Smith</span> <span class="comment-datetime">4:01pm 25th August 2015</span>
+                            <span class="comment-name"> {{ comment.name }} </span> <span class="comment-datetime"> {{ comment.date_posted }} </span>
                         </div>
                         <div class="comment-content">
-                            this is awesome lol
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <div>
-                            <span class="comment-name">Mike Hunt</span> <span class="comment-datetime">3:55pm 25th August 2015</span>
-                        </div>
-                        <div class="comment-content">
-                            2/10 wood bang
+                            {{ comment.post }}
                         </div>
                     </div>
                     <div class="comment-form">
@@ -50,18 +43,31 @@
                 </div>
                 <div class="photo-description--tags">
                     <span class="tag-title">Tags:</span>
-                    <span class="tag">Railway Station</span>
-                    <span class="tag">Heritage</span>
-                    <span class="tag">Sexy</span>
+                    <span ng-repeat="tag in photo.tags">
+                       <a class="tag" ng-href="{{ tag.url }}">{{ tag.name }}</a>
+                    </span>
                 </div>
+            </div>
+            <div class="photo-description--userPost">
+                Posted on: <b>{{ photo.date_posted }}</b> by <b>{{ photo.user.name }}</b>
             </div>
     </div>
 </section>
 
 <section class="game">
     <div class="game--content">
+        <div class="game--navHelper">
+            <div class="game--arrow">
+
+            </div>
+            <div>5.3km away<br/>South of your position</div>
+        </div>
         <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-            <ui-gmap-marker idKey="photo.id" coords="photo.geoData.coords"></ui-gmap-marker>
+            <ui-gmap-marker idKey="photo.id" coords="photo.location.coords">
+                <ui-gmap-window show="true">
+                    Your Position
+                </ui-gmap-window>
+            </ui-gmap-marker>
         </ui-gmap-google-map>
     </div>
 </section>
