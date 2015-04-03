@@ -1,6 +1,6 @@
 # Installation
 
-First you have to install git if you haven't already http://git-scm.com/downloads. Then you'll have to install node: https://nodejs.org/. It has to be node 0.12 or above to work.
+First you have to install git if you haven't already: http://git-scm.com/downloads. Then you'll have to install node: https://nodejs.org/. It has to be node 0.12 or above to work.
 
 So to install the project, go into the folder you use for programming stuff and type `git clone https://github.com/TMiguelT/WebInfoTech`. That will download a local copy of the repository for you to work on. It will ask for your username and password, so you'll have to enter them each time you push or pull from the repo (although you can set up SSH so you don't have to enter a password if you want)
 
@@ -65,9 +65,9 @@ You will have to access it in Angular with the URL `/api/tags`.
 
 # Making database queries
 
-I've installed a query builder called knex (http://knexjs.org/#Builder) so you can make queries like:
+I've installed a query builder called [knex](http://knexjs.org/#Builder) so you can make queries like:
 
-```
+```javascript
 yield this.knex('user')
   .join('photo', 'user.user_id', 'photo.user_id')
   .where({
