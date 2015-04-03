@@ -37,7 +37,7 @@ router
                             url: "/tags/sexy"
                         }
                     ],
-                    likes: 12,
+                    likes: 22,
                     comments: [
                         {
                             name: "MikeHunt",
