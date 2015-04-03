@@ -12,6 +12,7 @@ app
     .use(logger())
     .use(router(app))
     .use(mount("/api", require("./api/users"))) //Mount the users API
+    .use(mount("/api", require("./api/photos"))) //Mount the users API
  // .use(mount("/api", require("./api/about"))) //Mount the about page API
     .use(mount("/public", static("public"))) //Mount the static file server
     .get('/:id?', function *(next) {
