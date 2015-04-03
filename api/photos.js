@@ -7,7 +7,7 @@ router
                 {
                     id: 1,
                     url: "flinders.jpg",
-                    title: "Flinders Street Station",
+                    name: "Flinders Street Station",
                     description: "Flinders Street railway station is a railway station on the corner of Flinders and Swanston Streets in Melbourne, Australia. It serves the entire metropolitan rail network. Backing onto the city reach of the Yarra River in the heart of the city, the complex covers two whole city blocks and extends from Swanston Street to Queen Street.",
                     location: {
                         coords: {
@@ -23,21 +23,24 @@ router
                     user: {
                         name: "MikeHunt"
                     },
+                    date_posted: "4:00pm 69th May 2015",
                     tags: [
                         {
                             name: "Railway Station",
-                            url: "/tags/railway_station"
+                            url: "#/tags/railway_station"
                         },
                         {
                             name: "Heritage",
-                            url: "/tags/heritage"
+                            url: "#/tags/heritage"
                         },
                         {
                             name: "Sexy",
-                            url: "/tags/sexy"
+                            url: "#/tags/sexy"
                         }
                     ],
                     likes: 22,
+                    dislikes: 12,
+                    finds: 42,
                     comments: [
                         {
                             name: "MikeHunt",
