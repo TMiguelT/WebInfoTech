@@ -36,9 +36,16 @@ Then in /app.js (not /app/app.js, that's for Angular), you need to add the endpo
 ```javascript
 .use(mount("/api", require("./api/leaderboard")))
 ```
-What this means, is load the new javascript file located in /api/leaderboard.js (the .js extention is assumed) into the URL "/api".
+What this means, is load the new javascript file located in /api/leaderboard.js (the .js extention is assumed) into the URL "/api". The `require()` function is node's way of importing a file, like python's `import` or ruby's `require`.
 
-Then in your api file, you can add some URLs with
+At the top of your API file you'll need
+
+```javascript
+var router = require('koa-router')();
+```
+
+This imports the router module, which is a function, and then calls this function to make a new router object.
+You can then add some URLs with the router's methods, like `get()` and `post()`:
 
 ```javascript
 router.get('/some/url', function *() {
@@ -46,15 +53,7 @@ router.get('/some/url', function *() {
 })
 ```
 
-and
-
-```javascript
-router.post('/some/url', function *() {
-        //Update something
-})
-```
-
-Read the next section for more info on how to do that. But not that the URLs that you define in this file are **relative** to the '/api' URL. So if you define a route like this:
+Note that the URLs that you define like this are **relative** to the '/api' URL. So if you define a route like this:
 
 ```javascript
 router.post('/tags', function *() {
@@ -63,9 +62,12 @@ router.post('/tags', function *() {
 
 You will have to access it in Angular with the URL `/api/tags`.
 
+Each API function has to set the 'body' of the HTTP response. The way to do this is by setting `this.body` to something. For example to send a basic string from this URL you'd write `this.body = "Hello World"`.
+Realistically, you'll probably be making database queries and setting the response body to the rows returned from the database. You might also be accessing the filesystem (where the photos are stored). Read the next section for more info on how to make queries.
+
 # Making database queries
 
-I've installed a query builder called [knex](http://knexjs.org/#Builder) so you can make queries like:
+I've installed a query builder called [knex](http://knexjs.org/#Builder). The knex object is accessible as `this.knex`, so you can make queries like this:
 
 ```javascript
 yield this.knex('user')
@@ -84,7 +86,22 @@ FROM user JOIN photo ON user.user_id = photo.user_id
 WHERE username = 'MyUserName' AND email = 'my@email'
 ```
 
-I've got an example with and without the query builder in the repo here: https://github.com/TMiguelT/WebInfoTech/blob/master/api/users.js. If you use raw SQL you have to remember to wrap the whole thing in brackets and add '.rows' at the end to make it work.
+You can also make raw SQL queries using `knex.raw`, and you can use question marks to indicate parameters you're going to pass in, and then pass in these parameters as an array which is the second argument. In this example, the question mark will be replaced by the number 1:
+
+```javascript
+router.get('/tags_raw', function *() {
+    this.body = (yield this.knex.raw(
+        'SELECT * FROM tag WHERE tag_id > ?',
+         [1]
+     )).rows;
+});
+```
+
+Note that if you use raw SQL you have to remember to wrap the whole thing in brackets and add '.rows' at the end to make it work.
+
+The `yield` keyword that I've been using before each database query is a new JavaScript feature that you can look into if you want to, but all you need to know is that it has to be before each call to the database. Its function here is to get data that is returned asynchronously without having to use a callback function, which makes the code a lot simpler than traditional JavaScript.
+
+There's an example with and without the query builder in the repo here: https://github.com/TMiguelT/WebInfoTech/blob/master/api/users.js.
 
 # Background
 ## Node
