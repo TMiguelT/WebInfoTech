@@ -17,3 +17,8 @@ gulp.task('build', function (cb) {
         cb
     );
 });
+
+gulp.task('watch', function() {
+  gulp.watch(['./app/app.js','./app/**/*.js'], ['build']);
+});
+
