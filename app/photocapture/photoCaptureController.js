@@ -2,11 +2,12 @@
  * Created by Andrew on 1/4/2015.
  */
 (function() {
-    function photoCaptureController($scope) {
-
-    }
 
     angular
         .module("app")
-        .controller("photoCaptureController", ["$scope", photoCaptureController]);
+        .controller("photoCaptureController", ["$scope", function($scope) {
+            $scope.submit = function() {
+                alert("woah way to really click the button there!");
+            }
+        }]);
 })
