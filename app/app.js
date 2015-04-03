@@ -33,5 +33,7 @@
                     templateUrl: '/public/photocapture/photocapture.html',
                     controller: 'photoCaptureController'
                 });
+
+            $locationProvider.html5Mode(true);
         }])
 })();

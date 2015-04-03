@@ -86,15 +86,17 @@ FROM user JOIN photo ON user.user_id = photo.user_id
 WHERE username = 'MyUserName' AND email = 'my@email'
 ```
 
-You can also make raw SQL queries using `knex.raw`, and you can use question marks to indicate parameters you're going to pass in, and then pass in these parameters as an array which is the second argument. In this example, the question mark will be replaced by the number 1:
+You can also make raw SQL queries using `knex.raw`, and you can use question marks to indicate parameters you're going to pass in, and then pass in these parameters as an array which is the second argument. Here's an example where the first function uses the query building, and the second users raw SQL. For the raw SQL query, the question mark will be replaced by the number 1:
 
 ```javascript
-router.get('/tags_raw', function *() {
-    this.body = (yield this.knex.raw(
-        'SELECT * FROM tag WHERE tag_id > ?',
-         [1]
-     )).rows;
-});
+router
+    //These are two different ways of performing the same query
+    .get('/tags', function *() {
+        this.body = yield this.knex('tag').where('tag_id', '>', 1);
+    })
+    .get('/tags_raw', function *() {
+        this.body = (yield this.knex.raw('SELECT * FROM tag WHERE tag_id > ?', [1])).rows;
+    });
 ```
 
 Note that if you use raw SQL you have to remember to wrap the whole thing in brackets and add '.rows' at the end to make it work.
