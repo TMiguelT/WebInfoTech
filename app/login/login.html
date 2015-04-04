@@ -16,21 +16,21 @@
         <form>
             <div ng-if="mode == 'register'" class="form-group">
                 <label>Username</label>
-                <input ng-model="username" type="email" class="form-control">
+                <input ng-model="form.username" required type="text" class="form-control">
             </div>
             <div class="form-group">
                 <label>Email address</label>
-                <input ng-model="email" type="email" class="form-control">
+                <input ng-model="form.email" required type="email" class="form-control">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input ng-model="password" type="password" class="form-control">
+                <input ng-model="form.password" required type="password" class="form-control">
             </div>
             <div ng-if="mode == 'register'" class="form-group">
                 <label>Confirm Password</label>
-                <input ng-model="password" type="password" class="form-control">
+                <input ng-model="form.confirmPassword" required type="password" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button ng-click="submit()" type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
