@@ -2,7 +2,6 @@
  * Created by Andrew on 1/4/2015.
  */
 (function() {
-
     angular
         .module("app")
         .controller("photoCaptureController", ["$scope", function($scope) {
@@ -10,4 +9,4 @@
                 alert("woah way to really click the button there!");
             }
         }]);
-})
+})();
