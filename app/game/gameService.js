@@ -11,7 +11,7 @@
 
                     })
                     .error(function() {
-                        console.log("error");
+                        console.error("error: cannot GET /api/photos");
                     });
             }
         }
