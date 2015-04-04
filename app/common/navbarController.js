@@ -22,5 +22,5 @@
 
     angular
         .module("app")
-        .controller("navbarController", ["$scope", aboutController]);
+        .controller("navbarController", ["$scope", navbarController]);
 })();
