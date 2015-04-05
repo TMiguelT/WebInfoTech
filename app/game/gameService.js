@@ -7,8 +7,10 @@
                 $http
                     .get('./api/photos')
                     .success(function(data) {
-                        callback(data.photos[photoId]);
-
+                        if(data.photos[photoId])
+                            callback(data.photos[photoId]);
+                        else
+                            callback({ error: "Error: Cannot retrieve photo" });
                     })
                     .error(function() {
                         console.error("error: cannot GET /api/photos");

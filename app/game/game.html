@@ -1,4 +1,8 @@
-<section class="photo-description">
+<div class="alert alert-danger error" role="alert" ng-show="photo.error">
+    {{ photo.error }}
+</div>
+
+<section class="photo-description" ng-hide="photo.error">
 
     <div class="photo-description--title">
         <h1>{{ photo.name }}</h1>
@@ -13,7 +17,7 @@
                     <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photo.dislikes }}</span></button>
                 </div>
                 <div class="play-button">
-                    <button class="btn btn-success" ng-click="goToGame()">Play</button>
+                    <button class="btn btn-success" ng-click="goTo('.game')">Play</button>
                 </div>
             </div>
             <div class="col-md-7">
@@ -65,16 +69,17 @@
     </div>
 </section>
 
-<section class="game">
+<section class="game" ng-hide="photo.error">
+    <button class="btn btn-primary game--photoDescButton" ng-click="goTo('body')">Back to Photo Description</button>
     <div class="game--content">
         <div class="game--navHelper">
             <div class="game--arrow">
 
             </div>
-            <div>5.3km away<br/>South of your position</div>
+            <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
         </div>
-        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-            <ui-gmap-marker idKey="photo.id" coords="photo.location.coords">
+        <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
+            <ui-gmap-marker idKey="photo.id" coords="position.coords">
                 <ui-gmap-window show="true">
                     Your Position
                 </ui-gmap-window>
