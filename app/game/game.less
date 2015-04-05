@@ -40,7 +40,7 @@
 }
 
 .photo-description--photo {
-  width: 400px;
+  width: 100%;
   height: auto;
   cursor: pointer;
 }
@@ -198,18 +198,30 @@
   margin-bottom: 0px;
 }
 
-.error {
+.alert-box {
   width: 300px;
   margin: 20px auto;
+  text-align: center;
+}
+
+@media only screen and (max-device-width: 1200px) {
+  .play-button > button {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-device-width: 800px) {
   .site {
     height: auto;
   }
-  .photo-description,
-  .game {
+
+  .photo-description{
+    height: 100% !important;
     padding: 0;
+  }
+
+  .game {
+    padding: 20px 0 0 0;
   }
 
   .photo-description,

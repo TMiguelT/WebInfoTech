@@ -2,6 +2,7 @@
     "use strict";
 
     function gameController($scope, gameService, scrollService, $routeParams) {
+        init();
         setHeight();
 
         gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
@@ -15,7 +16,7 @@
                         distance: getDistanceToLocation(position.coords, photo.location.coords),
                         direction: getDirection(position.coords, photo.location.coords)
                     };
-
+                    $scope.photoLoaded = true;
                     $scope.$apply();
                 });
             }
@@ -27,6 +28,10 @@
 
         $scope.goTo = function(elName) {
             scrollService.goTo(elName);
+        }
+
+        function init() {
+            $scope.photoLoaded = false;
         }
 
         function setHeight() {
