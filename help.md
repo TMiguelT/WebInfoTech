@@ -109,3 +109,29 @@ There's an example with and without the query builder in the repo here: https://
 ## Node
 
 As some background, Node is a JavaScript interpreter just like python is a Python interpreter and ruby is a Ruby interpreter, so you can type "node" into a terminal and you'll get an interactive console for JavaScript where you can type in whatever you want and it will evaluate it (like python and ruby). But node also has a built in server that's amazing, and that's what we're using for the backend of the site.
+
+# Resources
+
+## Git Docs
+http://git-scm.com/documentation/
+
+## Node Docs
+https://nodejs.org/api/
+
+## Gulp Docs
+https://github.com/gulpjs/gulp/blob/master/docs/API.md
+
+## Koa Docs
+http://koajs.com/
+
+## Knex Docs
+http://knexjs.org/#Builder
+
+## Angular Docs
+https://docs.angularjs.org/api
+
+## PostgreSQL Docs
+http://www.postgresql.org/docs/9.4/interactive/index.html
+
+## pgadmin Download
+http://www.postgresql.org/ftp/pgadmin3/release/v1.20.0/
