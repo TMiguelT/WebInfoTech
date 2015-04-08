@@ -1,44 +1,44 @@
-/**
-* Created by Emma Jamieson-Hoare
-*/
+<!-- Created by Emma Jamieson-Hoare -->
 
+<section class=leaderboard>
+    <div class="leaderboard-title">Leaderboard</div>
 
-<section class=leaderboard> HELLP
-    <div class="title">LeaderBoard</div>
+    <div class="leaderboard-content container" ng-controller="leaderboardController as playerCtrl">
+        <!--LeaderBoard Table-->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>UserName</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="player in playerCtrl.players">
+                        <td>
+                            {{player.rank}}
+                        </td>
+                        <td>
+                            {{player.username}}
+                        </td>
+                        <td>
+                            {{player.score}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-    <div class="leaderboard-content" ng-controller="leaderboardController as playerCtrl">
-
-        <!--LeaderBoard Table Headings-->
-        <div class="table">
-            <div class="col-sm-2">
-                <label>Rank</label>
-            </div>
-            <div class="col-sm-5" >
-                <label>UserName</label>
-            </div>
-            <div class="col-sm-5">
-                <label>Score</label>
-            </div>
         </div>
 
-        <!--LeaderBoard Table Content-->
-        <div class="row" ng-repeat="player in playerCtrl.players">
-            <div class="table">
-                <div class="col-sm-2">
-                    {{player.rank}}
-                </div>
-                <div class="col-sm-5">
-                    {{player.username}}
-                </div>
-                <div class="sm-col-5">
-                    {{player.score}}
-                </div>
-            </div>
-        </div>
 
-        <div class="friends-leaderboard-btn">
-            <label><a href="#">Friends LeaderBoard</a></label>
-        </div>
+        <!-- Friends Leaderboard Button -->
+         <div class="col-sm-offset-1">
+             <div class="friend-leaderboard-btn">
+                <button class="btn btn-default">
+                    Friends LeaderBoard
+                </button>
+             </div>
+         </div>
 
     </div>
 

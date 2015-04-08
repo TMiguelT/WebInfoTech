@@ -17,19 +17,19 @@ angular.module('app')
 PlayerList = [
 
     {
-        Rank: "1",
-        Username: "emma0987",
-        Score: "5"
+        rank: "1",
+        username: "emma0987",
+        score: "5"
     },
 
     {
-        Rank: "2",
-        Username: "jakemoxey",
-        Score: "3"
+        rank: "2",
+        username: "jakemoxey",
+        score: "3"
     },
 
     {
-        Rank: "3",
-        Username: "brandonlyly",
-        Score: "0"
+        rank: "3",
+        username: "brandonlyly",
+        score: "0"
     }];
