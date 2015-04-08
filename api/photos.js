@@ -61,8 +61,8 @@ router
                     description: "The Yarra Valley is an Australian wine region located east of Melbourne, Victoria.",
                     location: {
                         coords: {
-                            latitude: -37.682395,
-                            longitude: 145.480557
+                            latitude: -37.653316,
+                            longitude: 145.4510315
                         },
                         altitude: 50,
                         orientation: {
@@ -102,8 +102,8 @@ router
                     description: "Melbourne Museum is a natural and cultural history museum located in the Carlton Gardens in Melbourne, Australia, adjacent to the Royal Exhibition Building.",
                     location: {
                         coords: {
-                            latitude: -37.682395,
-                            longitude: 145.480557
+                            latitude: -37.803646,
+                            longitude: 144.972942
                         },
                         altitude: 50,
                         orientation: {
@@ -162,8 +162,8 @@ router
                     description: "Sea Life Melbourne Aquarium is a Southern Ocean and Antarctic aquarium in central Melbourne, Australia. It is located on the banks of the Yarra River beside and under the Flinders Street Viaduct and the King Street Bridge.",
                     location: {
                         coords: {
-                            latitude: -37.682395,
-                            longitude: 145.480557
+                            latitude: -37.821153,
+                            longitude: 144.958309
                         },
                         altitude: 50,
                         orientation: {
@@ -222,8 +222,8 @@ router
                     description: "The Melbourne Cricket Ground is an Australian sports stadium located in Yarra Park, Melbourne, Victoria, and is home to the Melbourne Cricket Club.",
                     location: {
                         coords: {
-                            latitude: -37.682395,
-                            longitude: 145.480557
+                            latitude: -37.819967,
+                            longitude: 144.983449
                         },
                         altitude: 50,
                         orientation: {
