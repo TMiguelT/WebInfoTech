@@ -6,29 +6,34 @@
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
-                    templateUrl: './public/about/about.html',
+                    templateUrl: '/public/about/about.html',
                     controller: 'aboutController'
                 })
                 .when('/about', {
-                    templateUrl: './public/about/about.html',
+                    templateUrl: '/public/about/about.html',
                     controller: 'aboutController'
                 })
                 .when('/game/:photoId', {
-                    templateUrl: './public/game/game.html',
+                    templateUrl: '/public/game/game.html',
                     controller: 'gameController'
                 })
                 .when('/user', {
-                    templateUrl: './public/user/user.html',
+                    templateUrl: '/public/user/user.html',
                     controller: 'userController'
                 })
                 .when('/login', {
-                    templateUrl: './public/login/login.html',
+                    templateUrl: '/public/login/login.html',
                     controller: 'loginController'
                 })
                 .when('/photolist', {
-                    templateUrl: './public/photolist/photolist.html',
+                    templateUrl: '/public/photolist/photolist.html',
                     controller: 'photolistController'
+                })
+                .when('/capture', {
+                    templateUrl: '/public/photocapture/photocapture.html',
+                    controller: 'photoCaptureController'
                 });
 
+            $locationProvider.html5Mode(true);
         }])
 })();

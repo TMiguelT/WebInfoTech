@@ -1,43 +1,108 @@
 (function() {
     "use strict";
 
-    function gameController($scope, $routeParams) {
-        // mock data, will add this to a route l8er
-        $scope.photo = {
-            id: $routeParams.photoId,
-            title: "Flinders Street Station",
-            description: "Flinders Street railway station is a railway station on the corner of Flinders and Swanston Streets in Melbourne, Australia. It serves the entire metropolitan rail network. Backing onto the city reach of the Yarra River in the heart of the city, the complex covers two whole city blocks and extends from Swanston Street to Queen Street.",
-            geoData: {
-                coords: {
-                    latitude: -37.810144,
-                    longitude: 144.962674
-                }
-                // could add altitude and orientation?
-            },
-            tags: [
-                {
-                    name: "Railway Station",
-                    url: "/photo/tags/railway_station"
-                },
-                {
-                    name: "Heritage",
-                    url: "/photo/tags/heritage"
-                },
-                {
-                    name: "Sexy",
-                    url: "/photo/tags/sexy"
-                }
-            ],
-            likes: 12
-            // add comments l8er
-        };
+    function gameController($scope, gameService, scrollService, $routeParams) {
+        init();
+        setHeight();
 
-        $scope.map = { center: { latitude: -37.810144, longitude: 144.962674 }, zoom: 17 };
+        gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
+            $scope.photo = photo;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    $scope.map = getMap(position.coords);
+
+                    $scope.position = {
+                        coords: position.coords,
+                        distance: getDistanceToLocation(position.coords, photo.location.coords),
+                        direction: getDirection(position.coords, photo.location.coords)
+                    };
+                    $scope.photoLoaded = true;
+                    $scope.$apply();
+                });
+            }
+        });
+
+        $scope.viewPhoto = function() {
+            $('#viewPhoto').modal('show')
+        }
+
+        $scope.goTo = function(elName) {
+            scrollService.goTo(elName);
+        }
+
+        function init() {
+            $scope.photoLoaded = false;
+        }
+
+        function setHeight() {
+            if ($(".photo-description").height() < 720) {
+                $(".photo-description").css("height", "730px");
+                $(".game").css("height", "730px");
+            } else {
+                $(".photo-description").css("height", "100%");
+                $(".game").css("height", "100%");
+            }
+        }
+
+        function radians(num) {
+            return num * (Math.PI / 180);
+        }
+
+        function getMap(posCoords) {
+            return {
+                    center:
+                        {
+                            latitude: posCoords.latitude,
+                            longitude: posCoords.longitude
+                        },
+                        zoom: 17,
+                        options:
+                        {
+                            streetViewControl: false,
+                            mapTypeControl: false,
+                            panControl: false
+                        }
+                    };
+        }
+
+        function getDirection(posCoords, photoCoords) {
+            var interval = 45;
+            var point1 = new google.maps.LatLng(posCoords.latitude, posCoords.longitude);
+            var point2 = new google.maps.LatLng(photoCoords.latitude, photoCoords.longitude);
+            var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
+
+            if (heading < -(interval / 2) - (3 * interval)
+                || heading > (interval / 2) + (3 * interval)) return "North";
+            else if (heading < -(interval / 2) - (2 * interval)) return "North East";
+            else if (heading < -(interval / 2) - interval) return "East";
+            else if (heading < -(interval / 2)) return "South East";
+            else if (heading < interval / 2) return "South";
+            else if (heading < (interval / 2) + interval) return "South West";
+            else if (heading < (interval / 2) + (2 * interval)) return "West";
+            else if (heading < (interval / 2) + (3 * interval)) return "North West";
+        }
+
+        function getDistanceToLocation(posCoords, photoCoords) {
+            var R = 6371; // metres
+            var lat1_rad = radians(posCoords.latitude);
+            var lat2_rad = radians(photoCoords.latitude);
+            var diff_lat_rad = radians(photoCoords.latitude - posCoords.latitude);
+            var diff_lon_rad = radians(photoCoords.longitude - posCoords.longitude);
+
+            var a = Math.sin(diff_lat_rad/2) * Math.sin(diff_lat_rad/2) +
+                Math.cos(lat1_rad) * Math.cos(lat2_rad) *
+                Math.sin(diff_lon_rad/2) * Math.sin(diff_lon_rad/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        }
     }
 
     angular
         .module("app")
         .controller("gameController", ["$scope",
+                                        "gameService",
+                                        "scrollService",
                                         "$routeParams",
                                         gameController]);
 })();

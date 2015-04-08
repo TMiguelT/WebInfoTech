@@ -13,7 +13,7 @@
 }
 
 .game {
-  background-color: #ADC1D5;
+  background-color: #95D7F9;
 }
 
 .photo-description--title {
@@ -30,19 +30,23 @@
   border: rgb(200, 200, 200) 1px solid;
 }
 
-.photo-description--left {
-  float:left;
-  display: table-cell;
-  padding:10px
+.photo-description--finds {
+  font-size: 25px;
+  padding-bottom: 20px;
 }
 
-.photo-description--right {
-  display: table;
-  padding:10px;
+.photo-description--finds > strong {
+  color: rgb(57, 96, 179);
 }
 
 .photo-description--photo {
-  width: 400px;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.modal-body img {
+  width: 100%;
   height: auto;
 }
 
@@ -50,17 +54,18 @@
   padding-bottom: 20px;
 }
 
-.photo-description--tags {
+.photo-description--tags,
+.photo-description--userPost{
   padding-top: 20px;
   float: right;
 }
 
-.photo-description--buttons {
-  padding-top: 20px;
+.share-button {
+  padding-top: 5px;
   text-align: center;
 }
 
-.photo-description--buttons > button {
+.share-button > button {
   width: 150px;
   height: 50px;
 }
@@ -126,8 +131,60 @@
   margin-top: 10px;
 }
 
+.photo-description--like-dislike {
+  padding-top: 10px;
+}
+
+.photo-description--like-dislike > button {
+  height: 40px;
+}
+
+.like-icon {
+  background: url("game/like.svg");
+}
+
+.dislike-icon {
+  background: url("game/dislike.svg");
+}
+
+.like-icon,
+.dislike-icon {
+  display: inline-block;
+  margin-right: 10px;
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+}
+
 .game--content {
   width: 100%;
+  margin-top: 20px;
+}
+
+.game--navHelper {
+  background-color: rgb(223, 223, 223);
+  width: 200px;
+  height: 200px;
+  border: 1px rgb(189, 189, 189) solid;
+  margin: auto;
+  text-align: center;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+
+.game--arrow {
+  background: url("game/arrow.png");
+  background-size: 100px 100px;
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+}
+
+.game--photoDescButton {
+  display: table;
+  margin: auto;
 }
 
 .angular-google-map-container { height: 400px; }
@@ -141,13 +198,30 @@
   margin-bottom: 0px;
 }
 
+.alert-box {
+  width: 300px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+@media only screen and (max-device-width: 1200px) {
+  .play-button > button {
+    width: 100%;
+  }
+}
+
 @media only screen and (max-device-width: 800px) {
   .site {
     height: auto;
   }
-  .photo-description,
-  .game {
+
+  .photo-description{
+    height: 100% !important;
     padding: 0;
+  }
+
+  .game {
+    padding: 20px 0 0 0;
   }
 
   .photo-description,

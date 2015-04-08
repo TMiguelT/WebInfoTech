@@ -1,0 +1,27 @@
+<div ng-controller="photoCaptureController">
+    <form class="photo-form col-md-4 col-md-offset-4">
+        <div class="form-group">
+            <label for="photoInputField">Photo:</label>
+            <input type="file" class="form-control" id="photoInputField" accept="image/*;capture=camera">
+        </div>
+        <div class="form-group">
+            <label for="nameInputField">Name:</label>
+            <input type="text" class="form-control" id="nameInputField" placeholder="A name for your photo">
+        </div>
+        <div class="form-group">
+            <label for="descriptionInputField">Description:</label>
+            <input type="textarea" class="form-control" id="descriptionInputField" placeholder="brief description for the photo...">
+        </div>
+        <div class="form-group">
+            <label for="hintInputField">Hint:</label>
+            <input type="text" class="form-control" id="hintInputField" placeholder="A hint for the photo...">
+        </div>        
+        <div class="form-group">
+            <label for="tagsInputField">Tags:</label>
+            <input type="text" class="form-control" id="tagsInputField" placeholder="comma, seperated, tags...">
+        </div>
+        <div class="form-group">
+            <input class="btn btn-default col-md-2 center-block" type="button" value="Submit" ng-click="submit()">
+        </div>
+    </form>
+</div>

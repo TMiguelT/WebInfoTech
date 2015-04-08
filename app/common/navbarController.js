@@ -1,10 +1,12 @@
 (function() {
     "use strict";
 
-    function aboutController($scope, scrollService) {
-        $scope.goTo = function(elName) {
-            scrollService.goTo(elName)
-        }
+    function navbarController($scope) {
+        $scope.goTo = function(className) {
+            $('html, body').animate({
+                scrollTop: $('.' + className).offset().top
+            },500);
+        };
 
         $(window).scroll(function() {
             var scrollVal = $(window).scrollTop();
@@ -20,5 +22,5 @@
 
     angular
         .module("app")
-        .controller("aboutController", ["$scope", "scrollService", aboutController]);
+        .controller("navbarController", ["$scope", navbarController]);
 })();
