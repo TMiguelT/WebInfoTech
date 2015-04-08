@@ -32,6 +32,4 @@ PlayerList = [
         Rank: "3",
         Username: "brandonlyly",
         Score: "0"
-    }
-
-]
+    }];
