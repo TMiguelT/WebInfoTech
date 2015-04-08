@@ -73,14 +73,14 @@
             var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
 
             if (heading < -(interval / 2) - (3 * interval)
-                || heading > (interval / 2) + (3 * interval)) return "North";
-            else if (heading < -(interval / 2) - (2 * interval)) return "North East";
-            else if (heading < -(interval / 2) - interval) return "East";
-            else if (heading < -(interval / 2)) return "South East";
-            else if (heading < interval / 2) return "South";
-            else if (heading < (interval / 2) + interval) return "South West";
-            else if (heading < (interval / 2) + (2 * interval)) return "West";
-            else if (heading < (interval / 2) + (3 * interval)) return "North West";
+                || heading > (interval / 2) + (3 * interval)) return "South";
+            else if (heading < -(interval / 2) - (2 * interval)) return "South West";
+            else if (heading < -(interval / 2) - interval) return "West";
+            else if (heading < -(interval / 2)) return "North West";
+            else if (heading < interval / 2) return "North";
+            else if (heading < (interval / 2) + interval) return "North East";
+            else if (heading < (interval / 2) + (2 * interval)) return "East";
+            else if (heading < (interval / 2) + (3 * interval)) return "South East";
         }
 
         function getDistanceToLocation(posCoords, photoCoords) {
