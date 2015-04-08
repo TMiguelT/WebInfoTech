@@ -33,7 +33,14 @@ router
         }
 
         //Verify password
-        var pwMatches = yield bcrypt.compare(form.password, user.password);
+        var pwMatches = false;
+        try {
+            pwMatches = yield bcrypt.compare(form.password, user.password);
+        }
+        catch (e)
+        {
+            pwMatches = false;
+        }
         if (!pwMatches) {
             this.status = 400;
             this.body = "Invalid password!";
