@@ -17,22 +17,32 @@ angular.module("app")
         $scope.buttonText = function () {
             return _.capitalize(oppositeMode($scope.mode));
         };
+        $scope.showErrors = function (err) {
+            var msg = "Errors:\n";
+            if (err instanceof Array) {
+                err.forEach(function (err) {
+                    msg += JSON.stringify(err) + "\n";
+                });
+            }
+            else
+                msg += err;
+            alert(msg);
+        };
+
         $scope.submit = function () {
             if ($scope.mode == "login") {
-
+                $http.post('/api/login', $scope.form)
+                    .success(function (data) {
+                        alert("Success!");
+                    })
+                    .error($scope.showErrors);
             }
             else if ($scope.mode == "register") {
                 $http.post('/api/register', $scope.form)
                     .success(function (data) {
                         alert("Success!");
                     })
-                    .error(function (data) {
-                        var msg = "Errors:\n";
-                        data.forEach(function (err) {
-                           msg += JSON.stringify(err) + "\n";
-                        });
-                        alert(msg);
-                    });
+                    .error($scope.showErrors)
             }
         };
     }]);
