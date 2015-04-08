@@ -3,6 +3,7 @@
 
     function gameController($scope, gameService, scrollService, $routeParams) {
         init();
+        $('html, body').animate({ scrollTop: 0 }, 0);
         setHeight();
 
         gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
