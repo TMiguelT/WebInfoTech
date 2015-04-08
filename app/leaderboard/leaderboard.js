@@ -9,7 +9,7 @@ angular.module('app')
 
         this.players = PlayerList;
 
-    }
+    });
 
 
 
@@ -32,6 +32,4 @@ PlayerList = [
         Rank: "3",
         Username: "brandonlyly",
         Score: "0"
-    }
-
-]
+    }];
