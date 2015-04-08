@@ -9,7 +9,7 @@ angular.module('app')
 
         this.players = PlayerList;
 
-    }
+    });
 
 
 
