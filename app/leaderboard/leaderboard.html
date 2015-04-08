@@ -3,12 +3,12 @@
 */
 
 <section class=leaderboard>
-    <div class="leaderboard-title">LeaderBoard</div>
+    <div class="title">LeaderBoard</div>
 
     <div class="leaderboard-content" ng-controller="leaderboardController as playerCtrl">
 
         <!--LeaderBoard Table Headings-->
-        <div class="leaderboard-table">
+        <div class="table">
             <div class="col-sm-2">
                 <label>Rank</label>
             </div>
@@ -22,7 +22,7 @@
 
         <!--LeaderBoard Table Content-->
         <div class="row" ng-repeat="player in playerCtrl.players">
-            <div class="leaderboard-table">
+            <div class="table">
                 <div class="col-sm-2">
                     {{player.rank}}
                 </div>
