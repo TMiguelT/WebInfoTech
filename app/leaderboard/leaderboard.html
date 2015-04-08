@@ -1,0 +1,45 @@
+/**
+* Created by Emma Jamieson-Hoare
+*/
+
+<section class=leaderboard>
+    <div class="leaderboard-title">LeaderBoard</div>
+
+    <div class="leaderboard-content" ng-controller="leaderboardController as playerCtrl">
+
+        <!--LeaderBoard Table Headings-->
+        <div class="leaderboard-table">
+            <div class="col-sm-2">
+                <label>Rank</label>
+            </div>
+            <div class="col-sm-5" >
+                <label>UserName</label>
+            </div>
+            <div class="col-sm-5">
+                <label>Score</label>
+            </div>
+        </div>
+
+        <!--LeaderBoard Table Content-->
+        <div class="row" ng-repeat="player in playerCtrl.players">
+            <div class="leaderboard-table">
+                <div class="col-sm-2">
+                    {{player.rank}}
+                </div>
+                <div class="col-sm-5">
+                    {{player.username}}
+                </div>
+                <div class="sm-col-5">
+                    {{player.score}}
+                </div>
+            </div>
+        </div>
+
+        <div class="friends-leaderboard-btn">
+            <label><a href="#">Friends LeaderBoard</a></label>
+        </div>
+
+    </div>
+
+
+</section>
