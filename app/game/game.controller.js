@@ -8,27 +8,56 @@
 
         gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
             $scope.photo = photo;
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    $scope.map = getMap(position.coords);
+            navigator.geolocation.getCurrentPosition(function(position) {
+                $scope.map = getMap(position.coords);
 
-                    $scope.position = {
-                        coords: position.coords,
-                        distance: getDistanceToLocation(position.coords, photo.location.coords),
-                        direction: getDirection(position.coords, photo.location.coords)
-                    };
-                    $scope.photoLoaded = true;
-                    $scope.$apply();
-                });
-            }
+                $scope.position = {
+                    coords: position.coords,
+                    distance: getDistanceToLocation(position.coords, photo.location.coords),
+                    direction: getDirection(position.coords, photo.location.coords)
+                };
+                $scope.photoLoaded = true;
+                $scope.$apply();
+            }, function() {
+                var error = {
+                    name: "navigatorError",
+                    desc: "Cannot display map - please enable your location"
+                };
+                $scope.photo.error ? $scope.photo.error.push(error) : $scope.photo.error = [error];
+                $scope.$apply();
+            });
         });
 
         $scope.viewPhoto = function() {
             $('#viewPhoto').modal('show')
-        }
+        };
 
         $scope.goTo = function(elName) {
             scrollService.goTo(elName);
+        };
+
+        $scope.errorContains = function(errorName) {
+            var errorFound = false;
+
+            if (!$scope.photo || !$scope.photo.error ) return false;
+
+            $scope.photo.error.forEach(function(error) {
+                if (error.name == errorName) errorFound = true;
+            });
+
+            return errorFound;
+        };
+
+        $scope.displayError = function(errorName) {
+            var errorMessage = false;
+
+            if (!$scope.photo || !$scope.photo.error) return false;
+
+            $scope.photo.error.forEach(function(error) {
+                if (error.name == errorName) errorMessage = error.desc;
+            });
+
+            return errorMessage;
         }
 
         function init() {
