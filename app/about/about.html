@@ -49,12 +49,7 @@
         <div class="step-title">
             Trending Photos
         </div>
-        <div class="recentPhotos">
-            <div class="cover-flow--container" ng-controller="coverFlowController">
-                <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                     ng-click="changeIndex($index)" ng-repeat="color in colors">
-                </div>
-            </div>
-        </div>
+        <photo-carousel photos="['photos/flinders.jpg','photos/MCG.jpg','photos/MelbourneAquarium.gif',
+                'photos/MelbourneMuseum.jpg','photos/Yarravalley.jpg']"></photo-carousel>
     </div>
 </section>
