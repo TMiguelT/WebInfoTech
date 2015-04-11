@@ -1,12 +1,12 @@
 (function() {
     "use strict";
 
-    function gameController($scope, gameService, scrollService, $routeParams) {
+    function gameController($scope, photoService, scrollService, $routeParams) {
         init();
         $('html, body').animate({ scrollTop: 0 }, 0);
         setHeight();
 
-        gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
+        photoService.getPhotoById($routeParams.photoId - 1, function(photo) {
             $scope.photo = photo;
             navigator.geolocation.getCurrentPosition(function(position) {
                 $scope.map = getMap(position.coords);
@@ -131,7 +131,7 @@
     angular
         .module("app")
         .controller("gameController", ["$scope",
-                                        "gameService",
+                                        "photoService",
                                         "scrollService",
                                         "$routeParams",
                                         gameController]);
