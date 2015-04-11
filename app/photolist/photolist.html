@@ -37,7 +37,7 @@
 
         <!-- Photo Headings-->
         <div class="container-fluid" >
-            <div class="photo-list-photos">
+            <div class="photo-list-photos photo-list-heading">
                 <div class="col-sm-4">
                     <label>Photo</label>
                 </div>
@@ -45,7 +45,7 @@
                     <label>Name</label>
                 </div>
                 <div class="col-sm-1">
-                    <label>Type</label>
+                    <label>Finds</label>
                 </div>
                 <div class="col-sm-4">
                     <label>Description</label>
@@ -59,30 +59,30 @@
             </div>
 
             <!-- Photo List-->
-            <div class="row" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
+            <a ng-href="/game/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
                 <div class="photo-list-photos">
                     <div class="col-sm-4">
-                        <img src="./public/photos/{{photo.image}}" img class="img-responsive" alt="{{photo.name}}">
+                        <img src="./public/photos/{{photo.url}}" img class="img-responsive" alt="{{photo.name}}">
                     </div>
                     <div class="col-sm-1">
                         {{photo.name}}
                     </div>
                     <div class="col-sm-1">
-                        {{photo.type}}
+                        {{photo.finds}}
                     </div>
                     <div class="col-sm-4">
                         {{photo.description}}
                     </div>
                     <div class="col-sm-1">
                         <p ng-repeat="tag in photo.tags">
-                            {{tag}}
+                            {{tag.name}}
                         </p>
                     </div>
                     <div class="col-sm-1">
-                        {{photo.user}}
+                        {{photo.user.name}}
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>

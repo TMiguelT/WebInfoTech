@@ -22,20 +22,21 @@
         }
 
         function init() {
-            $scope.colors = ['#cc0000', '#0000cc', '#00ccc0', '#00cc00', '#00e0e0', '#ccc000', '#ff00ff', '#00ff00'];
-            $scope.index = parseInt($scope.colors.length / 2);
+            $scope.index = parseInt($scope.photos.length / 2);
 
             listenToKeystrokes();
         }
-
         init();
 
         function getNonFocussedElementStyle(loc, i, multiplier) {
-            return "background-color:" + $scope.colors[i] + "; transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + ";";
+            /*return "background-color:" + $scope.photos[i] + "; transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + ";"; */
+            return "background: url(\"public/" + $scope.photos[i] + "\"); transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + "; background-size: auto 200px; background-position: 50%";
+
         }
 
         function getFocussedElementStyle(i) {
-            return "background-color:" + $scope.colors[i] + "; transform: translateZ(150px); -webkit-transform: translateZ(150px)";
+            /*return "background-color:" + $scope.photos[i] + "; transform: translateZ(150px); -webkit-transform: translateZ(150px)"; */
+            return "background: url(\"public/" + $scope.photos[i] + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%;";
         }
 
         function goLeft() {
@@ -45,7 +46,7 @@
         }
 
         function goRight() {
-            if($scope.index !== $scope.colors.length - 1) {
+            if($scope.index !== $scope.photos.length - 1) {
                 $scope.index++;
             }
         }

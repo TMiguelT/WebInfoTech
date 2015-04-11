@@ -2,6 +2,60 @@ var router = require('koa-router')();
 var bcrypt = require('bcrypt-as-promised');
 
 router
+    .post('/login', function *() {
+        var form = this.request.body;
+        var user;
+
+        //Validate parameters
+        this.checkBody('email').notEmpty();
+        this.checkBody('password').notEmpty();
+        if (this.errors) {
+            this.status = 400;
+            this.body = this.errors;
+            return;
+        }
+
+        //Try to get the user
+        try {
+            user = (yield this
+                .knex('user')
+                .select()
+                .where({
+                    email: form.email
+                }))[0];
+        }
+
+            //If there's an error (no such email) throw an error
+        catch (e) {
+            this.status = 400;
+            this.body = e.message;
+            return;
+        }
+
+        //Verify password
+        var pwMatches = false;
+        try {
+            pwMatches = yield bcrypt.compare(form.password, user.password);
+        }
+        catch (e)
+        {
+            pwMatches = false;
+        }
+        if (!pwMatches) {
+            this.status = 400;
+            this.body = "Invalid password!";
+            return;
+        }
+
+        //If everything is k, log them in
+        this.session.logged_in = true;
+        this.session.user_id = user.user_id;
+        this.session.username = user.username;
+        this.session.email = user.email;
+
+        //And give them a 200
+        this.status = 200;
+    })
     //These are two different ways of performing the same query
     .post('/register', function *() {
 

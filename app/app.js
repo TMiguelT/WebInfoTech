@@ -32,6 +32,10 @@
                 .when('/capture', {
                     templateUrl: '/public/photocapture/photocapture.html',
                     controller: 'photoCaptureController'
+                })
+                .when('/leaderboard', { 
+                    templateUrl: '/public/leaderboard/leaderboard.html',
+                    controller: 'leaderboardController'
                 });
 
             $locationProvider.html5Mode(true);

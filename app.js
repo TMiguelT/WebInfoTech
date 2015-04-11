@@ -2,21 +2,37 @@ var app = require('koa')();
 var mount = require('koa-mount');
 var send = require('koa-send');
 var path = require('path');
+var session = require('koa-generic-session');
+var PgStore = require('koa-pg-session');
 
-var indexFile = path.join(__dirname, 'app/index.html');
+const indexFile = path.join(__dirname, 'app/index.html');
+const dbInfo = {
+    client: 'pg',
+    connection: {
+        host: '192.241.210.241',
+        user: 'postgres',
+        password: 'ClusteredBellflower',
+        database: 'webinfotech'
+    }
+};
+
+//Used for sessions or something
+app.keys = ["edrye5t34rt34erdfgv"];
 
 app
-    .use(require('koa-knex')({
-        client: 'pg',
-        connection: {
-            host     : '192.241.210.241',
-            user     : 'postgres',
-            password : 'ClusteredBellflower',
-            database : 'webinfotech'
+    .use(function *(next) {
+        try{
+            yield next;
         }
-    })) //Use the database connection
+        catch(ex){
+            console.trace(ex);
+        }
+    }) //Error logging
+    .use(require('koa-knex')(dbInfo)) //Use the database connection
+    .use(session({
+        store: new PgStore(dbInfo.connection)
+    })) //Use sessions
     .use(require('koa-logger')()) //Log each request
-    .use(require('koa-router')(app)) //Use the router top level router
     .use(require('koa-body')()) //Use the form parser
     .use(require('koa-validate')()) //Mount the form validator
     .use(mount("/api", require("./api/users"))) //Mount the users API

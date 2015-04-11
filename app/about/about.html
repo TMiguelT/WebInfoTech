@@ -1,37 +1,55 @@
-<!--<header>-->
-    <!--<div class="content">-->
-        <!--<div class="heading">-->
-            <!--<h1>Geogram</h1>-->
-        <!--</div>-->
-        <!--<div class="center-block" style="width:50%;margin-top: 200px">-->
-            <!--<button class="btn btn-primary btn-lg btn-block center-block" ng-click="goTo('login')">Start</button>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="overlay"></div>-->
-<!--</header>-->
+<header>
+    <div class="content">
+        <div class="heading">
+            <h1 style = "margin-top:100px">Geogram</h1>
+            <!--<p1>Scroll down for more information</p1>-->
+        </div>
+        <div class="center-block" style="width:50%;margin-top:100px">
+            <a class="btn btn-primary btn-lg btn-block center-block" href="/login" role="button">Try for free!</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+</header>
 <section class="main about">
     <div class="step">
         <div class="step-number">
 
         </div>
         <div class="step-title">
-            What is Geotouring?
+            What is Geogram?
         </div>
         <div class="step-content">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam, asperiores. Accusamus ad
-                aperiam consequatur dolorem eveniet, expedita hic illo, laborum, nesciunt obcaecati optio placeat quis
-                quo soluta suscipit unde?
+                Geogram is an online application that allows users to explore the city around them, by finding
+                the locations in our user-submitted photos. Users compete to be the best by scoring for each location
+                they find, as well as submitting really interesting locations.
+                Give it a go today!
             </p>
         </div>
     </div>
 </section>
-<section class="main coverFlow">
-    <div class="recentPhotos">
-        <div class="cover-flow--container" ng-controller="coverFlowController">
-            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                 ng-click="changeIndex($index)" ng-repeat="color in colors">
-            </div>
+<section class="main howItWorks">
+    <div class="step">
+        <div class ="step-title">
+            How it works?
         </div>
+        <div class ="step-content">
+            <p>
+                By using just a GPS capable smart phone, users are given a photo of a location and their objective
+                is to find it, with the help of hints and its rough location via GPS radius.
+            </p>
+        </div>
+        <div class="center-block" style="width:25%;margin-top:100px;margin-bottom:100px">
+            <a class="btn btn-primary btn-lg btn-block center-block" href="/login" role="button">Get started for free now!</a>
+        </div>
+    </div>
+</section>
+<section class="main coverFlow">
+    <div class="step">
+        <div class="step-title">
+            Trending Photos
+        </div>
+        <photo-carousel photos="['photos/flinders.jpg','photos/MCG.jpg','photos/MelbourneAquarium.gif',
+                'photos/MelbourneMuseum.jpg','photos/Yarravalley.jpg']"></photo-carousel>
     </div>
 </section>
