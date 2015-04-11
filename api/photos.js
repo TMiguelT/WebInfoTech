@@ -6,7 +6,15 @@ router
         this.body = {
             photos: photoData
         };
-    }
-);
+    })
+    .post('/upload', function *() {
+            var form = this.request.body;
+            this.body = {
+
+                form: form
+
+            };
+    });
+
 
 module.exports = router.routes();
