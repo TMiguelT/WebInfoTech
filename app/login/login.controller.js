@@ -28,17 +28,23 @@ angular.module("app")
                 msg += err;
             alert(msg);
         };
-
+        $scope.getFormData = function () {
+            if ($scope.mode == "login")
+                return _.pick($scope.form, "email", "password");
+            else
+                return $scope.form;
+        };
         $scope.submit = function () {
+            var form = $scope.getFormData();
             if ($scope.mode == "login") {
-                $http.post('/api/login', $scope.form)
+                $http.post('/api/login', form)
                     .success(function (data) {
                         alert("Success!");
                     })
                     .error($scope.showErrors);
             }
             else if ($scope.mode == "register") {
-                $http.post('/api/register', $scope.form)
+                $http.post('/api/register', form)
                     .success(function (data) {
                         alert("Success!");
                     })

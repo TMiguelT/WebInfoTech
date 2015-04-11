@@ -1,33 +1,68 @@
 (function() {
     "use strict";
 
-    function gameController($scope, gameService, scrollService, $routeParams) {
+    function gameController($scope, photoService, scrollService, $routeParams) {
         init();
+        $('html, body').animate({ scrollTop: 0 }, 0);
         setHeight();
 
-        gameService.getPhotoById($routeParams.photoId - 1, function(photo) {
+        photoService.getPhotoById($routeParams.photoId - 1, function(photo) {
             $scope.photo = photo;
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    $scope.map = getMap(position.coords);
+            navigator.geolocation.getCurrentPosition(function(position) {
+                $scope.map = getMap(position.coords);
 
-                    $scope.position = {
-                        coords: position.coords,
-                        distance: getDistanceToLocation(position.coords, photo.location.coords),
-                        direction: getDirection(position.coords, photo.location.coords)
-                    };
-                    $scope.photoLoaded = true;
-                    $scope.$apply();
-                });
-            }
+                $scope.position = {
+                    coords: position.coords,
+                    distance: getDistanceToLocation(position.coords, photo.location.coords),
+                    direction: getDirection(position.coords, photo.location.coords)
+                };
+                $scope.photoLoaded = true;
+                $scope.$apply();
+            }, function() {
+                var error = {
+                    name: "navigatorError",
+                    desc: "Cannot display map - please enable your location"
+                };
+                $scope.photo.error ? $scope.photo.error.push(error) : $scope.photo.error = [error];
+                $scope.$apply();
+            });
         });
 
         $scope.viewPhoto = function() {
             $('#viewPhoto').modal('show')
-        }
+        };
 
         $scope.goTo = function(elName) {
             scrollService.goTo(elName);
+        };
+
+        $scope.showDescription = function() {
+            $('.showDescription-button').css("display", "none");
+            $('.furtherDescription').css("display", "block");
+        }
+
+        $scope.errorContains = function(errorName) {
+            var errorFound = false;
+
+            if (!$scope.photo || !$scope.photo.error ) return false;
+
+            $scope.photo.error.forEach(function(error) {
+                if (error.name == errorName) errorFound = true;
+            });
+
+            return errorFound;
+        };
+
+        $scope.displayError = function(errorName) {
+            var errorMessage = false;
+
+            if (!$scope.photo || !$scope.photo.error) return false;
+
+            $scope.photo.error.forEach(function(error) {
+                if (error.name == errorName) errorMessage = error.desc;
+            });
+
+            return errorMessage;
         }
 
         function init() {
@@ -72,14 +107,14 @@
             var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
 
             if (heading < -(interval / 2) - (3 * interval)
-                || heading > (interval / 2) + (3 * interval)) return "North";
-            else if (heading < -(interval / 2) - (2 * interval)) return "North East";
-            else if (heading < -(interval / 2) - interval) return "East";
-            else if (heading < -(interval / 2)) return "South East";
-            else if (heading < interval / 2) return "South";
-            else if (heading < (interval / 2) + interval) return "South West";
-            else if (heading < (interval / 2) + (2 * interval)) return "West";
-            else if (heading < (interval / 2) + (3 * interval)) return "North West";
+                || heading > (interval / 2) + (3 * interval)) return "South";
+            else if (heading < -(interval / 2) - (2 * interval)) return "South West";
+            else if (heading < -(interval / 2) - interval) return "West";
+            else if (heading < -(interval / 2)) return "North West";
+            else if (heading < interval / 2) return "North";
+            else if (heading < (interval / 2) + interval) return "North East";
+            else if (heading < (interval / 2) + (2 * interval)) return "East";
+            else if (heading < (interval / 2) + (3 * interval)) return "South East";
         }
 
         function getDistanceToLocation(posCoords, photoCoords) {
@@ -101,7 +136,7 @@
     angular
         .module("app")
         .controller("gameController", ["$scope",
-                                        "gameService",
+                                        "photoService",
                                         "scrollService",
                                         "$routeParams",
                                         gameController]);

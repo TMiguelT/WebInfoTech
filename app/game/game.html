@@ -1,14 +1,14 @@
-<div class="alert alert-danger alert-box" role="alert" ng-show="photo.error">
-    {{ photo.error }}
+<div class="alert alert-danger alert-box" role="alert" ng-show="errorContains('unknownPhotoId')">
+    {{ displayError('unknownPhotoId') }}
 </div>
 
-<section class="photo-description" ng-hide="photo.error">
+<section class="photo-description" ng-hide="errorContains('unknownPhotoId')">
 
     <div class="photo-description--title">
         <h1>{{ photo.name }}</h1>
     </div>
 
-    <div class="photo-description--content">
+    <div class="photo-description--content col-md-10 col-md-offset-1">
             <div class="col-md-5" style="text-align: center;">
                 <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
                 <img class="photo-description--photo" ng-src="./public/photos/{{ photo.url }}" ng-click="viewPhoto()"/>
@@ -19,8 +19,11 @@
                 <div class="play-button">
                     <button class="btn btn-success" ng-click="goTo('.game')">Play</button>
                 </div>
+                <div class="showDescription-button">
+                    <button class="btn btn-default" ng-click="showDescription()">Show Description/Comments/Tags</button>
+                </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 furtherDescription">
                 <div class="photo-description--description">
                     <h4>Description</h4>
                     <div>
@@ -69,9 +72,12 @@
     </div>
 </section>
 
-<section class="game" ng-hide="photo.error">
+<section class="game" ng-hide="errorContains('unknownPhotoId')">
     <button class="btn btn-primary game--photoDescButton" ng-click="goTo('body')">Back to Photo Description</button>
-    <div class="alert alert-info alert-box" role="alert" ng-hide="photoLoaded">
+    <div class="alert alert-danger alert-box" role="alert" ng-show="errorContains('navigatorError')">
+        {{ displayError('navigatorError') }}
+    </div>
+    <div class="alert alert-info alert-box" role="alert" ng-hide="photoLoaded || errorContains('navigatorError')">
         <div>
             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
               <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(272.063 25 25)">
@@ -81,7 +87,7 @@
         </div>
         Loading Map...
     </div>
-    <div class="game--content" ng-show="photoLoaded">
+    <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
         <div class="game--navHelper">
             <div class="game--arrow">
 

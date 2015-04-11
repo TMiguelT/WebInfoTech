@@ -16,11 +16,11 @@ Luckily you don't have to do any of these steps again, except for `gulp build`, 
 
 # Pulling and pushing using git
 
-Whenever you need to get the latest version of everyone's code, you need to run the command `git pull origin master` and it should automatically merge your changes with the latest version. If there's a merge conflict (i.e. you and someone else have both changed the same line of a file, there will be a merge conflict. You can then manually edit the conflicting file to make it how you want.
+Whenever you need to get the latest version of everyone's code, you need to run the command `git pull origin master` and it should automatically merge your changes with the latest version. If there's a merge conflict (i.e. you and someone else have both changed the same line of a file), you'll have to edit the conflicting file to make it how you want.
 
 Whenever you pull the latest version, I recommend running `npm install` and `bower install` to make sure all the dependencies are correct.
 
-Whenever you finish working on one 'part' of the application - it can be a single file or feature or concept, you should commit it. So for that you type `git add -A` to add all changed files to the commit, and then `git commit -m "MY COMMIT MESSAGE"` to give describe what you've done in that commit. Then you can type `git push origin master` to add it to the repo. If you haven't pulled the latest version, git will force you to do so at this point.
+Whenever you finish working on one 'part' of the application - it can be a single file or feature or concept, you should commit it. So for that you type `git add -A` to add all changed files to the commit, and then `git commit -m "MY COMMIT MESSAGE"` to describe what you've done in that commit. Then you can type `git push origin master` to add it to the repo. If you haven't pulled the latest version, git will force you to do so at this point.
 
 # Making changes appear on the website
 
