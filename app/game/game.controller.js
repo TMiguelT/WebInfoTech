@@ -36,6 +36,11 @@
             scrollService.goTo(elName);
         };
 
+        $scope.showDescription = function() {
+            $('.showDescription-button').css("display", "none");
+            $('.furtherDescription').css("display", "block");
+        }
+
         $scope.errorContains = function(errorName) {
             var errorFound = false;
 
