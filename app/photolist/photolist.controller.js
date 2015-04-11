@@ -2,19 +2,15 @@
  * Created by Johanna on 30/03/15.
  */
 angular.module('app')
-    .controller('photolistController', ["$http", function ($http) {
+    .controller('photolistController', ["$http", "photoService", function ($http, photoService) {
         var self = this;
 
         self.orderMode = 'name';
         self.viewMode = 'list';
 
-        $http.get('./api/photos')
-            .success(function(data) {
-                self.photos = data.photos;
-            })
-            .error(function() {
-                console.log("error");
-            })
+        photoService.getAllPhotos(function(photos) {
+            self.photos = photos;
+        })
 
         self.orderBy = function(toorder){
             self.orderMode = toorder;

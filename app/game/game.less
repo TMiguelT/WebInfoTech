@@ -70,7 +70,8 @@
   height: 50px;
 }
 
-.play-button {
+.play-button,
+.showDescription-button{
   margin-top: 5px;
   text-align: center;
 }
@@ -186,6 +187,10 @@
   margin: auto;
 }
 
+.showDescription-button {
+  display: none;
+}
+
 .angular-google-map-container { height: 400px; }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
@@ -210,13 +215,21 @@
 }
 
 @media only screen and (max-device-width: 800px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  .photo-description--title {
+    margin-bottom: 0px;
+  }
+
   .site {
     height: auto;
   }
 
   .photo-description{
     height: 100% !important;
-    padding-top: 2em;
+    padding-top: 1px;
   }
 
   .game--content {
@@ -231,5 +244,13 @@
   .photo-description--content,
   .photo-description--photo{
     width: 100%;
+  }
+
+  .furtherDescription {
+    display: none;
+  }
+
+  .showDescription-button {
+    display: block;
   }
 }
