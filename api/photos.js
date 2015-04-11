@@ -8,13 +8,10 @@ router
         };
     })
     .post('/upload', function *() {
-            var form = this.request.body;
-            this.body = {
-
-                form: form
-
-            };
+        this.body = this.request.body;
+    })
+    .get('/upload_session_info', function *() {
+        this.body = this.session;
     });
-
 
 module.exports = router.routes();
