@@ -3,6 +3,7 @@
 
     function aboutController($scope, photoService, scrollService) {
         function init() {
+            $scope.trendingPhotos = [];
             photoService.getTrendingPhotos(function(photos) {
                 $scope.trendingPhotos = photos;
             })
