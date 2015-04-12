@@ -1,0 +1,55 @@
+
+<section class="dashboard">
+        <div class="col-md-3">
+            <div class="dashboard-sidebar">
+                <h4><a href="/public/leaderboard/leaderboard.html"></a>Leaderboard</h4>
+                <table class="table" ng-controller="leaderboardController as boardCtrl">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in boardCtrl.players">
+                                <td>{{user.rank}}</td>
+                                <td>{{user.username}}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="dashboard-content">
+
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Trending Photos
+                        </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
+                    </div>
+                </section>
+
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Photos by Friends
+                        </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
+                    </div>
+                </section>
+
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Nearby Photos
+                        </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
+                    </div>
+                </section>
+            </div>
+        </div>
+</section>

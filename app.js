@@ -20,11 +20,12 @@ const dbInfo = {
 app.keys = ["edrye5t34rt34erdfgv"];
 
 app
+    .use(require('koa-gzip')()) //compress everything
     .use(function *(next) {
-        try{
+        try {
             yield next;
         }
-        catch(ex){
+        catch (ex) {
             console.trace(ex);
         }
     }) //Error logging
@@ -33,7 +34,10 @@ app
         store: new PgStore(dbInfo.connection)
     })) //Use sessions
     .use(require('koa-logger')()) //Log each request
-    .use(require('koa-body')()) //Use the form parser
+    .use(require('koa-body')({
+        multipart: true,
+        formLimit: "50mb"
+    })) //Use the form parser
     .use(require('koa-validate')()) //Mount the form validator
     .use(mount("/api", require("./api/users"))) //Mount the users API
     .use(mount("/api", require("./api/photos"))) //Mount the users API

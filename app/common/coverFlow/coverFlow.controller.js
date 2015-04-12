@@ -29,14 +29,11 @@
         init();
 
         function getNonFocussedElementStyle(loc, i, multiplier) {
-            /*return "background-color:" + $scope.photos[i] + "; transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + ";"; */
             return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + "; background-size: auto 200px; background-position: 50%";
-
         }
 
         function getFocussedElementStyle(i) {
-            /*return "background-color:" + $scope.photos[i] + "; transform: translateZ(150px); -webkit-transform: translateZ(150px)"; */
-            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%;";
+            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%; cursor: pointer;";
         }
 
         function goLeft() {
@@ -52,6 +49,10 @@
         }
 
         $scope.changeIndex = function(i) {
+            if ($scope.index === i) {
+                window.location.assign("/game/" + $scope.photos[$scope.index].id);
+            }
+
             $scope.index = i;
             $scope.$apply();
         };

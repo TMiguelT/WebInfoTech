@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    function aboutController($scope, photoService, scrollService) {
+    function dashboardController($scope, photoService, scrollService) {
         function init() {
             $scope.trendingPhotos = [];
             photoService.getTrendingPhotos(function(photos) {
@@ -18,9 +18,9 @@
 
     angular
         .module("app")
-        .controller("aboutController", ["$scope",
-                                        "photoService",
-                                        "scrollService",
-                                        aboutController
-                                        ]);
+        .controller("dashboardController", ["$scope",
+            "photoService",
+            "scrollService",
+            dashboardController
+        ]);
 })();

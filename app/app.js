@@ -36,8 +36,11 @@
                 .when('/leaderboard', { 
                     templateUrl: '/public/leaderboard/leaderboard.html',
                     controller: 'leaderboardController'
-                });
-
+                })
+                .when('/dashboard', {
+                    templateUrl: '/public/dashboard/dashboard.html',
+                    controller: 'dashboardController'
+                })
             $locationProvider.html5Mode(true);
         }])
 })();

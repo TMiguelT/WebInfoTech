@@ -20,6 +20,9 @@
                 sessionUpdate(data);
             });
 
+
+
+
             $scope.showErrors = function (err) {
                 var msg = "Errors:\n";
                 if (err instanceof Array) {
@@ -33,7 +36,6 @@
             };
 
             $scope.submit = function() {
-
                 if (!$scope.logged_in) {
                     alert("error please log in to submit photos");
                     return;
