@@ -24,42 +24,32 @@
         <div class="col-md-9">
             <div class="dashboard-content">
 
-                <div class="dashboard-title">Trending Photos</div>
-
-                <div class="main coverFlow">
-                    <div class="recentPhotos">
-                        <div class="cover-flow--container" ng-controller="coverFlowController">
-                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
-                            </div>
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Trending Photos
                         </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
                     </div>
-                </div>
+                </section>
 
-                <div class="dashboard-title">Photos by Friends</div>
-
-                <div class="main coverFlow">
-                    <div class="recentPhotos">
-                        <div class="cover-flow--container" ng-controller="coverFlowController">
-                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
-                            </div>
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Photos by Friends
                         </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
                     </div>
-                </div>
+                </section>
 
-                <div class="dashboard-title">Nearby Photos</div>
-
-                <div class="main coverFlow">
-                    <div class="recentPhotos">
-                        <div class="cover-flow--container" ng-controller="coverFlowController">
-                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
-                            </div>
+                <section class="main coverFlow">
+                    <div class="step">
+                        <div class="step-title">
+                            Nearby Photos
                         </div>
+                        <photo-carousel photos="trendingPhotos"></photo-carousel>
                     </div>
-                </div>
-
+                </section>
             </div>
         </div>
 </section>
