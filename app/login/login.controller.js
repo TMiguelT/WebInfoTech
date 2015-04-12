@@ -1,5 +1,5 @@
 angular.module("app")
-    .controller("loginController", ["$scope", "lodash", "$http", "userService", function ($scope, _, $http, userService) {
+    .controller("loginController", ["$scope", "lodash", "$http", "userService", '$location', function ($scope, _, $http, userService, $location) {
         var oppositeMode = function (mode) {
             if (mode == "login")
                 return "register";
@@ -28,18 +28,21 @@ angular.module("app")
                 msg += err;
             alert(msg);
         };
+
         $scope.getFormData = function () {
             if ($scope.mode == "login")
                 return _.pick($scope.form, "email", "password");
             else
                 return $scope.form;
         };
+
         $scope.submit = function () {
             var form = $scope.getFormData();
             if ($scope.mode == "login") {
                 userService.login(form)
                     .success(function (data) {
-                        alert("Success!");
+                        //On successful login, go to the user page (will be dashboard in the future)
+                        $location.path('/user');
                     })
                     .error($scope.showErrors);
             }
@@ -47,6 +50,7 @@ angular.module("app")
                 userService.register(form)
                     .success(function (data) {
                         alert("Success!");
+                        $scope.mode = "login";
                     })
                     .error($scope.showErrors)
             }

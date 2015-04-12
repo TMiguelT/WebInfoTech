@@ -20,6 +20,7 @@ const dbInfo = {
 app.keys = ["edrye5t34rt34erdfgv"];
 
 app
+    .use(require('koa-gzip')()) //compress everything
     .use(function *(next) {
         try{
             yield next;
