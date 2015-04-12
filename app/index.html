@@ -11,7 +11,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="navbarController">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -25,10 +25,12 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class=""><a href="/">Home</a></li>
-                <li><a href="/login">Login/Register</a></li>
                 <li><a href="/photolist">Photo List</a></li>
                 <li><a href="/capture">Add a Photo</a></li>
                 <li><a href="/leaderboard">View Leaderboard</a></li>
+                <li ng-show="!logged_in"><a href="/login">Login/Register</a></li>
+                <li ng-click="logOut()" ng-show="logged_in"><a href="#">Logout</a></li>
+                <li ng-show="logged_in"><a href="/user">{{username}}</a></li>
             </ul>
         </div>
     </div>

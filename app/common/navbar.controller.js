@@ -1,26 +1,27 @@
-(function() {
+(function () {
     "use strict";
 
-    function navbarController($scope) {
-        $scope.goTo = function(className) {
-            $('html, body').animate({
-                scrollTop: $('.' + className).offset().top
-            },500);
+    function navbarController($scope, userService, $rootScope) {
+
+        //Updates the local scope with session data
+        function updateSession(sessionData) {
+            $scope.logged_in = sessionData.logged_in;
+            $scope.username = sessionData.username;
+        }
+
+        $scope.logOut = function () {
+            userService.logout();
         };
 
-        $(window).scroll(function() {
-            var scrollVal = $(window).scrollTop();
-
-            $(".overlay").css("opacity", scrollVal / 400);
-
-            if (scrollVal >= $('.main').offset().top)
-                $(".navbar").addClass('fadeInDown animated');
-            else
-                $(".navbar").removeClass('fadeInDown animated');
+        //Get the starting session data
+        updateSession(userService.data);
+        //And watch for different session data in the future
+        $rootScope.$on('sessionChanged', function (angularBullshit, data) {
+            updateSession(data);
         });
     }
 
     angular
         .module("app")
-        .controller("navbarController", ["$scope", navbarController]);
+        .controller("navbarController", ["$scope", 'userService', '$rootScope', navbarController]);
 })();
