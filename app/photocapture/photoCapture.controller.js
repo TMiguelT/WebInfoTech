@@ -1,10 +1,10 @@
 /**
  * Created by Andrew on 1/4/2015.
  */
-(function() {
+(function () {
     angular
         .module("app")
-        .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function($scope, $http, userService, $rootScope) {
+        .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
 
 
             // updates session information
@@ -13,14 +13,13 @@
                 $scope.user_id = data.user_id;
                 $scope.username = data.username;
             }
+
             sessionUpdate(userService.data);
 
             // set watch for session changes
-            $rootScope.$on('sessionChanged', function(arg, data) {
+            $rootScope.$on('sessionChanged', function (arg, data) {
                 sessionUpdate(data);
             });
-
-
 
 
             $scope.showErrors = function (err) {
@@ -35,7 +34,7 @@
                 alert(msg);
             };
 
-            $scope.submit = function() {
+            $scope.submit = function () {
                 if (!$scope.logged_in) {
                     alert("error please log in to submit photos");
                     return;
@@ -63,7 +62,9 @@
                 submission.append("position", null);
 
 
-                $http.post('/api/upload', submission)
+                $http.post('/api/upload', submission, {
+                    headers: {'Content-Type': undefined }
+                })
                     .success(function (data) {
                         alert("post Success!\n" + JSON.stringify(data));
                     })
