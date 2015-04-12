@@ -15,6 +15,9 @@
                 })
                 .error($scope.showErrors);
 
+
+
+
             $scope.showErrors = function (err) {
                 var msg = "Errors:\n";
                 if (err instanceof Array) {
@@ -28,14 +31,7 @@
             };
 
             $scope.submit = function() {
-                var submission = $scope.form;
-                submission.user_id = $scope.user_id;
-
-                $http.post('/api/upload', submission)
-                    .success(function (data) {
-                        alert("post Success!\n" + data.form.name);
-                    })
-                    .error($scope.showErrors);
-            };
+                alert("woah way to really click the button there!");
+            }
         }]);
 })();
