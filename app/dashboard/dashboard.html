@@ -1,63 +1,65 @@
 
 <section class="dashboard">
-        <div class="dashboard-sidebar">
-            <h4><a href="/public/leaderboard/leaderboard.html"></a>Leaderboard</h4>
-            <table class="table" ng-controller="leaderboardController as boardCtrl">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>User</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="user in boardCtrl.players">
-                            <td>{{user.rank}}</td>
-                            <td>{{user.username}}</td>
-                        </tr>
-                    </tbody>
+        <div class="col-md-3">
+            <div class="dashboard-sidebar">
+                <h4><a href="/public/leaderboard/leaderboard.html"></a>Leaderboard</h4>
+                <table class="table" ng-controller="leaderboardController as boardCtrl">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in boardCtrl.players">
+                                <td>{{user.rank}}</td>
+                                <td>{{user.username}}</td>
+                            </tr>
+                        </tbody>
 
-                </table>
-            </div>
+                    </table>
+                </div>
         </div>
 
-        <div class="dashboard-content">
+        <div class="col-md-9">
+            <div class="dashboard-content">
 
-            <div class="dashboard-title">Trending Photos</div>
+                <div class="dashboard-title">Trending Photos</div>
 
-            <div class="main coverFlow">
-                <div class="recentPhotos">
-                    <div class="cover-flow--container" ng-controller="coverFlowController">
-                        <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                             ng-click="changeIndex($index)" ng-repeat="color in colors">
+                <div class="main coverFlow">
+                    <div class="recentPhotos">
+                        <div class="cover-flow--container" ng-controller="coverFlowController">
+                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
+                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="dashboard-title">Photos by Friends</div>
+                <div class="dashboard-title">Photos by Friends</div>
 
-            <div class="main coverFlow">
-                <div class="recentPhotos">
-                    <div class="cover-flow--container" ng-controller="coverFlowController">
-                        <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                             ng-click="changeIndex($index)" ng-repeat="color in colors">
+                <div class="main coverFlow">
+                    <div class="recentPhotos">
+                        <div class="cover-flow--container" ng-controller="coverFlowController">
+                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
+                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="dashboard-title">Nearby Photos</div>
+                <div class="dashboard-title">Nearby Photos</div>
 
-            <div class="main coverFlow">
-                <div class="recentPhotos">
-                    <div class="cover-flow--container" ng-controller="coverFlowController">
-                        <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
-                             ng-click="changeIndex($index)" ng-repeat="color in colors">
+                <div class="main coverFlow">
+                    <div class="recentPhotos">
+                        <div class="cover-flow--container" ng-controller="coverFlowController">
+                            <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
+                                 ng-click="changeIndex($index)" ng-repeat="color in colors">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
 </section>
