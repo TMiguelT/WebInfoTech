@@ -9,9 +9,6 @@ router
     })
     .post('/upload', function *() {
         this.body = this.request.body;
-    })
-    .get('/upload_session_info', function *() {
-        this.body = this.session;
     });
 
 module.exports = router.routes();
