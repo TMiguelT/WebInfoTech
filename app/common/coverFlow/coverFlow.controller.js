@@ -33,7 +33,7 @@
         }
 
         function getFocussedElementStyle(i) {
-            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%;";
+            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%; cursor: pointer;";
         }
 
         function goLeft() {
@@ -49,6 +49,10 @@
         }
 
         $scope.changeIndex = function(i) {
+            if ($scope.index === i) {
+                window.location.assign("/game/" + $scope.photos[$scope.index].id);
+            }
+
             $scope.index = i;
             $scope.$apply();
         };
