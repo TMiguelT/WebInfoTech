@@ -28,6 +28,10 @@
                 <li><a href="/photolist">Photo List</a></li>
                 <li><a href="/capture">Add a Photo</a></li>
                 <li><a href="/leaderboard">View Leaderboard</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li ng-show="!logged_in"><a href="/login">Login/Register</a></li>
+                <li ng-click="logOut()" ng-show="logged_in"><a href="#">Logout</a></li>
+                <li ng-show="logged_in"><a href="/user">{{username}}</a></li>
             </ul>
         </div>
     </div>
