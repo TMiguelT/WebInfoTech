@@ -61,12 +61,16 @@
                 submission.append("user_id", $scope.user_id);
                 submission.append("position", null);
 
-
+                // submission data is sent to the api and returned to
+                // demonstrate functionality
                 $http.post('/api/upload', submission, {
                     headers: {'Content-Type': undefined }
                 })
                     .success(function (data) {
-                        alert("post Success!\n" + JSON.stringify(data));
+                        alert("post Success!\n" +
+                              $scope.username + " has uploaded a photo\n" +
+                              "filename: " + data.files.photo.name + "\n" +
+                              "size: " + data.files.photo.size);
                     })
                     .error($scope.showErrors);
             };
