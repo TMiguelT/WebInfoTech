@@ -37,8 +37,7 @@ router
         try {
             pwMatches = yield bcrypt.compare(form.password, user.password);
         }
-        catch (e)
-        {
+        catch (e) {
             pwMatches = false;
         }
         if (!pwMatches) {
@@ -53,10 +52,30 @@ router
         this.session.username = user.username;
         this.session.email = user.email;
 
-        //And give them a 200
-        this.status = 200;
+        //And return the session data
+        this.body = this.session;
     })
-    //These are two different ways of performing the same query
+
+    //Called when the app first loads and we want to know if we already have a session
+    .post('/session', function *() {
+        this.body = this.session;
+    })
+
+    .post('/logout', function *() {
+
+        //If they're logged in, log them out
+        if (this.session.logged_in) {
+            this.session = null;
+            this.status = 200;
+        }
+
+        //If they're not logged in, wtf r u doing
+        else {
+            this.status = 400;
+            this.body = "Not logged in!";
+        }
+    })
+
     .post('/register', function *() {
 
         var form = this.request.body;
