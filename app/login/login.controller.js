@@ -1,5 +1,5 @@
 angular.module("app")
-    .controller("loginController", ["$scope", "lodash", "$http", function ($scope, _, $http) {
+    .controller("loginController", ["$scope", "lodash", "$http", "userService", function ($scope, _, $http, userService) {
         var oppositeMode = function (mode) {
             if (mode == "login")
                 return "register";
@@ -37,14 +37,14 @@ angular.module("app")
         $scope.submit = function () {
             var form = $scope.getFormData();
             if ($scope.mode == "login") {
-                $http.post('/api/login', form)
+                userService.login(form)
                     .success(function (data) {
                         alert("Success!");
                     })
                     .error($scope.showErrors);
             }
             else if ($scope.mode == "register") {
-                $http.post('/api/register', form)
+                userService.register(form)
                     .success(function (data) {
                         alert("Success!");
                     })

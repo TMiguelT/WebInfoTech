@@ -15,9 +15,6 @@
                 })
                 .error($scope.showErrors);
 
-
-
-
             $scope.showErrors = function (err) {
                 var msg = "Errors:\n";
                 if (err instanceof Array) {
