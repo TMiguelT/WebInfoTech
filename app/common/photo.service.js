@@ -5,7 +5,7 @@
         return {
             getTrendingPhotos: function (callback) {
                 $http
-                    .get("/api/photos")// replace this with trending photos URL [ .get("/api/photos?filter=trending") ]
+                    .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos?filter=trending") ]
                     .success(function(data) {
                         callback(data.photos);
                     })
@@ -15,7 +15,7 @@
             },
             getPhotoById: function (photoId, callback) {
                 $http
-                    .get('./api/photos')
+                    .get('./api/photo/all')
                     .success(function (data) {
                         if (data.photos[photoId]) {
 
@@ -34,7 +34,7 @@
                     });
             },
             getAllPhotos: function (callback) {
-                $http.get('./api/photos')
+                $http.get('./api/photo/all')
                     .success(function(data) {
                         callback(data.photos);
                     })

@@ -19,7 +19,7 @@
 
                 login: function (form) {
                     //On login success, set the session data that was returned
-                    return $http.post('/api/login', form).
+                    return $http.post('/api/user/login', form).
                         success(function (data) {
                             service.data = data;
                             alertChange(data);
@@ -27,12 +27,12 @@
                 },
 
                 register: function (form) {
-                    return $http.post('/api/register', form);
+                    return $http.post('/api/user/register', form);
                 },
 
                 logout: function () {
                     //Logout, then reset session data to logged out state
-                    return $http.post('/api/logout')
+                    return $http.post('/api/user/logout')
                         .success(function () {
                             service.data = defaultData;
                             alertChange(defaultData);
@@ -40,7 +40,7 @@
                 }
             };
 
-            $http.post('/api/session')
+            $http.post('/api/user/session')
                 .success(function (data) {
                     service.data = data;
                     alertChange(data);

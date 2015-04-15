@@ -63,7 +63,7 @@
 
                 // submission data is sent to the api and returned to
                 // demonstrate functionality
-                $http.post('/api/upload', submission, {
+                $http.post('/api/photo/upload', submission, {
                     headers: {'Content-Type': undefined }
                 })
                     .success(function (data) {
