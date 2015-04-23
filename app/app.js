@@ -13,7 +13,7 @@
                     templateUrl: '/public/about/about.html',
                     controller: 'aboutController'
                 })
-                .when('/game/:photoId', {
+                .when('/photo/:photoId', {
                     templateUrl: '/public/game/game.html',
                     controller: 'gameController'
                 })
