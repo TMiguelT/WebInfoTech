@@ -2,7 +2,7 @@
     {{ displayError('unknownPhotoId') }}
 </div>
 
-<section class="photo-description" ng-hide="errorContains('unknownPhotoId')">
+<section class="photo-description" ng-hide="errorContains('unknownPhotoId')" ng-init="getPhoto()">
 
     <div class="photo-description--title">
         <h1>{{ photo.name }}</h1>
@@ -34,10 +34,10 @@
                     <h4>Comments ({{ photo.comments.length }})</h4>
                     <div class="comment" ng-repeat="comment in photo.comments">
                         <div>
-                            <span class="comment-name"> {{ comment.name }} </span> <span class="comment-datetime"> {{ comment.date_posted }} </span>
+                            <span class="comment-name"> {{ comment.username }} </span> <span class="comment-datetime"> {{ comment.date_posted }} </span>
                         </div>
                         <div class="comment-content">
-                            {{ comment.post }}
+                            {{ comment.text }}
                         </div>
                     </div>
                     <div class="comment-form">
