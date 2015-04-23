@@ -15,18 +15,17 @@
             },
             getPhotoById: function (photoId, callback) {
                 $http
-                    .get('./api/photo/all')
-                    .success(function (data) {
-                        if (data.photos[photoId]) {
-
-                            callback(data.photos[photoId]);
-                        } else {
+                    .get('./api/photo/' + photoId)
+                    .success(function (photo) {
+                        if (photo.error) {
                             callback({
                                 error: [{
                                     name: "unknownPhotoId",
                                     desc: "Error: Cannot retrieve photo"
                                 }]
                             });
+                        } else {
+                            callback(photo);
                         }
                     })
                     .error(function () {
