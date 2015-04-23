@@ -5,7 +5,7 @@
         return {
             getTrendingPhotos: function (callback) {
                 $http
-                    .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos?filter=trending") ]
+                    .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos/trending") ]
                     .success(function(data) {
                         callback(data.photos);
                     })
