@@ -8,9 +8,11 @@ angular.module('app')
         self.orderMode = 'name';
         self.viewMode = 'list';
 
-        photoService.getAllPhotos(function(photos) {
-            self.photos = photos;
-        })
+        self.getPhotos = function() {
+            photoService.getAllPhotos(function(photos) {
+                self.photos = photos;
+            })
+        }
 
         self.orderBy = function(toorder){
             self.orderMode = toorder;

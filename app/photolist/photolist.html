@@ -2,7 +2,7 @@
 <section class = photo-list>
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
-    <div class="photo-list-content" ng-controller="photolistController as photoCtrl" >
+    <div class="photo-list-content" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.getPhotos()">
         <!--Search bar-->
         <div class="photo-list-buttons">
             <div class="btn-group">
@@ -79,7 +79,7 @@
                         </p>
                     </div>
                     <div class="col-sm-1">
-                        {{photo.user.name}}
+                        {{photo.user.username}}
                     </div>
                 </div>
             </a>
