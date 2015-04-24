@@ -92,5 +92,23 @@ module.exports = {
 
         json.likes = getNumberOfLikesDislikes(likes, 1);
         json.dislikes = getNumberOfLikesDislikes(likes, -1);
+    },
+    mapPhoto: function *(photo, photo_json, knex) {
+        this.mapId(photo, photo_json);
+        this.mapUrl(photo, photo_json);
+        this.mapName(photo, photo_json);
+        this.mapDescription(photo, photo_json);
+        this.mapDatePosted(photo, photo_json);
+        this.mapFinds(photo, photo_json);
+        this.mapLocation(photo, photo_json);
+        this.mapOrientation(photo, photo_json);
+
+        yield this.mapUser(photo, photo_json, knex);
+
+        yield this.mapTags(photo, photo_json, knex);
+
+        yield this.mapComments(photo, photo_json, knex);
+
+        yield this.mapLikes(photo, photo_json, knex);
     }
 };
