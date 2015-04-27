@@ -52,6 +52,7 @@
         <div class="step-title">
             Trending Photos
         </div>
+        <loading-box text="'Trending Photos'" ng-hide="trendingPhotos.length > 0"></loading-box>
         <photo-carousel photos="trendingPhotos"></photo-carousel>
     </div>
 </section>

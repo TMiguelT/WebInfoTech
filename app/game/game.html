@@ -3,16 +3,7 @@
 </div>
 
 <section class="photo-description" ng-hide="errorContains('unknownPhotoId')" ng-init="getPhoto()">
-    <div class="alert alert-info alert-box" role="alert" ng-hide="photo.id">
-        <div>
-            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-              <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(272.063 25 25)">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform>
-                </path>
-            </svg>
-        </div>
-        Loading Photo...
-    </div>
+    <loading-box text="'Photo'" ng-hide="photo.id"></loading-box>
 
     <div ng-show="photo.id">
         <div class="photo-description--title">
@@ -90,16 +81,7 @@
         <div class="alert alert-danger alert-box" role="alert" ng-show="errorContains('navigatorError')">
             {{ displayError('navigatorError') }}
         </div>
-        <div class="alert alert-info alert-box" role="alert" ng-hide="photoLoaded || errorContains('navigatorError')">
-            <div>
-                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-              <path fill="#000" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(272.063 25 25)">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform>
-                </path>
-            </svg>
-            </div>
-            Loading Map...
-        </div>
+        <loading-box text="'Map'" ng-hide="photoLoaded || errorContains('navigatorError')"></loading-box>
         <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
             <div class="game--navHelper">
                 <div class="game--arrow">

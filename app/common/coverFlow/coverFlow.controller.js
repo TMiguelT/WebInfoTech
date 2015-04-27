@@ -50,7 +50,7 @@
 
         $scope.changeIndex = function(i) {
             if ($scope.index === i) {
-                window.location.assign("/game/" + $scope.photos[$scope.index].id);
+                window.location.assign("/photo/" + $scope.photos[$scope.index].id);
             }
 
             $scope.index = i;
