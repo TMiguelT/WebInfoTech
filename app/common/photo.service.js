@@ -15,7 +15,7 @@
             },
             getPhotoById: function (photoId, callback) {
                 $http
-                    .get('./api/photo/' + photoId)
+                    .get('./api/photo/' + photoId, {cache: true})
                     .success(function (photo) {
                         if (photo.error) {
                             callback({
@@ -33,13 +33,13 @@
                     });
             },
             getAllPhotos: function (callback) {
-                $http.get('./api/photo/all')
+                $http.get('./api/photo/all', {cache: true})
                     .success(function(data) {
                         callback(data.photos);
                     })
                     .error(function() {
                         console.log("error: cannot GET /api/photos");
-                    })
+                    });
             }
         }
     }
