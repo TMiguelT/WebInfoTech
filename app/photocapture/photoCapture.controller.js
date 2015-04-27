@@ -7,6 +7,10 @@
         .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
 
 
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $scope.position = position
+            });
+
             // updates session information
             function sessionUpdate(data) {
                 $scope.logged_in = data.logged_in;
@@ -53,6 +57,7 @@
 
                 var submission = new FormData();
 
+                submission.append("position", $scope.position)
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
