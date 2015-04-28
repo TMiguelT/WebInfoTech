@@ -83,19 +83,36 @@
         </div>
         <loading-box text="'Map'" ng-hide="photoLoaded || errorContains('navigatorError')"></loading-box>
         <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
-            <div class="game--navHelper">
-                <div class="game--arrow">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="game--navHelper">
+                        <img class="photo-description--photo" ng-src="./public/photos/{{ photo.url }}" ng-click="viewPhoto()"/>
+                    </div>
 
                 </div>
-                <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
+                <div class="col-md-4">
+                    <button class="game--foundButton btn btn-success">I Found It!</button>
+                </div>
+                <div class="col-md-4">
+                    <div class="game--navHelper">
+                        <div class="game--arrow">
+
+                        </div>
+                        <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
+                    </div>
+                </div>
             </div>
-            <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
-                <ui-gmap-marker idKey="photo.id" coords="position.coords">
-                    <ui-gmap-window show="true">
-                        Your Position
-                    </ui-gmap-window>
-                </ui-gmap-marker>
-            </ui-gmap-google-map>
+            <div class="row">
+                <div class="col-md-12">
+                    <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
+                        <ui-gmap-marker idKey="photo.id" coords="position.coords">
+                            <ui-gmap-window show="true">
+                                Your Position
+                            </ui-gmap-window>
+                        </ui-gmap-marker>
+                    </ui-gmap-google-map>
+                </div>
+            </div>
         </div>
     </section>
 </div>

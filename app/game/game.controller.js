@@ -75,10 +75,8 @@
         function setHeight() {
             if ($(".photo-description").height() < 720) {
                 $(".photo-description").css("height", "730px");
-                $(".game").css("height", "730px");
             } else {
                 $(".photo-description").css("height", "100%");
-                $(".game").css("height", "100%");
             }
         }
 
