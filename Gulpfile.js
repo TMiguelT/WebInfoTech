@@ -36,8 +36,6 @@ gulp.task('watch', function() {
 	    './bower_components/angular-route/angular-route.js',
 	    './bower_components/bootstrap/dist/js/bootstrap.js',
 	    './bower_components/angular-google-maps/dist/angular-google-maps.js'],
-        './bower/components/ng-tags-input/ng-tags-input.min.js',
-        './bower/components/ng-tags-input/ng-tags-input.min.css',
 	    ['vendor_js']
 	);  
 });

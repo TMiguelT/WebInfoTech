@@ -10,10 +10,7 @@ gulp.task('vendor_js', function() {
         './bower_components/ng-lodash/build/ng-lodash.js',
         './bower_components/lodash/dist/lodash.js',
         './bower_components/angular-route/angular-route.js',
-        './bower_components/bootstrap/dist/js/bootstrap.js',
-        './bower_components/angular-google-maps/dist/angular-google-maps.js',
-        './bower/components/ng-tags-input/ng-tags-input.min.js',
-        './bower/components/ng-tags-input/ng-tags-input.min.css'
+        './bower_components/bootstrap/dist/js/bootstrap.js'
 
     ])
         .pipe($.concat('vendor.js'))
