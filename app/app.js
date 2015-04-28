@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps'])
+        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {

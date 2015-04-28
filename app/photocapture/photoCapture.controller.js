@@ -6,10 +6,15 @@
         .module("app")
         .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
 
-
             navigator.geolocation.getCurrentPosition(function (position) {
                 $scope.position = position
             });
+
+            navigator.geolocation.watchPosition(function (position) {
+                $scope.position = position
+                $scope.$apply()
+            });
+
 
             // updates session information
             function sessionUpdate(data) {
