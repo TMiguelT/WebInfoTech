@@ -43,9 +43,19 @@
                 alert(msg);
             };
 
-            $scope.submit = function () {
+            $scope.isValid = function () {
+                // TODO check to see if all the required form elements have been filled
+
+            }
+
+            $scope.submit = function (isValid) {
                 if (!$scope.logged_in) {
                     alert("error please log in to submit photos");
+                    return;
+                }
+
+                if (!isValid) {
+                    alert("form is not valid!")
                     return;
                 }
 
@@ -62,14 +72,13 @@
 
                 var submission = new FormData();
 
-                submission.append("position", $scope.position)
+                submission.append("position", $scope.position.coords)
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
                 submission.append("hint", $scope.form.hint);
                 submission.append("tags", $scope.form.tags);
                 submission.append("user_id", $scope.user_id);
-                submission.append("position", null);
 
                 // submission data is sent to the api and returned to
                 // demonstrate functionality
