@@ -10,8 +10,8 @@ gulp.task('vendor_js', function() {
         './bower_components/ng-lodash/build/ng-lodash.js',
         './bower_components/lodash/dist/lodash.js',
         './bower_components/angular-route/angular-route.js',
-        './bower_components/bootstrap/dist/js/bootstrap.js'
-
+        './bower_components/bootstrap/dist/js/bootstrap.js',
+        './bower_components/angular-google-maps/dist/angular-google-maps.js'
     ])
         .pipe($.concat('vendor.js'))
         .pipe($.uglify())
