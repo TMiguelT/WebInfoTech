@@ -44,8 +44,18 @@
             };
 
             $scope.isValid = function () {
-                // TODO check to see if all the required form elements have been filled
+                // TODO in progress .. check to see if all the required form elements have been filled
+                return true;
 
+                if ($scope.form == null) {
+                    alert("please fill in the form!")
+                    return false;
+                }
+                if ($("#photoInputField")[0].files[0].name == null) {
+                    alert ("no file");
+                    return false;
+                }
+                return true;
             }
 
             $scope.submit = function (isValid) {
@@ -58,17 +68,6 @@
                     alert("form is not valid!")
                     return;
                 }
-
-                //var submission = {
-                //    "photo": $("#photoInputField")[0].files[0],
-                //    "name": $scope.form.name,
-                //    "description" : $scope.form.description,
-                //    "hint" : $scope.form.hint,
-                //    "tags" : $scope.form.tags.split(","),
-                //    "user_id" : $scope.user_id,
-                //    // TODO change to include location
-                //    "position" : null
-                //};
 
                 var submission = new FormData();
 
