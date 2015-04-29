@@ -6,27 +6,30 @@
         $('html, body').animate({ scrollTop: 0 }, 0);
         setHeight();
 
-        photoService.getPhotoById($routeParams.photoId - 1, function(photo) {
-            $scope.photo = photo;
-            navigator.geolocation.getCurrentPosition(function(position) {
-                $scope.map = getMap(position.coords);
+        $scope.getPhoto = function() {
+            photoService.getPhotoById($routeParams.photoId, function(photo) {
+                $scope.photo = photo;
+                console.log($scope.photo);
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    $scope.map = getMap(position.coords);
 
-                $scope.position = {
-                    coords: position.coords,
-                    distance: getDistanceToLocation(position.coords, photo.location.coords),
-                    direction: getDirection(position.coords, photo.location.coords)
-                };
-                $scope.photoLoaded = true;
-                $scope.$apply();
-            }, function() {
-                var error = {
-                    name: "navigatorError",
-                    desc: "Cannot display map - please enable your location"
-                };
-                $scope.photo.error ? $scope.photo.error.push(error) : $scope.photo.error = [error];
-                $scope.$apply();
+                    $scope.position = {
+                        coords: position.coords,
+                        distance: getDistanceToLocation(position.coords, photo.location.coords),
+                        direction: getDirection(position.coords, photo.location.coords)
+                    };
+                    $scope.photoLoaded = true;
+                    $scope.$apply();
+                }, function() {
+                    var error = {
+                        name: "navigatorError",
+                        desc: "Cannot display map - please enable your location"
+                    };
+                    $scope.photo.error ? $scope.photo.error.push(error) : $scope.photo.error = [error];
+                    $scope.$apply();
+                });
             });
-        });
+        }
 
         $scope.viewPhoto = function() {
             $('#viewPhoto').modal('show')
@@ -72,10 +75,8 @@
         function setHeight() {
             if ($(".photo-description").height() < 720) {
                 $(".photo-description").css("height", "730px");
-                $(".game").css("height", "730px");
             } else {
                 $(".photo-description").css("height", "100%");
-                $(".game").css("height", "100%");
             }
         }
 

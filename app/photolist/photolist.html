@@ -2,31 +2,33 @@
 <section class = photo-list>
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
-    <div class="photo-list-content" ng-controller="photolistController as photoCtrl" >
+    <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.getPhotos()">
         <!--Search bar-->
         <div class="photo-list-buttons">
-            <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
-                    Order by
+            <div class="col-md-8">
+                <div class="btn-group">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
+                        Order by
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('name')">Name</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('type')">Type</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('distance')">Distance</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true">
+                    View
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('name')">Name</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('type')">Type</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('distance')">Distance</a></li>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownView">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy('list')">List</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="photoCtrl.viewBy('grid')">Grid</a></li>
                 </ul>
+                </div>
             </div>
-            <div class="btn-group">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true">
-                View
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownView">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy('list')">List</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="photoCtrl.viewBy('grid')">Grid</a></li>
-            </ul>
-            </div>
-            <div class="input-group" style="float:right">
+            <div class="col-md-4 input-group" style="float:right">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="button">Search</button>
                       </span>
@@ -34,9 +36,10 @@
             </div>
         </div>
 
+        <loading-box text="'Photos'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
 
         <!-- Photo Headings-->
-        <div class="container-fluid" >
+        <div class="container-fluid" ng-show="photoCtrl.photos.length > 0">
             <div class="photo-list-photos photo-list-heading">
                 <div class="col-sm-4">
                     <label>Photo</label>
@@ -59,7 +62,7 @@
             </div>
 
             <!-- Photo List-->
-            <a ng-href="/game/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
+            <a ng-href="/photo/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
                 <div class="photo-list-photos">
                     <div class="col-sm-4">
                         <img src="./public/photos/{{photo.url}}" img class="img-responsive" alt="{{photo.name}}">
@@ -79,7 +82,7 @@
                         </p>
                     </div>
                     <div class="col-sm-1">
-                        {{photo.user.name}}
+                        {{photo.user.username}}
                     </div>
                 </div>
             </a>

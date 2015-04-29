@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps'])
+        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
@@ -13,7 +13,7 @@
                     templateUrl: '/public/about/about.html',
                     controller: 'aboutController'
                 })
-                .when('/game/:photoId', {
+                .when('/photo/:photoId', {
                     templateUrl: '/public/game/game.html',
                     controller: 'gameController'
                 })

@@ -5,7 +5,7 @@
         return {
             getTrendingPhotos: function (callback) {
                 $http
-                    .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos?filter=trending") ]
+                    .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos/trending") ]
                     .success(function(data) {
                         callback(data.photos);
                     })
@@ -15,18 +15,17 @@
             },
             getPhotoById: function (photoId, callback) {
                 $http
-                    .get('./api/photo/all')
-                    .success(function (data) {
-                        if (data.photos[photoId]) {
-
-                            callback(data.photos[photoId]);
-                        } else {
+                    .get('./api/photo/' + photoId, {cache: true})
+                    .success(function (photo) {
+                        if (photo.error) {
                             callback({
                                 error: [{
                                     name: "unknownPhotoId",
                                     desc: "Error: Cannot retrieve photo"
                                 }]
                             });
+                        } else {
+                            callback(photo);
                         }
                     })
                     .error(function () {
@@ -34,13 +33,13 @@
                     });
             },
             getAllPhotos: function (callback) {
-                $http.get('./api/photo/all')
+                $http.get('./api/photo/all', {cache: true})
                     .success(function(data) {
                         callback(data.photos);
                     })
                     .error(function() {
                         console.log("error: cannot GET /api/photos");
-                    })
+                    });
             }
         }
     }

@@ -40,7 +40,7 @@ app
     })) //Use the form parser
     .use(require('koa-validate')()) //Mount the form validator
     .use(mount("/api/user", require("./api/users"))) //Mount the users API
-    .use(mount("/api/photo", require("./api/photos"))) //Mount the users API
+    .use(mount("/api/photo", require("./api/photo/photos"))) //Mount the users API
     .use(mount("/public", require('koa-static')("public"))) //Mount the static file server
     .use(function *() { //When the user goes anywhere that's not the api or public, send them the main page
         yield send(this, indexFile);

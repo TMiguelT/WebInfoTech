@@ -1,4 +1,4 @@
-<div class="recentPhotos">
+<div class="recentPhotos" ng-if="photos.length > 0">
     <div class="cover-flow--container" ng-controller="coverFlowController">
         <div class="cover-flow--element" style="{{loadElementStyle($index, index)}}"
              ng-click="changeIndex($index)" ng-repeat="photo in photos">
