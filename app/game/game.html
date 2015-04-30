@@ -91,13 +91,12 @@
 
                 </div>
                 <div class="col-md-4">
-                    <!--<div class="alert alert-danger alert-box" role="alert" ng-hide="isOrientationCapable">-->
-                        <!--Sorry, your device does not have orientation capabilities (probably because you are on a-->
-                        <!--computer, not a mobile device). In order to play the game with full functionality, please-->
-                        <!--use an orientation capable device (e.g. your mobile).-->
-                    <!--</div>-->
-                    <!--<button id="game--foundButton" class="file-input btn btn-success btn-file" ng-show="isOrientationCapable">-->
-                    <button id="game--foundButton" class="file-input btn btn-success btn-file">
+                    <div class="alert alert-danger alert-box" role="alert" ng-hide="isOrientationCapable">
+                        Sorry, your device does not have orientation capabilities (probably because you are on a
+                        computer, not a mobile device). In order to play the game with full functionality, please
+                        use an orientation capable device (e.g. your mobile).
+                    </div>
+                    <button id="game--foundButton" class="file-input btn btn-success btn-file" ng-show="isOrientationCapable">
                         I Found It!<input type="file" accept="image/*" />
                     </button>
                 </div>
