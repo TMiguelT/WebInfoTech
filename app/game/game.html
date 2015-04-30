@@ -91,6 +91,14 @@
 
                 </div>
                 <div class="col-md-4">
+                    <div class="game--navHelper">
+                        <div class="game--arrow">
+
+                        </div>
+                        <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="alert alert-danger alert-box" role="alert" ng-hide="isOrientationCapable">
                         Sorry, your device does not have orientation capabilities (probably because you are on a
                         computer, not a mobile device). In order to play the game with full functionality, please
@@ -100,14 +108,6 @@
                         I Found It!<input type="file" accept="image/*" capture="camera"/>
                     </button>
                     <loading-box text="'Confirming location...'" ng-if="foundPhotoLoaded"></loading-box>
-                </div>
-                <div class="col-md-4">
-                    <div class="game--navHelper">
-                        <div class="game--arrow">
-
-                        </div>
-                        <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
-                    </div>
                 </div>
             </div>
             <div class="row">
