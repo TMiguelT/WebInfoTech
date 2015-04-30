@@ -6,12 +6,15 @@
             </div>
             <div class="panel-body">
                 <form class="photo-form">
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error' : fillMessages['file'] || fillMessages['fileType']}">
                         <label for="photoInputField">Photo:</label>
+                        <span ng-show="fillMessages['file']" class="help-block h">Please include a photo.</span>
+                        <span ng-show="fillMessages['fileType']" class="help-block h">Error, incorrect file format.</span>
                         <input type="file" id="photoInputField" ng-model="form.photo" accept="image">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error' : fillMessages['name']}">
                         <label for="nameInputField">Name:</label>
+                        <span ng-show="fillMessages['name']" class="help-block h">Please include a name.</span>
                         <input type="text" class="form-control" id="nameInputField" ng-model="form.name" placeholder="A name for your photo...">
                     </div>
                     <div class="form-group">
@@ -24,7 +27,8 @@
                     </div>
                     <div class="form-group">
                         <label for="tagsInputField">Tags:</label>
-                        <tags-input min-length="1" id="tagsInputField" ng-model="tags"></tags-input>
+                        <tags-input min-length="1" id="tagsInputField" ng-model="form.tags"></tags-input>
+                        tags: <div ng-repeat="tag in form.tags">{{tag.text}}</div>
                     </div>
                     <div class="form-group">
                         position: ({{position.coords.latitude}}, {{position.coords.longitude}})

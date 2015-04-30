@@ -6,6 +6,13 @@
         .module("app")
         .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
 
+
+            $scope.fillMessages = {
+                "file": false,
+                "name": false,
+                "fileType": false
+            };
+
             navigator.geolocation.getCurrentPosition(function (position) {
                 $scope.position = position
             });
@@ -44,18 +51,24 @@
             };
 
             $scope.isValid = function () {
-                // TODO in progress .. check to see if all the required form elements have been filled
-                return true;
+                flag = true;
 
-                if ($scope.form == null) {
-                    alert("please fill in the form!")
-                    return false;
+                if ($scope.form.name == null || $scope.form.name == "") {
+                    $scope.fillMessages["name"] = true;
+                    flag = false;
                 }
-                if ($("#photoInputField")[0].files[0].name == null) {
-                    alert ("no file");
-                    return false;
+
+                if ($("#photoInputField")[0].files[0] == null) {
+                    $scope.fillMessages["file"] = true;
+                    flag = false;
+                } else if (".png .jpg .jpeg".search($("#photoInputField")[0].files[0].name.slice(-4)) == -1) {
+                    // ensure the file extension of a correct format
+                    $scope.fillMessages["fileType"] = true;
+
+                    flag = false;
                 }
-                return true;
+
+                return flag;
             }
 
             $scope.submit = function (isValid) {
@@ -65,18 +78,23 @@
                 }
 
                 if (!isValid) {
-                    alert("form is not valid!")
                     return;
                 }
 
                 var submission = new FormData();
+
+                // simplify tags field
+                var tags = [];
+                $scope.form.tags.forEach(function (tag) {
+                    tags.push(tag.text);
+                });
 
                 submission.append("position", $scope.position.coords)
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
                 submission.append("hint", $scope.form.hint);
-                submission.append("tags", $scope.form.tags);
+                submission.append("tags", tags);
                 submission.append("user_id", $scope.user_id);
 
                 // submission data is sent to the api and returned to
