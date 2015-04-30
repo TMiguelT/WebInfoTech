@@ -10,7 +10,8 @@
             $scope.fillMessages = {
                 "file": false,
                 "name": false,
-                "fileType": false
+                "fileType": false,
+                "location": false
             };
 
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -89,12 +90,12 @@
                     tags.push(tag.text);
                 });
 
-                submission.append("position", $scope.position.coords)
+                submission.append("position", JSON.stringify($scope.position.coords));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
                 submission.append("hint", $scope.form.hint);
-                submission.append("tags", tags);
+                submission.append("tags", JSON.stringify(tags));
                 submission.append("user_id", $scope.user_id);
 
                 // submission data is sent to the api and returned to
