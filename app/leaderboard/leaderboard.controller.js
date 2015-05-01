@@ -4,11 +4,11 @@
 
 
 
-angular.module('app')
-    .controller('leaderboardController', ["$http", "leaders", function ($http, leaders) {
+angular.module("app")
+    .controller('leaderboardController', ["$http", function ($http) {
         var self = this;
 
         self.orderMode = 'name';
         self.viewMode = 'list';
 
-    });
+    }]);
