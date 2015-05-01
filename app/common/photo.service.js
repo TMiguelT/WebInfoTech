@@ -46,6 +46,12 @@
                     .success(function(data) {
                         console.log(data);
                     });
+            },
+            deleteComment: function(comment) {
+                $http.post('./api/photo/comment/delete', comment)
+                    .success(function(data) {
+                        console.log(data);
+                    })
             }
         }
     }

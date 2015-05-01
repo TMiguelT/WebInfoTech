@@ -35,6 +35,10 @@
                 <div class="photo-description--comments">
                     <h4>Comments ({{ photo.comments.length }})</h4>
                     <div class="comment" ng-repeat="comment in photo.comments">
+                        <div class="comment-delete" ng-show="doesCommentBelongToUser(comment.user_id)">
+                            <div class="glyphicon glyphicon-remove" ng-click="deleteComment(comment)"> </div>
+                            <!--<span class="glyphicon glyphicon-edit"> </span>-->
+                        </div>
                         <div>
                             <span class="comment-name"> {{ comment.username }} </span> <span class="comment-datetime"> {{ parseDate(comment.date_posted) }} </span>
                         </div>
