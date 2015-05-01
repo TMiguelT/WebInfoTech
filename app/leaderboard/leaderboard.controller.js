@@ -5,31 +5,10 @@
 
 
 angular.module('app')
-    .controller('leaderboardController', function () {
+    .controller('leaderboardController', ["$http", "leaders", function ($http, leaders) {
+        var self = this;
 
-        this.players = PlayerList;
+        self.orderMode = 'name';
+        self.viewMode = 'list';
 
     });
-
-
-
-
-PlayerList = [
-
-    {
-        rank: "1",
-        username: "emma0987",
-        score: "5"
-    },
-
-    {
-        rank: "2",
-        username: "jakemoxey",
-        score: "3"
-    },
-
-    {
-        rank: "3",
-        username: "brandonlyly",
-        score: "0"
-    }];
