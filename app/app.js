@@ -25,6 +25,10 @@
                     templateUrl: '/public/login/login.html',
                     controller: 'loginController'
                 })
+                .when('/register', {
+                    templateUrl: '/public/login/login.html',
+                    controller: 'loginController'
+                })
                 .when('/photolist', {
                     templateUrl: '/public/photolist/photolist.html',
                     controller: 'photolistController'

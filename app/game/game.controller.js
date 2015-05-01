@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    function gameController($scope, photoService, scrollService, $routeParams) {
+    function gameController($scope, photoService, scrollService, userService, $routeParams, $rootScope) {
 
         $scope.getPhoto = function() {
             photoService.getPhotoById($routeParams.photoId, function(photo) {
@@ -63,10 +63,44 @@
             });
 
             return errorMessage;
-        }
+        };
+
+        $scope.parseDate = function(date) {
+            if (moment(date).isValid())
+                return moment(date).format("Do MMMM YYYY, h:mm:ss a");
+            else
+                return date;
+        };
+
+        $scope.submitComment = function(comment_text) {
+            var dateTime = moment().format();
+
+            console.log($scope.photo);
+
+            var new_comment = {
+                comment_content: {
+                    date_posted: dateTime,
+                    text: comment_text,
+                    user_id: $scope.userData.user_id,
+                    username: $scope.userData.username
+                },
+                photo_id: $scope.photo.id,
+                comment_id: $scope.photo.comments.length
+            }
+
+            $scope.photo.comments.push(new_comment.comment_content);
+
+            photoService.postComment(new_comment);
+
+        };
 
         function init() {
             $scope.photoLoaded = false;
+            $scope.userData = userService.data;
+
+            $rootScope.$on('sessionChanged', function () {
+                $scope.userData = userService.data;
+            });
         }
 
         function setFoundPhotoButton() {
@@ -176,6 +210,8 @@
         .controller("gameController", ["$scope",
                                         "photoService",
                                         "scrollService",
+                                        "userService",
                                         "$routeParams",
+                                        "$rootScope",
                                         gameController]);
 })();

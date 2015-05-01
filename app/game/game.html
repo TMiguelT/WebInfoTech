@@ -36,15 +36,18 @@
                     <h4>Comments ({{ photo.comments.length }})</h4>
                     <div class="comment" ng-repeat="comment in photo.comments">
                         <div>
-                            <span class="comment-name"> {{ comment.username }} </span> <span class="comment-datetime"> {{ comment.date_posted }} </span>
+                            <span class="comment-name"> {{ comment.username }} </span> <span class="comment-datetime"> {{ parseDate(comment.date_posted) }} </span>
                         </div>
                         <div class="comment-content">
                             {{ comment.text }}
                         </div>
                     </div>
-                    <div class="comment-form">
-                        <form class="form">
-                            <textarea class="form-control" placeholder="Share your thoughts on this location..."></textarea>
+                    <div class="alert alert-danger alert-box" role="alert" ng-hide="userData.logged_in">
+                        If you would like to share your thoughts on {{ photo.name }}, please <a href="/login">Log In</a> or <a href="/register">Register</a>.
+                    </div>
+                    <div class="comment-form" ng-show="userData.logged_in">
+                        <form class="form" ng-submit="submitComment(comment_text)">
+                            <textarea ng-model="comment_text" class="form-control" placeholder="Share your thoughts on this location..."></textarea>
                             <div class="comment-form--share"><input type="checkbox"> Share on Facebook</div>
                             <button class="comment-form--post btn btn-primary" type="submit">Post</button>
                         </form>

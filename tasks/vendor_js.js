@@ -12,7 +12,8 @@ gulp.task('vendor_js', function() {
         './bower_components/angular-route/angular-route.js',
         './bower_components/bootstrap/dist/js/bootstrap.js',
         './bower_components/angular-google-maps/dist/angular-google-maps.js',
-        './bower_components/ng-tags-input/ng-tags-input.js'
+        './bower_components/ng-tags-input/ng-tags-input.js',
+        './bower_components/moment/moment.js'
 
     ])
         .pipe($.concat('vendor.js'))

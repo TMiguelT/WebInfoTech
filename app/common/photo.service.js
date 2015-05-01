@@ -40,6 +40,12 @@
                     .error(function() {
                         console.log("error: cannot GET /api/photos");
                     });
+            },
+            postComment: function(comment) {
+                $http.post('./api/photo/comment/add', comment)
+                    .success(function(data) {
+                        console.log(data);
+                    });
             }
         }
     }
