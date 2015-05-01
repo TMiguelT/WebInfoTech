@@ -105,6 +105,8 @@
 
             photoService.postComment(new_comment);
 
+            $scope.comment_text = "";
+
         };
 
         function init() {
