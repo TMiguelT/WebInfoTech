@@ -3,7 +3,7 @@
 </div>
 
 <section class="photo-description" ng-hide="errorContains('unknownPhotoId')" ng-init="getPhoto()">
-    <loading-box text="'Photo'" ng-hide="photo.id"></loading-box>
+    <loading-box text="'Loading Photo...'" ng-hide="photo.id"></loading-box>
 
     <div ng-show="photo.id">
         <div class="photo-description--title">
@@ -81,7 +81,7 @@
         <div class="alert alert-danger alert-box" role="alert" ng-show="errorContains('navigatorError')">
             {{ displayError('navigatorError') }}
         </div>
-        <loading-box text="'Map'" ng-hide="photoLoaded || errorContains('navigatorError')"></loading-box>
+        <loading-box text="'Loading Map...'" ng-hide="photoLoaded || errorContains('navigatorError')"></loading-box>
         <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
             <div class="row">
                 <div class="col-md-4">
@@ -91,17 +91,23 @@
 
                 </div>
                 <div class="col-md-4">
-                    <button id="game--foundButton" class="file-input btn btn-success btn-file">
-                        I Found It!<input type="file" accept="image/*" />
-                    </button>
-                </div>
-                <div class="col-md-4">
                     <div class="game--navHelper">
                         <div class="game--arrow">
 
                         </div>
                         <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
                     </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-danger alert-box" role="alert" ng-hide="isOrientationCapable">
+                        Sorry, your device does not have orientation capabilities (probably because you are on a
+                        computer, not a mobile device). In order to play the game with full functionality, please
+                        use an orientation capable device (e.g. your mobile).
+                    </div>
+                    <button id="game--foundButton" class="file-input btn btn-success btn-file" ng-if="isOrientationCapable && !foundPhotoLoaded">
+                        I Found It!<input type="file" accept="image/*" capture="camera"/>
+                    </button>
+                    <loading-box text="'Confirming location...'" ng-if="foundPhotoLoaded"></loading-box>
                 </div>
             </div>
             <div class="row">

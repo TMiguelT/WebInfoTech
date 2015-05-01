@@ -47,6 +47,11 @@ router
     })
     .post('/upload', function *() {
         this.body = this.request.body;
+
+        data = this.request.body.fields
+        data["tags"] = JSON.parse(data["tags"])
+        data["position"] = JSON.parse(data["position"])
+
     })
     .get('/upload_session_info', function *() {
         this.body = this.session;

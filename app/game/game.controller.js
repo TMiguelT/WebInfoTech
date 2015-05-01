@@ -6,7 +6,7 @@
         $scope.getPhoto = function() {
             photoService.getPhotoById($routeParams.photoId, function(photo) {
                 $scope.photo = photo;
-                console.log($scope.photo);
+
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $scope.map = getMap(position.coords);
 
@@ -70,26 +70,34 @@
         }
 
         function setFoundPhotoButton() {
-            $(document).on('change', '.btn-file :file', function() {
+            $scope.photoLocation = {
+                orientation: {},
+                coords: {}
+            }
+            $scope.isOrientationCapable = false;
+            $scope.foundPhotoLoaded = false;
+
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(orientation){
+                    if(orientation.alpha) {
+                        $scope.isOrientationCapable = true;
+                        $scope.photoLocation.orientation = orientation;
+                    }
+                });
+            }
+
+            $(document).on('change', '.btn-file :file', function () {
                 var input = $(this),
                     numFiles = input.get(0).files ? input.get(0).files.length : 1,
                     label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
                 input.trigger('fileselect', [numFiles, label]);
-            });
 
-            $(document).ready( function() {
-                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
-                    var input = $(this).parents('.input-group').find(':text'),
-                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-                    if( input.length ) {
-                        input.val(log);
-                    } else {
-                        if( log ) alert(log);
-                    }
-
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    $scope.photoLocation.coords = position.coords;
                 });
+
+                $scope.foundPhotoLoaded = true;
+                $scope.$apply();
             });
         }
 
