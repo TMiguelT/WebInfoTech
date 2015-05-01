@@ -49,14 +49,7 @@ router
         this.body = this.request.body;
 
         try {
-            yield this.knex("comment")
-                .insert({
-                    user_id: this.body.comment_content.user_id,
-                    photo_id: this.body.photo_id,
-                    text: this.body.comment_content.text,
-                    date: this.body.comment_content.date_posted,
-                    comment_id: this.body.comment_id + 1
-                });
+            yield photoQuery.addComment(this.body, this.knex);
         } catch(e) {
             console.error("db error: " + e);
         }

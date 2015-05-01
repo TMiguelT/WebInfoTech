@@ -84,8 +84,7 @@
                     user_id: $scope.userData.user_id,
                     username: $scope.userData.username
                 },
-                photo_id: $scope.photo.id,
-                comment_id: $scope.photo.comments.length
+                photo_id: $scope.photo.id
             }
 
             $scope.photo.comments.push(new_comment.comment_content);
