@@ -3,7 +3,8 @@ var photoQuery = require('./photo_query');
 var router = require('koa-router')();
 var co = require('co');
 var photoData = require("./photoDummyData.json");
-var request = require("request-promise")
+var request = require("request-promise");
+var fs = require('fs');
 
 router
     .get('/all_mock', function *(next) {
@@ -77,7 +78,7 @@ router
             uri: 'http://192.241.210.241/photos',
             method: 'POST',
             formData: {
-                photo: this.request.body.files["photo"],
+                photo: fs.createReadStream(this.request.body.files.photo.path),
                 name: "test2.png"
             }
         };
