@@ -1,12 +1,12 @@
 (function() {
     "use strict";
 
-    function gameController($scope, photoService, scrollService, $routeParams) {
+    function gameController($scope, photoService, scrollService, userService, $routeParams, $rootScope) {
 
         $scope.getPhoto = function() {
             photoService.getPhotoById($routeParams.photoId, function(photo) {
                 $scope.photo = photo;
-                console.log($scope.photo);
+
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $scope.map = getMap(position.coords);
 
@@ -63,33 +63,90 @@
             });
 
             return errorMessage;
+        };
+
+        $scope.parseDate = function(date) {
+            if (moment(date).isValid())
+                return moment(date).format("Do MMMM YYYY, h:mm:ss a");
+            else
+                return date;
+        };
+
+        $scope.doesCommentBelongToUser = function(user_id) {
+            return (user_id === $scope.userData.user_id);
         }
+
+        $scope.deleteComment = function(comment) {
+            var photoComments = $scope.photo.comments;
+
+            for (var i = 0; i < photoComments.length; i++) {
+                if ((photoComments[i].date_posted == comment.date_posted) && (photoComments[i].user_id == comment.user_id)) {
+                    $scope.photo.comments.splice(i, 1);
+                }
+            }
+
+            photoService.deleteComment(comment)
+        }
+
+        $scope.submitComment = function(comment_text) {
+            var dateTime = moment().format();
+
+            var new_comment = {
+                comment_content: {
+                    date_posted: dateTime,
+                    text: comment_text,
+                    user_id: $scope.userData.user_id,
+                    username: $scope.userData.username,
+                },
+                photo_id: $scope.photo.id
+            }
+
+            $scope.photo.comments.push(new_comment.comment_content);
+
+            photoService.postComment(new_comment);
+
+            $scope.comment_text = "";
+
+        };
 
         function init() {
             $scope.photoLoaded = false;
+            $scope.userData = userService.data;
+
+            $rootScope.$on('sessionChanged', function () {
+                $scope.userData = userService.data;
+            });
         }
 
         function setFoundPhotoButton() {
-            $(document).on('change', '.btn-file :file', function() {
+            $scope.photoLocation = {
+                orientation: {},
+                coords: {}
+            }
+            $scope.isOrientationCapable = false;
+            $scope.foundPhotoLoaded = false;
+
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(orientation){
+                    if(orientation.alpha) {
+                        $scope.isOrientationCapable = true;
+                        $scope.photoLocation.orientation = orientation;
+                    }
+                });
+            }
+
+            $(document).on('change', '.btn-file :file', function () {
                 var input = $(this),
                     numFiles = input.get(0).files ? input.get(0).files.length : 1,
                     label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
                 input.trigger('fileselect', [numFiles, label]);
-            });
 
-            $(document).ready( function() {
-                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-
-                    var input = $(this).parents('.input-group').find(':text'),
-                        log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-                    if( input.length ) {
-                        input.val(log);
-                    } else {
-                        if( log ) alert(log);
-                    }
-
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    $scope.photoLocation.coords = position.coords;
                 });
+
+                $scope.foundPhotoLoaded = true;
+                $scope.$apply();
             });
         }
 
@@ -168,6 +225,8 @@
         .controller("gameController", ["$scope",
                                         "photoService",
                                         "scrollService",
+                                        "userService",
                                         "$routeParams",
+                                        "$rootScope",
                                         gameController]);
 })();

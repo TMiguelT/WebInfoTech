@@ -3,6 +3,7 @@
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
     <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.getPhotos()">
+
         <!--Search bar-->
         <div class="photo-list-buttons">
             <div class="col-md-8">
@@ -31,61 +32,43 @@
             <div class="col-md-4 input-group" style="float:right">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="button">Search</button>
-                      </span>
-                <input type="text" class="form-control" placeholder="Search for...">
+                      </span>       
+                <input type="text" class="form-control" placeholder="Search for..." ng-model="query">
             </div>
         </div>
 
-        <loading-box text="'Photos'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
+        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
 
-        <!-- Photo Headings-->
-        <div class="container-fluid" ng-show="photoCtrl.photos.length > 0">
-            <div class="photo-list-photos photo-list-heading">
-                <div class="col-sm-4">
-                    <label>Photo</label>
-                </div>
-                <div class="col-sm-1">
-                    <label>Name</label>
-                </div>
-                <div class="col-sm-1">
-                    <label>Finds</label>
-                </div>
-                <div class="col-sm-4">
-                    <label>Description</label>
-                </div>
-                <div class="col-sm-1">
-                    <label>Tags</label>
-                </div>
-                <div class="col-sm-1">
-                    <label>User</label>
-                </div>
-            </div>
+            <!-- Table-->
+        <div ng-show="photoCtrl.viewMode == 'list'">
+          <table class="table table-hover table-responsive" ng-show="photoCtrl.photos.length > 0" >
+            <thead>
+              <!-- Photo Headings-->
+              <tr>
+                <th class="col-md-3">Photo</th>
+                <th>Name</th>
+                <th>Finds</th>
+                <th class="col-md-4">Description</th>
+                <th>Tags</th>        
+                <th>User</th>
+              </tr>
+            </thead>
+            <tbody>
 
-            <!-- Photo List-->
-            <a ng-href="/photo/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode">
-                <div class="photo-list-photos">
-                    <div class="col-sm-4">
-                        <img src="./public/photos/{{photo.url}}" img class="img-responsive" alt="{{photo.name}}">
-                    </div>
-                    <div class="col-sm-1">
-                        {{photo.name}}
-                    </div>
-                    <div class="col-sm-1">
-                        {{photo.finds}}
-                    </div>
-                    <div class="col-sm-4">
-                        {{photo.description}}
-                    </div>
-                    <div class="col-sm-1">
-                        <p ng-repeat="tag in photo.tags">
-                            {{tag.name}}
-                        </p>
-                    </div>
-                    <div class="col-sm-1">
-                        {{photo.user.username}}
-                    </div>
-                </div>
-            </a>
-        </div>
+              <tr ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode | filter: query" ng-click="photoCtrl.showPhoto(photo)" style="pointer:cursor">
+                        <td><img src="./public/photos/{{photo.url}}" class="img-thumbnail" alt="{{photo.name}}"></td>
+                        <td>{{photo.name}}</td>
+                        <td>{{photo.finds}}</td>
+                        <td >{{photo.description}}</td>
+                        <td><p ng-repeat="tag in photo.tags">{{tag.name}}</p></td>
+                        <td>{{photo.user.username}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
     </div>
 </section>
+
+
+
+
