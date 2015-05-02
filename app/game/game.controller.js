@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    function gameController($scope, photoService, scrollService, $routeParams) {
+    function gameController($scope, photoService, scrollService, userService, $routeParams, $rootScope) {
 
         $scope.getPhoto = function() {
             photoService.getPhotoById($routeParams.photoId, function(photo) {
@@ -63,10 +63,59 @@
             });
 
             return errorMessage;
+        };
+
+        $scope.parseDate = function(date) {
+            if (moment(date).isValid())
+                return moment(date).format("Do MMMM YYYY, h:mm:ss a");
+            else
+                return date;
+        };
+
+        $scope.doesCommentBelongToUser = function(user_id) {
+            return (user_id === $scope.userData.user_id);
         }
+
+        $scope.deleteComment = function(comment) {
+            var photoComments = $scope.photo.comments;
+
+            for (var i = 0; i < photoComments.length; i++) {
+                if ((photoComments[i].date_posted == comment.date_posted) && (photoComments[i].user_id == comment.user_id)) {
+                    $scope.photo.comments.splice(i, 1);
+                }
+            }
+
+            photoService.deleteComment(comment)
+        }
+
+        $scope.submitComment = function(comment_text) {
+            var dateTime = moment().format();
+
+            var new_comment = {
+                comment_content: {
+                    date_posted: dateTime,
+                    text: comment_text,
+                    user_id: $scope.userData.user_id,
+                    username: $scope.userData.username,
+                },
+                photo_id: $scope.photo.id
+            }
+
+            $scope.photo.comments.push(new_comment.comment_content);
+
+            photoService.postComment(new_comment);
+
+            $scope.comment_text = "";
+
+        };
 
         function init() {
             $scope.photoLoaded = false;
+            $scope.userData = userService.data;
+
+            $rootScope.$on('sessionChanged', function () {
+                $scope.userData = userService.data;
+            });
         }
 
         function setFoundPhotoButton() {
@@ -176,6 +225,8 @@
         .controller("gameController", ["$scope",
                                         "photoService",
                                         "scrollService",
+                                        "userService",
                                         "$routeParams",
+                                        "$rootScope",
                                         gameController]);
 })();

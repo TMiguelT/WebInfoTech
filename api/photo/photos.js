@@ -45,6 +45,24 @@ router
 
         this.body = body_json;
     })
+    .post('/comment/add', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.addComment(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
+    .post('/comment/delete', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.deleteComment(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
     .post('/upload', function *() {
         this.body = this.request.body;
 
