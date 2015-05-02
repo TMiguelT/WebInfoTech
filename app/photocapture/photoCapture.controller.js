@@ -62,7 +62,7 @@
                 if ($("#photoInputField")[0].files[0] == null) {
                     $scope.fillMessages["file"] = true;
                     flag = false;
-                } else if (".png .jpg .jpeg".search($("#photoInputField")[0].files[0].name.slice(-4)) == -1) {
+                } else if (".png .jpg .jpeg".search($("#photoInputField")[0].files[0].name.slice(-4).toLowerCase()) == -1) {
                     // ensure the file extension of a correct format
                     $scope.fillMessages["fileType"] = true;
 
@@ -97,6 +97,8 @@
                 submission.append("hint", $scope.form.hint);
                 submission.append("tags", JSON.stringify(tags));
                 submission.append("user_id", $scope.user_id);
+
+
 
                 // submission data is sent to the api and returned to
                 // demonstrate functionality

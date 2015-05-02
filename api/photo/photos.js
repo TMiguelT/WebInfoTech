@@ -3,6 +3,7 @@ var photoQuery = require('./photo_query');
 var router = require('koa-router')();
 var co = require('co');
 var photoData = require("./photoDummyData.json");
+var request = require("request-promise")
 
 router
     .get('/all_mock', function *(next) {
@@ -46,11 +47,29 @@ router
         this.body = body_json;
     })
     .post('/upload', function *() {
-        this.body = this.request.body;
 
+        // must parse some fields to the correct format
         data = this.request.body.fields
         data["tags"] = JSON.parse(data["tags"])
         data["position"] = JSON.parse(data["position"])
+        //this.body = this.request.body;
+
+        //post the photo
+        var options = {
+            uri: 'http://192.241.210.241/photos',
+            method: 'POST',
+            formData: {
+                photo: this.request.body.files["photo"],
+                name: "test2.png"
+            }
+        };
+
+        this.body = yield request(options)
+
+
+        // insert the photo
+        // insert the tags
+        // insert tag-photo relationships
 
     })
     .get('/upload_session_info', function *() {
