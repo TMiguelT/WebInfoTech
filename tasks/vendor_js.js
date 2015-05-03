@@ -2,20 +2,10 @@
 
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var vendor = require('./vendor.json');
 
 gulp.task('vendor_js', function() {
-    return gulp.src([
-        './bower_components/jquery/dist/jquery.js',
-        './bower_components/angular/angular.js',
-        './bower_components/ng-lodash/build/ng-lodash.js',
-        './bower_components/lodash/dist/lodash.js',
-        './bower_components/angular-route/angular-route.js',
-        './bower_components/bootstrap/dist/js/bootstrap.js',
-        './bower_components/angular-google-maps/dist/angular-google-maps.js',
-        './bower_components/ng-tags-input/ng-tags-input.js',
-        './bower_components/moment/moment.js'
-
-    ])
+    return gulp.src(vendor)
         .pipe($.concat('vendor.js'))
         .pipe($.uglify())
         .pipe(gulp.dest('./public'));

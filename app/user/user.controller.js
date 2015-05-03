@@ -1,5 +1,5 @@
 angular.module("app")
-    .controller("userController", ["$scope", 'lodash', "userService", "$rootScope", function ($scope, _, userService, $rootScope) {
+    .controller("userController", ["$scope", 'lodash', "userService", "$rootScope", '$http', function ($scope, _, userService, $rootScope, $http) {
 
         //Updates the local scope with session data
         function updateSession(sessionData) {
@@ -8,8 +8,16 @@ angular.module("app")
 
         //Get the starting session data
         updateSession(userService.data);
+
         //And watch for different session data in the future
         $rootScope.$on('sessionChanged', function (angularBullshit, data) {
             updateSession(data);
         });
+
+        //When we load the page, request all the user's finds and photos
+        $http.post('/api/user/stats')
+            .success(function (data) {
+                $scope.finds = data.finds;
+                $scope.photos = data.photos;
+            });
     }]);
