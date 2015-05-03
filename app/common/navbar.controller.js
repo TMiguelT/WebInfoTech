@@ -1,12 +1,16 @@
 (function () {
     "use strict";
 
-    function navbarController($scope, userService, $rootScope) {
+    function navbarController($scope, userService, $rootScope, $location) {
 
         //Updates the local scope with session data
         function updateSession(sessionData) {
             $scope.logged_in = sessionData.logged_in;
             $scope.username = sessionData.username;
+        }
+
+        $scope.goToPage = function(page) {
+            $location.path(page);
         }
 
         $scope.logOut = function () {
@@ -23,5 +27,5 @@
 
     angular
         .module("app")
-        .controller("navbarController", ["$scope", 'userService', '$rootScope', navbarController]);
+        .controller("navbarController", ["$scope", 'userService', '$rootScope', '$location', navbarController]);
 })();
