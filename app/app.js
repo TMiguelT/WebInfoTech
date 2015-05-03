@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput'])
+        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput', 'angular-flot'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
@@ -44,7 +44,8 @@
                 .when('/dashboard', {
                     templateUrl: '/public/dashboard/dashboard.html',
                     controller: 'dashboardController'
-                })
+                });
+
             $locationProvider.html5Mode(true);
         }])
 })();

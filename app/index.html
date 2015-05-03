@@ -32,8 +32,8 @@
                 <li><a href="/leaderboard">View Leaderboard</a></li>
                 <li><a href="/dashboard">Dashboard</a></li>
                 <li ng-show="!logged_in"><a href="/login">Login/Register</a></li>
-                <li ng-click="logOut()" ng-show="logged_in"><a href="#">Logout</a></li>
                 <li ng-show="logged_in"><a href="/user">{{username}}</a></li>
+                <li ng-show="logged_in" ng-click="logOut()"><a href="#">Logout</a></li>
             </ul>
         </div>
     </div>

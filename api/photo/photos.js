@@ -79,7 +79,7 @@ router
             method: 'POST',
             formData: {
                 photo: fs.createReadStream(this.request.body.files.photo.path),
-                name: "test2.png"
+                name: "test3.png"
             }
         };
 
