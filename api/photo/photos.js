@@ -95,6 +95,9 @@ router
             return;
         }
 
+        // TODO remove this
+        data.orientation.absolute = 0;
+
         // insert the photo
         var this_photo_id = yield this.knex("photo").insert({
             "image_path": options.formData.name,
@@ -117,9 +120,11 @@ router
 
 
         // insert into tag table
-        this.knex.raw("INSERT INTO tag (name) SELECT unnest(?) as new WHERE new.tag NOT IN (SELECT name FROM tag)", data.tags)
+        // cannot use knex raw query as it does not have support for array parameters
 
-        var tag_ids = this.knex.raw("SELECT tag_id FROM tag WHERE name IN unnest(?)", data.tags)
+        yield this.knex.raw("INSERT INTO tag (name) SELECT tag_name FROM (SELECT unnest(?::text[]) tag_name) as new WHERE new.tag_name NOT IN (SELECT name FROM tag)", [data.tags])
+
+        var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", data.tags)
 
         // insert into photo-tag table
         var tags_with_photo_id = []
