@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --harmony app.js"
+    "start": "node --harmony app.js",
+    "update": "npm install && bower install && gulp build"
   },
   "repository": {
     "type": "git",
