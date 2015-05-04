@@ -83,7 +83,7 @@
                     flag = false;
                 }
 
-                // TODO remove this dummy data
+                // TODO remove this dummy data once orientation is functioning
                 if (typeof $scope.orientation == "undefined") {
                     $scope.orientation = {
                         "absolute": true,

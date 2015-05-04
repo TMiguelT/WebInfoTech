@@ -95,7 +95,7 @@ router
             return;
         }
 
-        // TODO remove this
+        // TODO remove this once orientation is functioning
         data.orientation.absolute = 0;
 
         // insert the photo
@@ -123,12 +123,13 @@ router
         yield this.knex.raw("INSERT INTO tag (name) SELECT tag_name FROM (SELECT unnest(?::text[]) tag_name) as new WHERE new.tag_name NOT IN (SELECT name FROM tag)", [data.tags])
 
 		//@Andy the first query was working we just needed to add bracket
+        //@Michael roger that
         var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
 
         // insert into photo-tag table
         var tags_with_photo_id = []
         
-        //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before 
+        //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before
         tag_ids.rows.forEach(function(row){
               tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
         });
