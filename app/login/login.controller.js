@@ -42,7 +42,7 @@ angular.module("app")
                 userService.login(form)
                     .success(function (data) {
                         //On successful login, go to the user page (will be dashboard in the future)
-                        $location.path('/user');
+                        $location.path('/dashboard');
                     })
                     .error($scope.showErrors);
             }

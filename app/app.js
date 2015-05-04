@@ -7,7 +7,14 @@
             $routeProvider
                 .when('/', {
                     templateUrl: '/public/about/about.html',
-                    controller: 'aboutController'
+                    controller: 'aboutController',
+                    resolve:{
+                        "check":function(userService, $location) {
+                            if(userService.data.logged_in) {
+                                $location.path('/dashboard');
+                            }
+                        }
+                    }
                 })
                 .when('/about', {
                     templateUrl: '/public/about/about.html',
