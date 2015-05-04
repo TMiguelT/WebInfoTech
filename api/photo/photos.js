@@ -13,6 +13,8 @@ router
         };
     })
     .get('/all', function *() {
+        var body_json = {};
+
         try {
             body_json = {photos: []};
 
@@ -33,8 +35,8 @@ router
         this.body = body_json;
     })
     .get('/:photoId', function *() {
+        var body_json = {};
         try {
-            body_json = {};
             photo_id = this.params.photoId;
 
             var photo = yield photoQuery.selectPhotoById(photo_id, this.knex);
