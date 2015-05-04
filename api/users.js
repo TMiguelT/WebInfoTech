@@ -1,5 +1,6 @@
 var router = require('koa-router')();
 var bcrypt = require('bcrypt-as-promised');
+var photoUrl = require('./photoUrl');
 
 router
     .post('/login', function *() {
@@ -116,6 +117,39 @@ router
 
         //Otherwise the registration succeeded
         this.body = "Success!";
+    })
+
+    .post('/stats', function *() {
+
+        //If they're logged in, log them out
+        if (this.session.logged_in) {
+            var finds = yield this.knex('find')
+                .where({"find.user_id": this.session.user_id})
+                .join('photo', 'photo.photo_id', '=', 'find.photo_id');
+
+            finds.forEach(function (row) {
+                row.image_path = photoUrl.fullUrl(row.image_path)
+            });
+
+            var photos = yield this.knex('photo')
+                .where({user_id: this.session.user_id});
+
+            photos.forEach(function (row) {
+                row.image_path = photoUrl.fullUrl(row.image_path)
+            });
+
+            this.body = {
+                photos: photos,
+                finds: finds
+            };
+            this.status = 200;
+        }
+
+        //If they're not logged in, wtf r u doing
+        else {
+            this.status = 400;
+            this.body = "Not logged in!";
+        }
     });
 
 module.exports = router.routes();

@@ -5,6 +5,7 @@
 
     <div class="panel-body">
 
+        <h2>Stats</h2>
         <table class="table">
             <tr>
                 <td>User ID:</td>
@@ -13,6 +14,38 @@
             <tr>
                 <td>Email Address:</td>
                 <td>{{email}}</td>
+            </tr>
+        </table>
+
+        <h2>Photos</h2>
+        <table class="table">
+            <tr>
+                <td>Photo</td>
+                <td>Total Finds</td>
+                <td>Total Likes</td>
+                <td>Total Dislikes</td>
+            </tr>
+            <tr ng-repeat="photo in photos">
+                <td><img src="{{photo.image_path}}" class="user-photo"></td>
+                <td>{{photo.num_finds}}</td>
+                <td></td>
+                <td>{{}}</td>
+            </tr>
+        </table>
+
+        <h2>Finds</h2>
+        <table class="table">
+            <tr>
+                <td>Photo</td>
+                <td>Date Found</td>
+                <td>Time Taken</td>
+                <td>Points</td>
+            </tr>
+            <tr ng-repeat="find in finds">
+                <td><img src="{{find.image_path}}" class="user-photo"></td>
+                <td>{{find.date}}</td>
+                <td>{{find.time_elapsed}}</td>
+                <td>{{find.points}}</td>
             </tr>
         </table>
     </div>

@@ -6,12 +6,22 @@
         .module("app")
         .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
 
+            window.addEventListener("deviceorientation", function(event) {
+                $scope.orientation = {
+                    "absolute": event.absolute,
+                    "alpha": event.alpha,
+                    "beta": event.beta,
+                    "gamma": event.gamma
+                };
+            }, true);
 
             $scope.fillMessages = {
                 "file": false,
                 "name": false,
                 "fileType": false,
-                "location": false
+                "locationSupport": false,
+                "locationAvailable": false,
+                "showSuccess": false
             };
 
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -59,6 +69,30 @@
                     flag = false;
                 }
 
+                // check if the device support geolocation
+                if (!"geolocation" in navigator) {
+                    // cannot access the users location
+                    $scope.fillMessages["locationSupport"] = true;
+                    flag = false;
+                }
+
+                //check if the user has given permission for
+                // us to access their location
+                if (typeof $scope.position == "undefined") {
+                    $scope.fillMessages["locationAvailable"] = true;
+                    flag = false;
+                }
+
+                // TODO remove this dummy data once orientation is functioning
+                if (typeof $scope.orientation == "undefined") {
+                    $scope.orientation = {
+                        "absolute": true,
+                        "alpha": 0,
+                        "beta": 0,
+                        "gamma": 0
+                    };
+                }
+
                 if ($("#photoInputField")[0].files[0] == null) {
                     $scope.fillMessages["file"] = true;
                     flag = false;
@@ -90,6 +124,7 @@
                     tags.push(tag.text);
                 });
 
+                submission.append("orientation", JSON.stringify($scope.orientation));
                 submission.append("position", JSON.stringify($scope.position.coords));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
@@ -98,7 +133,7 @@
                 submission.append("tags", JSON.stringify(tags));
                 submission.append("user_id", $scope.user_id);
 
-
+                $scope.photoName = $("#photoInputField")[0].files[0].name;
 
                 // submission data is sent to the api and returned to
                 // demonstrate functionality
@@ -106,10 +141,7 @@
                     headers: {'Content-Type': undefined }
                 })
                     .success(function (data) {
-                        alert("post Success!\n" +
-                              $scope.username + " has uploaded a photo\n" +
-                              "filename: " + data.files.photo.name + "\n" +
-                              "size: " + data.files.photo.size);
+                        $scope.fillMessages.showSuccess = true;
                     })
                     .error($scope.showErrors);
             };
