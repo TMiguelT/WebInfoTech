@@ -1,5 +1,6 @@
 angular.module("app")
-    .controller("userController", ["$scope", 'lodash', "userService", "$rootScope", '$http', function ($scope, _, userService, $rootScope, $http) {
+    .controller("userController", ["$scope", 'lodash', "userService", "$rootScope", '$http', '$routeParams', function ($scope, _, userService, $rootScope, $http, $routeParams) {
+
 
         //Updates the local scope with session data
         function updateSession(sessionData) {

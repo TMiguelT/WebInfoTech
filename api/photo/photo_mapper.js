@@ -26,8 +26,10 @@ module.exports = {
     },
     mapOrientation: function(photo, json) {
         json.location.orientation = {
+            absolute: photo.orientation_absolute,
             alpha: photo.orientation_alpha,
-            beta: photo.orientation_beta
+            beta: photo.orientation_beta,
+            gamma: photo.orientation_gamma
         };
     },
     mapUser: function *(photo, json, knex) {
