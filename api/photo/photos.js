@@ -120,17 +120,19 @@ router
 
 
         // insert into tag table
-        // cannot use knex raw query as it does not have support for array parameters
-
         yield this.knex.raw("INSERT INTO tag (name) SELECT tag_name FROM (SELECT unnest(?::text[]) tag_name) as new WHERE new.tag_name NOT IN (SELECT name FROM tag)", [data.tags])
 
-        var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", data.tags)
+		//@Andy the first query was working we just needed to add bracket
+        var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
 
         // insert into photo-tag table
         var tags_with_photo_id = []
-        for (var i in tag_ids) {
-            tags_with_photo_id.push({tag_id: tag_ids[i], photo_id: this_photo_id[0]})
-        }
+        
+        //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before 
+        tag_ids.rows.forEach(function(row){
+              tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
+        });
+        
         var result = yield this.knex('photo_tag').insert(tags_with_photo_id)
     })
     .get('/upload_session_info', function *() {
