@@ -3,7 +3,34 @@
 <section class=leaderboard>
     <div class="leaderboard-title">Leaderboard</div>
 
+
+
+
     <div class="leaderboard-content container" ng-controller="leaderboardController as playerCtrl">
+
+        <!-- leaderboard toggle buttons -->
+        <div class="switch-leaderboards">
+            <div class="col-md-12 text-center">
+                <div class="btn-group">
+                    <button class="btn btn-default" type="button" id="worldbtn" data-toggle="world">
+                        World
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" type="button" id="friendsbtn" data-toggle="friends">
+                        Friends
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 input-group" style="float:right">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                      </span>
+                <input type="text" class="form-control" placeholder="Search for..." ng-model="query">
+            </div>
+        </div>
+
+
         <!--LeaderBoard Table-->
             <table class="table">
                 <thead>
@@ -18,8 +45,9 @@
                         <td>
                             {{player.rank}}
                         </td>
+
                         <td>
-                            {{player.username}}
+                            <button href="'/user/' + username">{{player.username}}</button>
                         </td>
                         <td>
                             {{player.score}}
@@ -28,16 +56,8 @@
                 </tbody>
             </table>
 
-        <!-- Friends Leaderboard Button -->
-         <div class="col-sm-offset-1">
-             <div class="friend-leaderboard-btn">
-                <button class="btn btn-default">
-                    Friends LeaderBoard
-                </button>
-             </div>
-         </div>
+
+
 
     </div>
-
-
 </section>
