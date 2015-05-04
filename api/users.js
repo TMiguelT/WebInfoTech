@@ -131,8 +131,20 @@ router
                 row.image_path = photoUrl.fullUrl(row.image_path)
             });
 
-            var photos = yield this.knex('photo')
-                .where({user_id: this.session.user_id});
+			var photos = yield this.knex('photo')
+                .select('image_path', 'num_finds')
+                .count('like.value as likes')
+                .count('dislike.value as dislikes')
+                .where('photo.user_id', '=', this.session.user_id)
+                .leftJoin('like', function(){
+                    this.on('photo.photo_id', '=', 'like.photo_id')
+                        .on('like.value', '>', 1)
+                })
+                .leftJoin('like AS dislike', function(){
+                    this.on('photo.photo_id', '=', 'like.photo_id')
+                        .on('like.value', '<', 1)
+                })
+                .groupBy('photo.photo_id');
 
             photos.forEach(function (row) {
                 row.image_path = photoUrl.fullUrl(row.image_path)
