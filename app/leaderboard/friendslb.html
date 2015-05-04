@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<!-- Created by Emma Jamieson-Hoare -->
 
-</body>
-</html>
+<section class=leaderboard>
+    <div class="leaderboard-title">Leaderboard</div>
+
+
+
+
+    <div class="leaderboard-content container" ng-controller="friendslbController as playerCtrl">
+
+        <!-- leaderboard toggle buttons -->
+        <div class="switch-leaderboards">
+            <div class="col-md-12 text-center">
+                <div class="btn-group">
+                    <a class="btn btn-default" href="/leaderboard">
+                        World
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-disabled">
+                        Friends
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4 input-group" style="float:right">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                      </span>
+                <input type="text" class="form-control" placeholder="Search for..." ng-model="query">
+            </div>
+        </div>
+
+
+        <!--LeaderBoard Table-->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>UserName</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="player in playerCtrl.players">
+                <td>
+                    {{player.rank}}
+                </td>
+
+                <td>
+                    <a href="/leaderboard">{{player.username}}</a>
+                </td>
+                <td>
+                    {{player.score}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+
+    </div>
+</section>

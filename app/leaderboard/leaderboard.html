@@ -12,14 +12,14 @@
         <div class="switch-leaderboards">
             <div class="col-md-12 text-center">
                 <div class="btn-group">
-                    <button class="btn btn-default" type="button" id="worldbtn" data-toggle="world">
+                    <button class="btn btn-disabled">
                         World
                     </button>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-default" type="button" id="friendsbtn" data-toggle="friends">
+                    <a class="btn btn-default" href="/friendslb">
                         Friends
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="col-md-4 input-group" style="float:right">
@@ -47,7 +47,7 @@
                         </td>
 
                         <td>
-                            <button href="'/user/' + username">{{player.username}}</button>
+                            <a href="/leaderboard">{{player.username}}</a>
                         </td>
                         <td>
                             {{player.score}}
