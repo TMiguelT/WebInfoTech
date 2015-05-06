@@ -12,14 +12,10 @@
         <div class="switch-leaderboards">
             <div class="col-md-12 text-center">
                 <div class="btn-group">
-                    <button class="btn btn-disabled">
-                        World
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" href="/friendslb">
-                        Friends
-                    </a>
+                    <ul class="nav nav-pills" role="tablist">
+                        <li ng-click="mode = 'world'" role="presentation" ng-class="{active: mode == 'world'}"><a href="#" role="tab">World</a></li>
+                        <li ng-click="mode = 'friends'" role="presentation" ng-class="{active: mode == 'friends'}"><a href="#" role="tab">Friends</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="col-md-4 input-group" style="float:right">
@@ -30,6 +26,13 @@
             </div>
         </div>
 
+
+        <!-- within table form
+            <div ng-if="mode == 'world'">
+
+            or
+
+            <div ng-if="mode == 'friends'">
 
         <!--LeaderBoard Table-->
             <table class="table">
