@@ -5,19 +5,50 @@
 
 
 angular.module("app")
-    .controller('leaderboardController', ["$http", function ($http) {
+    .controller('leaderboardController', ["$scope", function ($scope, userService) {
         var self = this;
+        var oppositeMode = function (mode) {
+            if (mode == "world")
+                if($scope.userData.loggedIn = true) {
+                    return "friends";
+                } else
+                    return "world";
+            else
+                return "world";
+        }
+
+        /**
+         *
+         *  leaderboard.getAllUsers(function(users) {
+         *      self.users = users;
+         *
+         *  if user isn't logged in - shouldn't be able to view friends button
+         *
+         *   if $scope.userData.loggedIn = true
+         *
+         */
 
         this.players = player;
-
-        self.orderMode = 'name';
-        self.viewMode = 'list';
-
+        self.query = null;
 
         self.filterBy = function (toFilter) {
             self.query = toFilter;
         }
+        $scope.mode = "world";
+        $scope.toggleMode = function () {
+            $scope.mode = oppositeMode($scope.mode);
+        }
 
+        function init() {
+            $scope.photoLoaded = false;
+            $scope.userData = userService.data;
+
+            $rootScope.$on('sessionChanged', function () {
+                $scope.userData = userService.data;
+            });
+        }
+
+        init();
 
     }]);
 
@@ -36,20 +67,6 @@ player = [
 ]
 
 
-function init() {
-    $scope.photoLoaded = false;
-    $scope.userData = userService.data;
 
-    $rootScope.$on('sessionChanged', function () {
-        $scope.userData = userService.data;
-    });
-}
-
-
-function Cntrl ($scope, $location) {
-    $scope.changeView = function() {
-        $location.path('/friendslb')
-    }
-}
 
 
