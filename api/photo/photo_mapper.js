@@ -1,9 +1,11 @@
+photoUrl = require('../photoUrl');
+
 module.exports = {
     mapId: function(photo, json) {
         json.id = Number(photo.photo_id);
     },
     mapUrl: function(photo, json) {
-        json.url = photo.image_path;
+        json.url = photoUrl.fullUrl(photo.image_path);
     },
     mapName: function(photo, json) {
         json.name = photo.name;
