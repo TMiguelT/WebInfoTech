@@ -11,6 +11,7 @@ angular.module('app')
         self.getPhotos = function() {
             photoService.getAllPhotos(function(photos) {
                 self.photos = photos;
+                console.log(photos);
             })
         }
 
@@ -19,16 +20,17 @@ angular.module('app')
         };
         self.viewBy = function(toView){
             self.viewMode = toView;
-        }
-
+        };
         self.filterBy = function (toFilter) {
             self.query = toFilter;
-        }
+        };
         self.showPhoto = function(photo){
             $location.path('/photo/'+photo.id);
 
+        };
+        self.getPhotoUrl = function() {
+            return photoService.getPhotoUrl();
         }
-        ;
 
 
 

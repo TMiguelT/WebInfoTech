@@ -35,7 +35,7 @@
             getAllPhotos: function (callback) {
                 $http.get('./api/photo/all', {cache: true})
                     .success(function(data) {
-                        callback(data.photos);
+                        callback(data);
                     })
                     .error(function() {
                         console.log("error: cannot GET /api/photos");
@@ -52,6 +52,9 @@
                     .success(function(data) {
                         console.log(data);
                     })
+            },
+            getPhotoUrl: function() {
+                return 'http://192.241.210.241/photos/';
             }
         }
     }

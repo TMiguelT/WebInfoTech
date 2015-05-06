@@ -20,13 +20,14 @@ router
 
             var photos = yield photoQuery.selectAllPhotos(photos, this.knex);
 
-            for (var i = 0; i < photos.length; i++) {
-                photo_json = {};
-
-                yield photoMapper.mapPhoto(photos[i], photo_json, this.knex);
-
-                body_json.photos.push(photo_json);
-            };
+            //for (var i = 0; i < photos.length; i++) {
+            //    photo_json = {};
+            //
+            //    yield photoMapper.mapPhoto(photos[i], photo_json, this.knex);
+            //
+            //    body_json.photos.push(photo_json);
+            //};
+            body_json = photos;
         } catch(e) {
             body_json = { error: String(e) };
             console.error(e);
