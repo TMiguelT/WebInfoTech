@@ -13,7 +13,7 @@
         <div class="photo-description--content col-md-10 col-md-offset-1">
             <div class="col-md-5" style="text-align: center;">
                 <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
-                <img class="photo-description--photo" ng-src="./public/photos/{{ photo.url }}" ng-click="viewPhoto()"/>
+                <img class="photo-description--photo" ng-src="{{ photo.url }}" ng-click="viewPhoto()"/>
                 <div class="photo-description--like-dislike">
                     <button class="btn btn-default"><span class="like-icon"></span><span>{{ photo.likes }}</span></button>
                     <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photo.dislikes }}</span></button>
@@ -74,7 +74,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <img src="./public/photos/{{ photo.url }}" />
+                        <img src="{{ photo.url }}" />
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="game--navHelper">
-                        <img class="photo-description--photo" ng-src="./public/photos/{{ photo.url }}" ng-click="viewPhoto()"/>
+                        <img class="photo-description--photo" ng-src="{{ photo.url }}" ng-click="viewPhoto()"/>
                     </div>
 
                 </div>
