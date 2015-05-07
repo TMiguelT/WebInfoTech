@@ -55,13 +55,13 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode | filter: query" ng-click="photoCtrl.showPhoto(photo.photo)" style="pointer:cursor">
-                        <td><img src="{{photoCtrl.getPhotoUrl()}}{{photo.photo.url}}" class="img-thumbnail" alt="{{photo.photo.name}}"></td>
-                        <td>{{photo.photo.name}}</td>
-                        <td>{{photo.photo.finds}}</td>
-                        <td >{{photo.photo.description}}</td>
-                        <td><p ng-repeat="tag in photo.photo.tags">{{tag.name}}</p></td>
-                        <td>{{photo.photo.user.username}}</td>
+              <tr ng-repeat="sqlElement in photoCtrl.photos | orderBy:photoCtrl.orderMode | filter: query" ng-click="photoCtrl.showPhoto(sqlElement.photo)" style="pointer:cursor">
+                        <td><img src="{{photoCtrl.getPhotoUrl()}}{{sqlElement.photo.url}}" class="img-thumbnail" alt="{{sqlElement.photo.name}}"></td>
+                        <td>{{sqlElement.photo.name}}</td>
+                        <td>{{sqlElement.photo.finds}}</td>
+                        <td >{{sqlElement.photo.description}}</td>
+                        <td><p ng-repeat="tag in sqlElement.photo.tags | unique:'name'">{{tag.name}}</p></td>
+                        <td>{{sqlElement.photo.user[0].username}}</td>
               </tr>
             </tbody>
           </table>

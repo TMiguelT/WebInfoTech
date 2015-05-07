@@ -11,7 +11,6 @@ angular.module('app')
         self.getPhotos = function() {
             photoService.getAllPhotos(function(photos) {
                 self.photos = photos;
-                console.log(photos);
             })
         }
 

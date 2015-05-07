@@ -9,7 +9,7 @@ SELECT json_build_object(
         'location', ST_AsGeoJSON(location)::json->'coordinates',
         'orientation', array_to_json(orientation),
         'comments', json_agg(comment_json),
-        'tag', json_agg(tag_json),
+        'tags', json_agg(tag_json),
         'likes', SUM("like".value)
 ) AS "photo"
 FROM
