@@ -1,16 +1,15 @@
 var moment = require('moment');
 var fs = require('fs');
 
-var select_photos = fs.readFileSync('./api/photo/photo_select_query.sql').toString();
-var group_photos = fs.readFileSync('./api/photo/photo_group_query.sql').toString();
+var select_photos = fs.readFileSync('./api/photo/sql_queries/photo_select_query.sql').toString();
+var group_photos = fs.readFileSync('./api/photo/sql_queries/photo_group_query.sql').toString();
 
 module.exports = {
     selectAllPhotos: function *(photos, knex) {
-        //return (yield knex.raw('SELECT image_path, name, description, date_created, num_finds, ST_X(ST_AsText("location")) AS location_lon, ST_Y(ST_AsText("location")) AS location_lat, orientation[0] AS orientation_absolute, orientation[1] AS orientation_alpha, orientation[2] AS orientation_beta, orientation[3] AS orientation_gamma, user_id, photo_id FROM "photo"')).rows;
         return (yield knex.raw(select_photos + group_photos)).rows;
     },
     selectPhotoById: function *(photo_id, knex) {
-        return (yield knex.raw('SELECT image_path, name, description, date_created, num_finds, ST_X(ST_AsText("location")) AS location_lon, ST_Y(ST_AsText("location")) AS location_lat, orientation[0] AS orientation_absolute, orientation[1] AS orientation_alpha, orientation[2] AS orientation_beta, orientation[3] AS orientation_gamma, user_id, photo_id FROM "photo" WHERE photo_id = ?', [photo_id])).rows[0];
+        return (yield knex.raw(select_photos + 'WHERE photo.photo_id = ?' + group_photos, [photo_id])).rows[0];
     },
     addComment: function *(comment, knex) {
         return (yield knex("comment")

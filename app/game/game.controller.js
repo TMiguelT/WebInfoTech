@@ -4,16 +4,16 @@
     function gameController($scope, photoService, scrollService, userService, $routeParams, $rootScope) {
 
         $scope.getPhoto = function() {
-            photoService.getPhotoById($routeParams.photoId, function(photo) {
-                $scope.photo = photo;
+            photoService.getPhotoById($routeParams.photoId, function(element) {
+                $scope.photo = element.photo;
 
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $scope.map = getMap(position.coords);
 
                     $scope.position = {
                         coords: position.coords,
-                        distance: getDistanceToLocation(position.coords, photo.location.coords),
-                        direction: getDirection(position.coords, photo.location.coords)
+                        distance: getDistanceToLocation(position.coords, element.photo.location),
+                        direction: getDirection(position.coords, element.photo.location)
                     };
                     $scope.photoLoaded = true;
                     $scope.$apply();
@@ -27,6 +27,10 @@
                 });
             });
         }
+
+        $scope.getPhotoUrl = function(url) {
+            return photoService.getPhotoUrl() + url;
+        };
 
         $scope.viewPhoto = function() {
             $('#viewPhoto').modal('show')
@@ -73,7 +77,7 @@
         };
 
         $scope.doesCommentBelongToUser = function(user_id) {
-            return (user_id === $scope.userData.user_id);
+            return (user_id.toString() === $scope.userData.user_id);
         }
 
         $scope.deleteComment = function(comment) {
@@ -182,7 +186,7 @@
         function getDirection(posCoords, photoCoords) {
             var interval = 45;
             var point1 = new google.maps.LatLng(posCoords.latitude, posCoords.longitude);
-            var point2 = new google.maps.LatLng(photoCoords.latitude, photoCoords.longitude);
+            var point2 = new google.maps.LatLng(photoCoords[1], photoCoords[0]);
             var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
 
             if (heading < -(interval / 2) - (3 * interval)
@@ -199,9 +203,9 @@
         function getDistanceToLocation(posCoords, photoCoords) {
             var R = 6371; // metres
             var lat1_rad = radians(posCoords.latitude);
-            var lat2_rad = radians(photoCoords.latitude);
-            var diff_lat_rad = radians(photoCoords.latitude - posCoords.latitude);
-            var diff_lon_rad = radians(photoCoords.longitude - posCoords.longitude);
+            var lat2_rad = radians(photoCoords[1]);
+            var diff_lat_rad = radians(photoCoords[1] - posCoords.latitude);
+            var diff_lon_rad = radians(photoCoords[0] - posCoords.longitude);
 
             var a = Math.sin(diff_lat_rad/2) * Math.sin(diff_lat_rad/2) +
                 Math.cos(lat1_rad) * Math.cos(lat2_rad) *
