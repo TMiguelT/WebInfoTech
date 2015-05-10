@@ -28,7 +28,7 @@ angular.module("app")
          *
          */
 
-        // this.players = player; <- emma fix this...
+        this.players = player;
         self.query = null;
 
         self.filterBy = function (toFilter) {
