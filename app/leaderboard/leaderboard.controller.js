@@ -5,7 +5,7 @@
 
 
 angular.module("app")
-    .controller('leaderboardController', ["$scope", function ($scope, userService) {
+    .controller('leaderboardController', ["$scope", "$rootScope", "userService", function ($scope, $rootScope, userService) {
         var self = this;
         var oppositeMode = function (mode) {
             if (mode == "world")
@@ -28,7 +28,7 @@ angular.module("app")
          *
          */
 
-        this.players = player;
+        // this.players = player; <- emma fix this...
         self.query = null;
 
         self.filterBy = function (toFilter) {

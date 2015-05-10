@@ -7,7 +7,7 @@
                 $http
                     .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos/trending") ]
                     .success(function(data) {
-                        callback(data.photos);
+                        callback(data);
                     })
                     .error(function() {
                         console.error("error: unable to GET /api/photos")

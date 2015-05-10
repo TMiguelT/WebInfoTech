@@ -6,7 +6,7 @@
 
 
 (function() {
-    function coverFlowController($scope) {
+    function coverFlowController($scope, photoService) {
         var index;
 
         function listenToKeystrokes() {
@@ -29,11 +29,11 @@
         init();
 
         function getNonFocussedElementStyle(loc, i, multiplier) {
-            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + "; background-size: auto 200px; background-position: 50%";
+            return "background: url(\"" + photoService.getPhotoUrl() + $scope.photos[i].photo.url + "\"); transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); -webkit-transform: translateX(" + String(-70 * multiplier) + "%) rotateY(" + String(-loc * 45) +"deg); z-index: " + String(loc * multiplier) + "; opacity: " + String(1 - (-0.1 * loc * multiplier)) + "; background-size: auto 200px; background-position: 50%";
         }
 
         function getFocussedElementStyle(i) {
-            return "background: url(\"public/photos/" + $scope.photos[i].url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%; cursor: pointer;";
+            return "background: url(\"" + photoService.getPhotoUrl() + $scope.photos[i].photo.url + "\"); transform: translateZ(150px); -webkit-transform: translateZ(150px); background-size: auto 200px; background-position: 50%; cursor: pointer;";
         }
 
         function goLeft() {
@@ -50,7 +50,7 @@
 
         $scope.changeIndex = function(i) {
             if ($scope.index === i) {
-                window.location.assign("/photo/" + $scope.photos[$scope.index].id);
+                window.location.assign("/photo/" + $scope.photos[$scope.index].photo.id);
             }
 
             $scope.index = i;
@@ -73,7 +73,7 @@
 
     angular.
         module("app").
-        controller("coverFlowController", ['$scope',
+        controller("coverFlowController", ['$scope', 'photoService',
             coverFlowController]);
 
 })();
