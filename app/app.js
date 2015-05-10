@@ -10,8 +10,11 @@
                     controller: 'aboutController',
                     resolve:{
                         "check":function($cookies, $location) {
-                            if ($cookies.logged_in)
+                            var logged_in = $cookies.logged_in;
+                            if (logged_in === "true") {
+                                console.log(logged_in);
                                 $location.path('/dashboard');
+                            }
                         }
                     }
                 })
