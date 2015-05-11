@@ -7,6 +7,9 @@
             photoService.getPhotoById($routeParams.photoId, function(element) {
                 $scope.photo = element.photo;
 
+                $scope.photoLikes = photoService.getPhotoLikes($scope.photo);
+                $scope.photoDislikes = photoService.getPhotoDislikes($scope.photo);
+
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $scope.map = getMap(position.coords);
 
@@ -116,6 +119,8 @@
         function init() {
             $scope.photoLoaded = false;
             $scope.userData = userService.data;
+            $scope.photoLikes = 0;
+            $scope.photoDislikes = 0;
 
             $rootScope.$on('sessionChanged', function () {
                 $scope.userData = userService.data;

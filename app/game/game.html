@@ -15,8 +15,8 @@
                 <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
                 <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
                 <div class="photo-description--like-dislike">
-                    <button class="btn btn-default"><span class="like-icon"></span><span>{{ photo.likes }}</span></button>
-                    <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photo.dislikes }}</span></button>
+                    <button class="btn btn-default"><span class="like-icon"></span><span>{{ photoLikes }}</span></button>
+                    <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photoDislikes }}</span></button>
                 </div>
                 <div class="play-button">
                     <button class="btn btn-success" ng-click="goTo('.game')">Play</button>

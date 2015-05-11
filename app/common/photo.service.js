@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    function photoService($http) {
+    function photoService($http, _) {
         return {
             getTrendingPhotos: function (callback) {
                 $http
@@ -53,6 +53,26 @@
                         console.log(data);
                     })
             },
+            getPhotoLikes: function(photo) {
+                var likes = 0;
+
+                _.forEach(photo.likes, function(like) {
+                    if (like.value === 1)
+                        likes++;
+                });
+
+                return likes;
+            },
+            getPhotoDislikes: function(photo) {
+                var dislikes = 0;
+
+                _.forEach(photo.dislikes, function(dislike) {
+                    if (dislike.value === 1)
+                        dislikes++;
+                });
+
+                return dislikes;
+            },
             getPhotoUrl: function() {
                 return 'http://192.241.210.241/photos/';
             }
@@ -61,5 +81,5 @@
 
     angular
         .module("app")
-        .factory("photoService", ["$http", photoService]);
+        .factory("photoService", ["$http", "lodash", photoService]);
 })();

@@ -8,5 +8,6 @@ module.exports = {
         element.photo.likes = _.uniq(element.photo.likes, 'user_id');
         _.remove(element.photo.comments, {'user_id' : null});
         _.remove(element.photo.likes, {'user_id' : null});
+        _.remove(element.photo.tags, {'name' : null});
     }
 }
