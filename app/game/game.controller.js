@@ -19,6 +19,21 @@
                         distance: getDistanceToLocation(position.coords, element.photo.location),
                         direction: getDirection(position.coords, element.photo.location)
                     };
+
+                    $scope.photoRadius = {
+                        center: getRandomRadiusCenter($scope.photo.location[1], $scope.photo.location[0], 50),
+                        radius: 50,
+                        stroke: {
+                            color: '#0072ff',
+                            weight: 2,
+                            opacity: 1
+                        },
+                        fill: {
+                            color: '#0072ff',
+                            opacity: 0.2
+                        }
+                    }
+
                     $scope.photoLoaded = true;
                     $scope.$apply();
                 }, function() {
@@ -291,6 +306,25 @@
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
             return R * c;
+        }
+
+        function getRandomRadiusCenter(latitude, longitude, radius) {
+            var radiusInDegrees = radius / 111000.0;
+
+            var u = Math.random();
+            var v = Math.random();
+            var w = radiusInDegrees * Math.sqrt(u);
+            var t = 2 * Math.PI * v;
+            var x = w * Math.cos(t);
+            var y = w * Math.sin(t);
+
+            var new_x = x / Math.cos(latitude)
+
+            var foundLatitude = new_x + latitude;
+            var foundLongitude = y + longitude;
+
+            return {latitude: foundLatitude,
+                        longitude: foundLongitude};
         }
 
         init();

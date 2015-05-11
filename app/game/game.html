@@ -123,6 +123,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
+                        <ui-gmap-circle center="photoRadius.center"
+                                        radius="photoRadius.radius" stroke="photoRadius.stroke"
+                                        fill="photoRadius.fill">
+                        </ui-gmap-circle>
                         <ui-gmap-marker idKey="photo.id" coords="position.coords">
                             <ui-gmap-window show="true">
                                 Your Position
