@@ -46,20 +46,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="player in playerCtrl.players | filter: query">
+                    <div ng-if="mode == 'world'">
+                        <tr ng-repeat="player in playerCtrl.players | filter: query">
 
-                        <td>{{player.rank}}</td>
+                            <td>{{player.rank}}</td>
 
-                        <td><a href="/user/" + user_id>{{player.username}}</a></td>
+                            <td><a href="/user/" + user_id>{{player.username}}</a></td>
 
-                        <td>{{player.score}}</td>
+                            <td>{{player.score}}</td>
 
-                    </tr>
+                        </tr>
+                    </div>
+                    <div ng-if="mode == 'friends'">
+                        <tr>
+                            <td>Hey there</td>
+                            <td>checking if this works </td>
+                            <td>####</td>
+                        </tr>
+                    </div>
                 </tbody>
             </table>
-
-
-
 
     </div>
 </section>

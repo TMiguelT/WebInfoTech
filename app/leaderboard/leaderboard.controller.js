@@ -9,12 +9,10 @@ angular.module("app")
         var self = this;
         var oppositeMode = function (mode) {
             if (mode == "world")
-                if($scope.userData.loggedIn = true) {
-                    return "friends";
-                } else
-                    return "world";
-            else
+                return "friends";
+             else
                 return "world";
+
         }
 
         /**
@@ -28,6 +26,10 @@ angular.module("app")
          *
          */
 
+        $scope.getUsers = function() {
+
+        }
+
         this.players = player;
         self.query = null;
 
@@ -38,6 +40,10 @@ angular.module("app")
         $scope.toggleMode = function () {
             $scope.mode = oppositeMode($scope.mode);
         }
+
+
+
+
 
         function init() {
             $scope.photoLoaded = false;
