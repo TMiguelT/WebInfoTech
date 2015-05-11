@@ -95,17 +95,15 @@
         <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="game--navHelper">
+                    <div class="game--element">
                         <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
                     </div>
 
                 </div>
                 <div class="col-md-4">
-                    <div class="game--navHelper">
-                        <div class="game--arrow">
-
-                        </div>
-                        <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
+                    <div class="game--element">
+                        <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
+                        <div><strong>{{ position.direction }}</strong> of your position</div>
                     </div>
                 </div>
                 <div class="col-md-4">

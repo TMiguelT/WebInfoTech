@@ -21,8 +21,8 @@
                     };
 
                     $scope.photoRadius = {
-                        center: getRandomRadiusCenter($scope.photo.location[1], $scope.photo.location[0], 50),
-                        radius: 50,
+                        center: getRandomRadiusCenter($scope.photo.location[1], $scope.photo.location[0], 100),
+                        radius: 100,
                         stroke: {
                             color: '#0072ff',
                             weight: 2,
