@@ -65,7 +65,7 @@
                 </div>
             </div>
             <div class="photo-description--userPost">
-                Posted on: <b>{{ photo.date_posted }}</b> by <b>{{ photo.user.username }}</b>
+                Posted on: <b>{{ parseDate(photo.date_posted) }}</b> by <b>{{ photo.user.username }}</b>
             </div>
         </div>
 
