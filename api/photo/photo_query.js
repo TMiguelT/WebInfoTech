@@ -28,5 +28,20 @@ module.exports = {
                 date: moment(comment.date_posted).format("YYYY-MM-DD HH:mm:ss")
             })
             .del());
+    },
+    addLike: function *(like, knex) {
+        console.log(like);
+        return (yield knex("like")
+                .insert({
+                user_id: like.user_id,
+                photo_id: like.photo_id,
+                value: like.value
+            }));
+    },
+    deleteLike: function *(like, knex) {
+        return (yield knex("like").where({
+            user_id: like.user_id,
+            value: like.value
+        }).del());
     }
 }

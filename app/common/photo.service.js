@@ -51,27 +51,41 @@
                 $http.post('./api/photo/comment/delete', comment)
                     .success(function(data) {
                         console.log(data);
-                    })
+                    });
             },
-            getPhotoLikes: function(photo) {
+            addLike: function(user_id, photo_id, value) {
+                var like = {
+                    photo_id: photo_id,
+                    user_id: user_id,
+                    value: value
+                }
+
+                $http.post('./api/photo/like/add', like)
+                    .success(function(data) {
+                        console.log(data);
+                    });
+            },
+            removeLike: function(user_id, photo_id, value) {
+                var like = {
+                    photo_id: photo_id,
+                    user_id: user_id,
+                    value: value
+                }
+
+                $http.post('./api/photo/like/delete', like)
+                    .success(function(data) {
+                        console.log(data);
+                    });
+            },
+            getPhotoLikes: function(photo, likeValue) {
                 var likes = 0;
 
                 _.forEach(photo.likes, function(like) {
-                    if (like.value === 1)
+                    if (like.value === likeValue)
                         likes++;
                 });
 
                 return likes;
-            },
-            getPhotoDislikes: function(photo) {
-                var dislikes = 0;
-
-                _.forEach(photo.dislikes, function(dislike) {
-                    if (dislike.value === 1)
-                        dislikes++;
-                });
-
-                return dislikes;
             },
             getPhotoUrl: function() {
                 return 'http://192.241.210.241/photos/';

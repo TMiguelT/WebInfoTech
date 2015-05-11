@@ -64,6 +64,24 @@ router
             console.error("db error: " + e);
         }
     })
+    .post('/like/add', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.addLike(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
+    .post('/like/delete', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.deleteLike(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
     .post('/upload', function *() {
 
         // must parse some fields to the correct format

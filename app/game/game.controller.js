@@ -7,8 +7,9 @@
             photoService.getPhotoById($routeParams.photoId, function(element) {
                 $scope.photo = element.photo;
 
-                $scope.photoLikes = photoService.getPhotoLikes($scope.photo);
-                $scope.photoDislikes = photoService.getPhotoDislikes($scope.photo);
+                $scope.hasUserLiked()
+                $scope.photoLikes = photoService.getPhotoLikes($scope.photo, 1);
+                $scope.photoDislikes = photoService.getPhotoLikes($scope.photo, -1);
 
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $scope.map = getMap(position.coords);
@@ -81,6 +82,10 @@
 
         $scope.doesCommentBelongToUser = function(user_id) {
             return (user_id.toString() === $scope.userData.user_id);
+        };
+
+        $scope.userCannotLike = function() {
+            return !$scope.userData.logged_in && $scope.likeError;
         }
 
         $scope.deleteComment = function(comment) {
@@ -116,15 +121,79 @@
 
         };
 
+        $scope.addLike = function() {
+            if ($scope.userData.logged_in && !$scope.userHasLiked) {
+                if ($scope.userHasDisliked) {
+                    removeDislike()
+                }
+                addLike()
+            } else if ($scope.userData.logged_in && $scope.userHasLiked) {
+                removeLike()
+            } else if (!$scope.userData.logged_in) {
+                $scope.likeError = true;
+            }
+        };
+
+        $scope.addDislike = function() {
+            if ($scope.userData.logged_in && !$scope.userHasDisliked) {
+                if ($scope.userHasLiked) {
+                    removeLike()
+                }
+                addDislike()
+            } else if ($scope.userData.logged_in && $scope.userHasDisliked) {
+                removeDislike()
+            } else if (!$scope.userData.logged_in) {
+                $scope.likeError = true;
+            }
+        };
+
+        $scope.hasUserLiked = function() {
+            _.forEach($scope.photo.likes, function(like) {
+                if (like.user_id == $scope.userData.user_id) {
+                    if (like.value === 1)
+                        $scope.userHasLiked = true;
+                    else
+                        $scope.userHasDisliked = true;
+                }
+            });
+        };
+
         function init() {
             $scope.photoLoaded = false;
             $scope.userData = userService.data;
             $scope.photoLikes = 0;
+            $scope.userHasLiked = false;
             $scope.photoDislikes = 0;
+            $scope.userHasDisliked = false;
 
             $rootScope.$on('sessionChanged', function () {
                 $scope.userData = userService.data;
             });
+        }
+
+        function addDislike() {
+            $scope.photoDislikes++;
+            $scope.userHasDisliked = true;
+            photoService.addLike($scope.userData.user_id, $scope.photo.id, -1)
+        }
+
+        function addLike() {
+            $scope.photoLikes++;
+            $scope.userHasLiked = true;
+            photoService.addLike($scope.userData.user_id, $scope.photo.id, 1)
+
+        }
+
+        function removeDislike() {
+            $scope.photoDislikes--;
+            $scope.userHasDisliked = false;
+            photoService.removeLike($scope.userData.user_id, $scope.photo.id, -1)
+        }
+
+        function removeLike() {
+            $scope.photoLikes--;
+            $scope.userHasLiked = false;
+            photoService.removeLike($scope.userData.user_id, $scope.photo.id, 1);
         }
 
         function setFoundPhotoButton() {

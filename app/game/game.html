@@ -14,9 +14,12 @@
             <div class="col-md-5" style="text-align: center;">
                 <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
                 <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
+                <div class="alert alert-danger alert-box" role="alert" ng-show="userCannotLike()">
+                    To like or dislike please <a href="/login">Log In</a> or <a href="/register">Register</a>.
+                </div>
                 <div class="photo-description--like-dislike">
-                    <button class="btn btn-default"><span class="like-icon"></span><span>{{ photoLikes }}</span></button>
-                    <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photoDislikes }}</span></button>
+                    <button class="btn" ng-class="{'btn-success' : userHasLiked, 'btn-default' : !userHasLiked}" ng-click="addLike()"><span class="like-icon"></span><span>{{ photoLikes }}</span></button>
+                    <button class="btn" ng-class="{'btn-danger' : userHasDisliked, 'btn-default' : !userHasDisliked}" ng-click="addDislike()"><span class="dislike-icon"></span><span>{{ photoDislikes }}</span></button>
                 </div>
                 <div class="play-button">
                     <button class="btn btn-success" ng-click="goTo('.game')">Play</button>
