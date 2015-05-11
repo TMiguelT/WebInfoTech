@@ -168,6 +168,10 @@
 
             $rootScope.$on('sessionChanged', function () {
                 $scope.userData = userService.data;
+                if (!$scope.userData.logged_in) {
+                    $scope.userHasLiked = false;
+                    $scope.userHasDisliked = false;
+                }
             });
         }
 
