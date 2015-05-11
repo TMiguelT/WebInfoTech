@@ -119,6 +119,16 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="btn-group game--element">
+                        <ul class="nav nav-pills" role="tablist">
+                            <li ng-click="changeMapCenter('userLocation')" role="presentation" ng-class="{active: centerType === 'userLocation'}"><a href="#" role="tab">Your Position</a></li>
+                            <li ng-click="changeMapCenter('photoLocation')" role="presentation" ng-class="{active: centerType === 'photoLocation'}"><a href="#" role="tab">Photo Location</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-12">
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
                         <ui-gmap-circle center="photoRadius.center"

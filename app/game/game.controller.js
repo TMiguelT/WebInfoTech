@@ -12,6 +12,7 @@
                 $scope.photoDislikes = photoService.getPhotoLikes($scope.photo, -1);
 
                 navigator.geolocation.getCurrentPosition(function(position) {
+                    $scope.userLocation = position.coords;
                     $scope.map = getMap(position.coords);
 
                     $scope.position = {
@@ -173,6 +174,21 @@
             });
         };
 
+        $scope.changeMapCenter = function(centerType) {
+            $scope.centerType = centerType;
+
+            if (centerType === 'userLocation') {
+                $scope.map.center = {
+                    latitude: $scope.userLocation.latitude,
+                    longitude: $scope.userLocation.longitude
+                };
+                $scope.$apply();
+            } else {
+                $scope.map.center = $scope.photoRadius.center;
+                $scope.$apply();
+            }
+        }
+
         function init() {
             $scope.photoLoaded = false;
             $scope.userData = userService.data;
@@ -180,6 +196,7 @@
             $scope.userHasLiked = false;
             $scope.photoDislikes = 0;
             $scope.userHasDisliked = false;
+            $scope.centerType = 'userLocation';
 
             $rootScope.$on('sessionChanged', function () {
                 $scope.userData = userService.data;
