@@ -44,13 +44,13 @@
             postComment: function(comment) {
                 $http.post('./api/photo/comment/add', comment)
                     .success(function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
             },
             deleteComment: function(comment) {
                 $http.post('./api/photo/comment/delete', comment)
                     .success(function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
             },
             addLike: function(user_id, photo_id, value) {
@@ -62,7 +62,7 @@
 
                 $http.post('./api/photo/like/add', like)
                     .success(function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
             },
             removeLike: function(user_id, photo_id, value) {
@@ -74,7 +74,7 @@
 
                 $http.post('./api/photo/like/delete', like)
                     .success(function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
             },
             getPhotoLikes: function(photo, likeValue) {
