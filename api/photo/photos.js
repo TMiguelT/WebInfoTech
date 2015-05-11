@@ -1,7 +1,7 @@
-var photoQuery = require('./photo_query');
-var photoHelper = require('./photo_helper');
+var photoQuery = require('./queries/photo_query');
+var photoHelper = require('./helpers/photo_helper');
 var router = require('koa-router')();
-var photoData = require("./photoDummyData.json");
+var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
 var fs = require('fs');
 
