@@ -63,7 +63,6 @@ router
     })
 
     .post('/logout', function *() {
-
         //If they're logged in, log them out
         if (this.session.logged_in) {
             this.session = null;
@@ -120,7 +119,6 @@ router
     })
 
     .post('/stats', function *() {
-
         //If they're logged in, log them out
         if (this.session.logged_in) {
             var finds = yield this.knex('find')

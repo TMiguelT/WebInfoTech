@@ -41,6 +41,30 @@
                         console.log("error: cannot GET /api/photos");
                     });
             },
+            searchPhotos: function (orderBy,searchBy,callback) {
+
+                  $http.post('./api/photolist/search' + orderBy + "&" + searchBy, {cache: true})
+                    .success(function(data) {
+                        console.log(data);
+                        callback(data);
+                    })
+                    .error(function() {
+                        console.log("error: cannot GET /api/search");
+                    });
+            },
+
+            orderPhotos: function (orderBy,callback) {
+
+                  $http.post('./api/photolist/order' + orderBy, {cache: true})
+                    .success(function(data) {
+                        console.log(data);
+                        callback(data);
+                    })
+                    .error(function() {
+                        console.log("error: cannot GET /api/search");
+                    });
+            },
+
             postComment: function(comment) {
                 $http.post('./api/photo/comment/add', comment)
                     .success(function(data) {
