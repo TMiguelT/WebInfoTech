@@ -115,7 +115,15 @@
                     <button id="game--foundButton" class="file-input btn btn-success btn-file" ng-if="isOrientationCapable && !foundPhotoLoaded">
                         I Found It!<input type="file" accept="image/*" capture="camera"/>
                     </button>
-                    <loading-box text="'Confirming location...'" ng-if="foundPhotoLoaded"></loading-box>
+                    <div class="alert alert-info alert-box" role="alert" ng-if="foundPhotoLoaded && photoFound">
+                        You found the photo! Congratulations!<br/>
+                        You have earnt <strong>10</strong> points.<br/>
+                        <a href="./photolist">Back to the photo list.</a>
+                    </div>
+                    <div class="alert alert-danger alert-box" role="alert" ng-if="foundPhotoLoaded && !photoFound">
+                        Ahh! It seems the photo is not located at this position!<br/>
+                        <a href="#" ng-click="tryAgain()">Try again</a>
+                    </div>
                 </div>
             </div>
             <div class="row">
