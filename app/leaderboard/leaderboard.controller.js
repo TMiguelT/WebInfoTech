@@ -66,21 +66,3 @@ angular.module("app")
 
     }]);
 
-
-var player = [
-        {
-            rank: '1',
-            username: 'this will link to the players page eventually',
-            score: '100'
-        },
-        {
-            rank: '2',
-            username: 'chubbs',
-            score: '80'
-        }
-]
-
-
-
-
-
