@@ -9,7 +9,7 @@
 
 
 
-    <div class="leaderboard-content container" ng-controller="leaderboardController as playerCtrl">
+    <div class="leaderboard-content container" ng-controller="leaderboardController">
 
         <!-- leaderboard toggle buttons -->
         <div class="switch-leaderboards">
@@ -37,35 +37,32 @@
             <div ng-if="mode == 'friends'">
 
         <!--LeaderBoard Table-->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>UserName</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <div ng-if="mode == 'world'">
-                        <tr ng-repeat="player in playerCtrl.players | filter: query">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>UserName</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="mode == 'world'" ng-repeat="player in worldLeaderboard | filter: query">
 
-                            <td>{{player.rank}}</td>
+                    <td>{{player.rank}}</td>
 
-                            <td><a href="/user/" + user_id>{{player.username}}</a></td>
+                    <td>{{player.username}}</td>
 
-                            <td>{{player.score}}</td>
+                    <td>{{player.score}}</td>
 
-                        </tr>
-                    </div>
-                    <div ng-if="mode == 'friends'">
-                        <tr>
-                            <td>Hey there</td>
-                            <td>checking if this works </td>
-                            <td>####</td>
-                        </tr>
-                    </div>
-                </tbody>
-            </table>
+                </tr>
+                <tr ng-show="mode == 'friends'" ng-repeat="player in friendsLeaderboard | filter: query">
+                    <td>{{player.rank}}</td>
 
+                    <td>{{player.username}}</td>
+
+                    <td>{{player.score}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
