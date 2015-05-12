@@ -25,12 +25,12 @@
             };
 
             navigator.geolocation.getCurrentPosition(function (position) {
-                $scope.position = position
+                $scope.position = position;
             });
 
             navigator.geolocation.watchPosition(function (position) {
-                $scope.position = position
-                $scope.$apply()
+                $scope.position = position;
+                $scope.$apply();
             });
 
 
@@ -125,7 +125,10 @@
                 });
 
                 submission.append("orientation", JSON.stringify($scope.orientation));
-                submission.append("position", JSON.stringify($scope.position.coords));
+                submission.append("position", JSON.stringify({
+                    latitude: $scope.position.coords.latitude,
+                    longitude: $scope.position.coords.longitude
+                }));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
