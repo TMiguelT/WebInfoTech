@@ -49,7 +49,6 @@ angular.module("app")
         function init() {
             $scope.photoLoaded = false;
             $scope.userData = userService.data;
-            $scope.players = player;
             $scope.mode = "world";
 
             if ($scope.userData.logged_in)
