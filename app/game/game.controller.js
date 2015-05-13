@@ -183,7 +183,10 @@
                     longitude: $scope.userLocation.longitude
                 };
             } else {
-                $scope.map.center = $scope.photoRadius.center;
+                $scope.map.center = {
+                    latitude: $scope.photoRadius.center.latitude,
+                    longitude: $scope.photoRadius.center.longitude
+                };
             }
         };
 
