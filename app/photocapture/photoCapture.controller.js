@@ -4,7 +4,27 @@
 (function () {
     angular
         .module("app")
-        .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
+        .controller("photoCaptureController", ["$scope", "$http", "$location", "userService", "$rootScope", function ($scope, $http, $location, userService, $rootScope) {
+
+
+            // updates session information
+            function sessionUpdate(data) {
+
+                if (typeof data != 'undefined') {
+                    if (data.logged_in == false) {
+                        $location.path("/login");
+                    }
+
+                $scope.logged_in = data.logged_in;
+                $scope.user_id = data.user_id;
+                $scope.username = data.username;
+                }
+            }
+
+            sessionUpdate(userService.data);
+            $rootScope.$on('sessionChanged', function (angularBullshit, data) {
+                updateSession(data);
+            });
 
             window.addEventListener("deviceorientation", function(event) {
                 $scope.orientation = {
@@ -25,23 +45,13 @@
             };
 
             navigator.geolocation.getCurrentPosition(function (position) {
-                $scope.position = position
+                $scope.position = position;
             });
 
             navigator.geolocation.watchPosition(function (position) {
-                $scope.position = position
-                $scope.$apply()
+                $scope.position = position;
+                $scope.$apply();
             });
-
-
-            // updates session information
-            function sessionUpdate(data) {
-                $scope.logged_in = data.logged_in;
-                $scope.user_id = data.user_id;
-                $scope.username = data.username;
-            }
-
-            sessionUpdate(userService.data);
 
             // set watch for session changes
             $rootScope.$on('sessionChanged', function (arg, data) {
@@ -125,7 +135,10 @@
                 });
 
                 submission.append("orientation", JSON.stringify($scope.orientation));
-                submission.append("position", JSON.stringify($scope.position.coords));
+                submission.append("position", JSON.stringify({
+                    latitude: $scope.position.coords.latitude,
+                    longitude: $scope.position.coords.longitude
+                }));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);

@@ -2,7 +2,7 @@
 <section class = photo-list>
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
-    <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.searchPhotos()">
+    <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.orderPhotos()">
 
         <!--Search bar-->
         <div class="photo-list-buttons">
@@ -14,16 +14,12 @@
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('name')">Name</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('likes')">Likes</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('username')">User</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('description')">Description</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('num_finds')">Finds</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('likes')">Likes</a></li>
                     </ul>
-                    </ul>
-
                 </div>
-                <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true" ng-show = "false">
+                <div class="btn-group" ng-show="false">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true">
                     View
                     <span class="caret"></span>
                 </button>
@@ -31,6 +27,8 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy('list')">List</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="photoCtrl.viewBy('grid')">Grid</a></li>
                 </ul>
+
+
                 </div>
             </div>
             <div class="col-md-4 input-group" style="float:right">
@@ -40,6 +38,8 @@
                 <form ng-submit = "photoCtrl.searchPhotos()">
                 <input type="text" class="form-control" placeholder="Search for..." ng-model="searchBy">
             </div>
+
+
         </div>
 
         <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
@@ -53,30 +53,37 @@
                 <th class="col-md-3">Photo</th>
                 <th>Name</th>
                 <th>Likes</th>
-                <th>Finds</th>
-                <th class="col-md-3">Description</th>
+                <th class="col-md-4">Description</th>
                 <th>Tags</th>        
                 <th>User</th>
               </tr>
             </thead>
             <tbody>
 
-              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="pointer:cursor">
-                        <td><img src="{{element.image_path}}" class="img-thumbnail" alt="{{element.name}}"></td>
-
-                        <td>{{element.name}}</td>
-                        <td>{{element.likes}}</td>
-                        <td>{{element.num_finds}}</td>
-                        <td ng-show="element.description">{{element.description}}</td>
-                        <td><p ng-repeat="tag in element.tags">{{tag}}</p></td>
-                        <td>{{element.username}}</td>
+<<<<<<< HEAD
+              <tr ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode | filter: query" ng-click="photoCtrl.showPhoto(photo)" style="pointer:cursor">
+                        <td><img src="{{photo.image_path}}" class="img-thumbnail" alt="{{photo.name}}"></td>
+                        <td>{{photo.name}}</td>
+                        <td>{{photo.finds}}</td>
+                        <td>{{photo.description}}</td>
+                        <td><p ng-repeat="tag in photo.tags">{{tag.name}}</p></td>
+                        <td>{{photo.username}}</td>
+=======
+              <tr ng-repeat="element in photoCtrl.photos | orderBy:photoCtrl.orderMode | filter: query" ng-click="photoCtrl.showPhoto(element.photo)" style="pointer:cursor">
+                        <td><img src="{{photoCtrl.getPhotoUrl()}}{{element.photo.url}}" class="img-thumbnail" alt="{{element.photo.name}}"></td>
+                        <td>{{element.photo.name}}</td>
+                        <td>{{element.photo.finds}}</td>
+                        <td >{{element.photo.description}}</td>
+                        <td><p ng-repeat="tag in element.photo.tags">{{tag.name}}</p></td>
+                        <td>{{element.photo.user.username}}</td>
+>>>>>>> 20bfb3ee9d321441db815f07a285bbd7ef00b457
               </tr>
             </tbody>
           </table>
       </div>
 
-        <div ng-show="photoCtrl.viewMode == 'grid'" >
-        <a ng-href="/photo/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos ">
+        <div ng-show="photoCtrl.viewMode == 'grid'">
+        <a ng-href="/photo/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos | orderBy:photoCtrl.orderMode ">
                     <div class="col-sm-4" ng-if="$even">
                         <img src="./public/photos/{{photoCtrl.photos[$index].url}}" class="img-thumbnail" alt="{{photoCtrl.photos[$index].name}}">
                     </div>

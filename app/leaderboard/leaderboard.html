@@ -1,12 +1,15 @@
 <!-- Created by Emma Jamieson-Hoare -->
 
+
+<!-- FIRST LOAD ALL THE USERS INTO LEADERBOARD THEN DO THE QUERY -->
+
 <section class=leaderboard>
     <div class="leaderboard-title">Leaderboard</div>
 
 
 
 
-    <div class="leaderboard-content container" ng-controller="leaderboardController as playerCtrl">
+    <div class="leaderboard-content container" ng-controller="leaderboardController">
 
         <!-- leaderboard toggle buttons -->
         <div class="switch-leaderboards">
@@ -26,7 +29,6 @@
             </div>
         </div>
 
-
         <!-- within table form
             <div ng-if="mode == 'world'">
 
@@ -35,32 +37,32 @@
             <div ng-if="mode == 'friends'">
 
         <!--LeaderBoard Table-->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>UserName</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="player in playerCtrl.players">
-                        <td>
-                            {{player.rank}}
-                        </td>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>UserName</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="mode == 'world'" ng-repeat="player in worldLeaderboard | filter: query">
 
-                        <td>
-                            <a href="/leaderboard">{{player.username}}</a>
-                        </td>
-                        <td>
-                            {{player.score}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                    <td>{{player.rank}}</td>
 
+                    <td>{{player.username}}</td>
 
+                    <td>{{player.score}}</td>
 
+                </tr>
+                <tr ng-show="mode == 'friends'" ng-repeat="player in friendsLeaderboard | filter: query">
+                    <td>{{player.rank}}</td>
 
+                    <td>{{player.username}}</td>
+
+                    <td>{{player.score}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>

@@ -11,14 +11,29 @@ angular.module('app')
         self.query = null;
         
         self.searchPhotos = function() {
-            photoService.searchPhotos(self.orderMode,$scope.searchBy,function(photos) {
-            self.photos = photos;
+
+            
+            if($scope.searchBy.length > 0)
+            {
+                photoService.searchPhotos(self.orderMode,$scope.searchBy,function(photos) {
+                self.photos = photos;
+                })
+            }
+            else{
+                self.orderPhotos();
+
+            }
+        }
+
+        self.orderPhotos = function() {
+            photoService.orderPhotos(self.orderMode,function(photos) {
+                self.photos = photos;
             })
         }
 
         self.orderBy = function(toOrder){
             self.orderMode = toOrder;
-            self.searchPhotos();
+            //self.orderPhotos();
         };
         self.viewBy = function(toView){
             self.viewMode = toView;
@@ -27,8 +42,16 @@ angular.module('app')
             self.query = toFilter;
         };
         self.showPhoto = function(photo){
-            $location.path('/photo/'+photo);
+            $location.path('/photo/'+photo.photo_id);
 
         };
+<<<<<<< HEAD
+=======
+        self.getPhotoUrl = function() {
+            return photoService.getPhotoUrl();
+        }
+>>>>>>> 20bfb3ee9d321441db815f07a285bbd7ef00b457
+
+
 
 }]);

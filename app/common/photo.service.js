@@ -1,13 +1,13 @@
 (function() {
     "use strict";
 
-    function photoService($http) {
+    function photoService($http, _) {
         return {
             getTrendingPhotos: function (callback) {
                 $http
                     .get("/api/photo/all")// replace this with trending photos URL [ .get("/api/photos/trending") ]
                     .success(function(data) {
-                        callback(data.photos);
+                        callback(data);
                     })
                     .error(function() {
                         console.error("error: unable to GET /api/photos")
@@ -35,28 +35,77 @@
             getAllPhotos: function (callback) {
                 $http.get('./api/photo/all', {cache: true})
                     .success(function(data) {
-                        callback(data.photos);
+                        callback(data);
                     })
                     .error(function() {
                         console.log("error: cannot GET /api/photos");
                     });
             },
+            searchPhotos: function (orderBy,searchBy,callback) {
+
+                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy})
+                    .success(function(data) {
+                        console.log(data);
+                        callback(data);
+                    })
+                    .error(function() {
+                        console.log("error: cannot GET /api/search");
+                    });
+            },
+
             postComment: function(comment) {
                 $http.post('./api/photo/comment/add', comment)
                     .success(function(data) {
-                        console.log(data);
+                        //console.log(data);
                     });
             },
             deleteComment: function(comment) {
                 $http.post('./api/photo/comment/delete', comment)
                     .success(function(data) {
-                        console.log(data);
-                    })
+                        //console.log(data);
+                    });
+            },
+            addLike: function(user_id, photo_id, value) {
+                var like = {
+                    photo_id: photo_id,
+                    user_id: user_id,
+                    value: value
+                }
+
+                $http.post('./api/photo/like/add', like)
+                    .success(function(data) {
+                        //console.log(data);
+                    });
+            },
+            removeLike: function(user_id, photo_id, value) {
+                var like = {
+                    photo_id: photo_id,
+                    user_id: user_id,
+                    value: value
+                }
+
+                $http.post('./api/photo/like/delete', like)
+                    .success(function(data) {
+                        //console.log(data);
+                    });
+            },
+            getPhotoLikes: function(photo, likeValue) {
+                var likes = 0;
+
+                _.forEach(photo.likes, function(like) {
+                    if (like.value === likeValue)
+                        likes++;
+                });
+
+                return likes;
+            },
+            getPhotoUrl: function() {
+                return 'http://192.241.210.241/photos/';
             }
         }
     }
 
     angular
         .module("app")
-        .factory("photoService", ["$http", photoService]);
+        .factory("photoService", ["$http", "lodash", photoService]);
 })();

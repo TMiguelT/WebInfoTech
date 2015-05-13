@@ -13,10 +13,13 @@
         <div class="photo-description--content col-md-10 col-md-offset-1">
             <div class="col-md-5" style="text-align: center;">
                 <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
-                <img class="photo-description--photo" ng-src="{{ photo.url }}" ng-click="viewPhoto()"/>
+                <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
+                <div class="alert alert-danger alert-box" role="alert" ng-show="userCannotLike()">
+                    To like or dislike please <a href="/login">Log In</a> or <a href="/register">Register</a>.
+                </div>
                 <div class="photo-description--like-dislike">
-                    <button class="btn btn-default"><span class="like-icon"></span><span>{{ photo.likes }}</span></button>
-                    <button class="btn btn-default"><span class="dislike-icon"></span><span>{{ photo.dislikes }}</span></button>
+                    <button class="btn" ng-class="{'btn-success' : userHasLiked, 'btn-default' : !userHasLiked}" ng-click="addLike()"><span class="like-icon"></span><span>{{ photoLikes }}</span></button>
+                    <button class="btn" ng-class="{'btn-danger' : userHasDisliked, 'btn-default' : !userHasDisliked}" ng-click="addDislike()"><span class="dislike-icon"></span><span>{{ photoDislikes }}</span></button>
                 </div>
                 <div class="play-button">
                     <button class="btn btn-success" ng-click="goTo('.game')">Play</button>
@@ -65,7 +68,7 @@
                 </div>
             </div>
             <div class="photo-description--userPost">
-                Posted on: <b>{{ photo.date_posted }}</b> by <b>{{ photo.user.username }}</b>
+                Posted on: <b>{{ parseDate(photo.date_posted) }}</b> by <b>{{ photo.user.username }}</b>
             </div>
         </div>
 
@@ -74,7 +77,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <img src="{{ photo.url }}" />
+                        <img src="{{ getPhotoUrl(photo.url) }}" />
                     </div>
                 </div>
             </div>
@@ -92,17 +95,15 @@
         <div class="game--content col-md-10 col-md-offset-1" ng-show="photoLoaded">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="game--navHelper">
-                        <img class="photo-description--photo" ng-src="{{ photo.url }}" ng-click="viewPhoto()"/>
+                    <div class="game--element">
+                        <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
                     </div>
 
                 </div>
                 <div class="col-md-4">
-                    <div class="game--navHelper">
-                        <div class="game--arrow">
-
-                        </div>
-                        <div>{{ position.distance.toFixed(2) }}km away<br/>{{ position.direction }} of your position</div>
+                    <div class="game--element">
+                        <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
+                        <div><strong>{{ position.direction }}</strong> of your position</div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -114,12 +115,34 @@
                     <button id="game--foundButton" class="file-input btn btn-success btn-file" ng-if="isOrientationCapable && !foundPhotoLoaded">
                         I Found It!<input type="file" accept="image/*" capture="camera"/>
                     </button>
-                    <loading-box text="'Confirming location...'" ng-if="foundPhotoLoaded"></loading-box>
+                    <div class="alert alert-info alert-box" role="alert" ng-if="foundPhotoLoaded && photoFound">
+                        You found the photo! Congratulations!<br/>
+                        You have earnt <strong>10</strong> points.<br/>
+                        <a href="./photolist">Back to the photo list.</a>
+                    </div>
+                    <div class="alert alert-danger alert-box" role="alert" ng-if="foundPhotoLoaded && !photoFound">
+                        Ahh! It seems the photo is not located at this position!<br/>
+                        <a href="#" ng-click="tryAgain()">Try again</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <div class="btn-group game--element">
+                        <ul class="nav nav-pills" role="tablist">
+                            <li ng-click="changeMapCenter('userLocation')" role="presentation" ng-class="{active: centerType === 'userLocation'}"><a href="#" role="tab">Your Position</a></li>
+                            <li ng-click="changeMapCenter('photoLocation')" role="presentation" ng-class="{active: centerType === 'photoLocation'}"><a href="#" role="tab">Photo Location</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
+                        <ui-gmap-circle center="photoRadius.center"
+                                        radius="photoRadius.radius" stroke="photoRadius.stroke"
+                                        fill="photoRadius.fill">
+                        </ui-gmap-circle>
                         <ui-gmap-marker idKey="photo.id" coords="position.coords">
                             <ui-gmap-window show="true">
                                 Your Position
