@@ -1,6 +1,6 @@
 var router = require('koa-router')();
 var bcrypt = require('bcrypt-as-promised');
-var photoUrl = require('./../photoUrl');
+var photoUrl = require('./photoUrl');
 
 router
     .post('/login', function *() {

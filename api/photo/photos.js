@@ -12,6 +12,7 @@ router
         };
     })
     .get('/all', function *() {
+        console.log("In /all (api photo)");
         var body_json = {};
 
         try {

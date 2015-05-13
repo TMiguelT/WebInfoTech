@@ -42,6 +42,7 @@ app
     .use(mount("/api/user", require("./api/users/users"))) //Mount the users API
     .use(mount("/api/leaderboard", require("./api/leaderboard/leaderboard"))) //Mount the leaderboard API
     .use(mount("/api/photo", require("./api/photo/photos"))) //Mount the users API
+    .use(mount("/api/photolist", require("./api/photolist"))) //Mount the photolist API
     .use(mount("/public", require('koa-static')("public"))) //Mount the static file server
     .use(function *() { //When the user goes anywhere that's not the api or public, send them the main page
         yield send(this, indexFile);

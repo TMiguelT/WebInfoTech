@@ -15,17 +15,6 @@ angular.module("app")
 
         }
 
-        /**
-         *
-         *  leaderboard.getAllUsers(function(users) {
-         *      self.users = users;
-         *
-         *  if user isn't logged in - shouldn't be able to view friends button
-         *
-         *   if $scope.userData.loggedIn = true
-         *
-         */
-
         $scope.getWorldLeaderboard = function() {
             leaderboardService.getWorldLeaderboard(function(leaderboard) {
                 $scope.worldLeaderboard = leaderboard;
