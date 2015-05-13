@@ -27,7 +27,7 @@ angular.module('app')
             self.query = toFilter;
         };
         self.showPhoto = function(photo){
-            return photoService.getPhotoUrl();
+            $location.path('/photo/'+photo);
 
         };
 

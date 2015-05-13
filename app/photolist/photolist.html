@@ -17,7 +17,10 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('likes')">Likes</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('username')">User</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('description')">Description</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('num_finds')">Finds</a></li>
                     </ul>
+                    </ul>
+
                 </div>
                 <div class="btn-group">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true" ng-show = "false">
@@ -50,6 +53,7 @@
                 <th class="col-md-3">Photo</th>
                 <th>Name</th>
                 <th>Likes</th>
+                <th>Finds</th>
                 <th class="col-md-3">Description</th>
                 <th>Tags</th>        
                 <th>User</th>
@@ -57,13 +61,14 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo)" style="pointer:cursor">
+              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="pointer:cursor">
                         <td><img src="{{element.image_path}}" class="img-thumbnail" alt="{{element.name}}"></td>
 
                         <td>{{element.name}}</td>
                         <td>{{element.likes}}</td>
+                        <td>{{element.num_finds}}</td>
                         <td ng-show="element.description">{{element.description}}</td>
-                        <td><p ng-repeat="tag in element.tags">{{tag.name}}</p></td>
+                        <td><p ng-repeat="tag in element.tags">{{tag}}</p></td>
                         <td>{{element.username}}</td>
               </tr>
             </tbody>

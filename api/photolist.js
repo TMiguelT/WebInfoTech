@@ -13,6 +13,7 @@ router
                 'num_finds',
                 'description',
                 'username',
+                'num_finds',
                 this.knex.raw('json_agg(tag.name) AS tags')
                 )
             .count('like.value as likes')
