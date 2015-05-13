@@ -6,8 +6,6 @@ SELECT json_build_object(
         'date_posted', date_created,
         'finds', num_finds,
         'user', json_agg(user_json),
-        'location', ST_AsGeoJSON(location)::json->'coordinates',
-        'orientation', array_to_json(orientation),
         'comments', json_agg(comment_json),
         'tags', json_agg(tag_json),
         'likes', json_agg(like_json)

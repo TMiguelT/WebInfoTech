@@ -16,24 +16,29 @@
                     $scope.map = getMap(position.coords);
 
                     $scope.position = {
-                        coords: position.coords,
-                        distance: getDistanceToLocation(position.coords, element.photo.location),
-                        direction: getDirection(position.coords, element.photo.location)
+                        coords: position.coords
                     };
 
-                    $scope.photoRadius = {
-                        center: getRandomRadiusCenter($scope.photo.location[1], $scope.photo.location[0], 100),
-                        radius: 100,
-                        stroke: {
-                            color: '#0072ff',
-                            weight: 2,
-                            opacity: 1
-                        },
-                        fill: {
-                            color: '#0072ff',
-                            opacity: 0.2
+                    photoService.getDistanceAndDirectionToLocation(position.coords, $scope.photo.id, function(data) {
+                        $scope.position.distance = data.distance / 1000;
+                        $scope.position.direction = getDirection(data.direction);
+                    });
+
+                    photoService.getRandomRadiusCenter($scope.photo.id, function(data) {
+                        $scope.photoRadius = {
+                            center: data,
+                            radius: 100,
+                            stroke: {
+                                color: '#0072ff',
+                                weight: 2,
+                                opacity: 1
+                            },
+                            fill: {
+                                color: '#0072ff',
+                                opacity: 0.2
+                            }
                         }
-                    }
+                    });
 
                     $scope.photoLoaded = true;
                     $scope.$apply();
@@ -318,11 +323,9 @@
             return true;
         }
 
-        function getDirection(posCoords, photoCoords) {
+        function getDirection(direction) {
             var interval = 45;
-            var point1 = new google.maps.LatLng(posCoords.latitude, posCoords.longitude);
-            var point2 = new google.maps.LatLng(photoCoords[1], photoCoords[0]);
-            var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
+            var heading = direction;
 
             if (heading < -(interval / 2) - (3 * interval)
                 || heading > (interval / 2) + (3 * interval)) return "South";

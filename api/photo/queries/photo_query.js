@@ -2,6 +2,8 @@ var moment = require('moment');
 var fs = require('fs');
 
 var select_photos = fs.readFileSync('./api/photo/sql_queries/photo_select_query.sql').toString();
+var select_distance = fs.readFileSync('./api/photo/sql_queries/distance_select_query.sql').toString();
+var select_location = fs.readFileSync('./api/photo/sql_queries/location_select_query.sql').toString();
 var group_photos = fs.readFileSync('./api/photo/sql_queries/photo_group_query.sql').toString();
 
 module.exports = {
@@ -10,6 +12,12 @@ module.exports = {
     },
     selectPhotoById: function *(photo_id, knex) {
         return (yield knex.raw(select_photos + 'WHERE photo.photo_id = ?' + group_photos, [photo_id])).rows[0];
+    },
+    getDistanceAndDirectionToLocation: function *(photo_id, geo, knex) {
+        return (yield knex.raw(select_distance, [geo, geo, photo_id])).rows[0].json_build_object;
+    },
+    getLocation: function *(photo_id, knex) {
+        return (yield knex.raw(select_location, [photo_id])).rows[0].json_build_object;
     },
     addComment: function *(comment, knex) {
         return (yield knex("comment")

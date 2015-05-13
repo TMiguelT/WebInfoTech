@@ -1,5 +1,6 @@
 var photoQuery = require('./queries/photo_query');
 var photoHelper = require('./helpers/photo_helper');
+var geoHelper = require('./helpers/geo_helper');
 var router = require('koa-router')();
 var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
@@ -46,6 +47,33 @@ router
         }
 
         this.body = body_json;
+    })
+    .post('/distance', function *() {
+        var geo = {
+            type: "Point",
+            coordinates: [
+                parseFloat(this.request.body.longitude),
+                parseFloat(this.request.body.latitude)
+            ]
+        };
+        var photo_id = this.request.body.photo_id;
+
+        try {
+            var element = yield photoQuery.getDistanceAndDirectionToLocation(photo_id, geo, this.knex);
+            this.body = element;
+        } catch(e) {
+            console.error(e);
+        }
+    })
+    .post('/random_coordinate', function *() {
+        var photo_id = this.request.body.photo_id;
+
+        try {
+            var element = yield photoQuery.getLocation(photo_id, this.knex);
+            this.body = geoHelper.getRandomRadiusCenter(element.location[1], element.location[0], 100);
+        } catch(e) {
+            console.error(e);
+        }
     })
     .post('/comment/add', function *() {
         this.body = this.request.body;
