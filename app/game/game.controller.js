@@ -182,11 +182,13 @@
                     latitude: $scope.userLocation.latitude,
                     longitude: $scope.userLocation.longitude
                 };
-                $scope.$apply();
             } else {
                 $scope.map.center = $scope.photoRadius.center;
-                $scope.$apply();
             }
+        };
+
+        $scope.tryAgain = function() {
+            $scope.foundPhotoLoaded = false;
         }
 
         function init() {
@@ -233,18 +235,19 @@
         }
 
         function setFoundPhotoButton() {
-            $scope.photoLocation = {
+            var photoLocation = {
                 orientation: {},
                 coords: {}
             }
             $scope.isOrientationCapable = false;
             $scope.foundPhotoLoaded = false;
+            $scope.photoFound = false;
 
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', function(orientation){
                     if(orientation.alpha) {
                         $scope.isOrientationCapable = true;
-                        $scope.photoLocation.orientation = orientation;
+                        photoLocation.orientation = orientation;
                     }
                 });
             }
@@ -256,11 +259,20 @@
                 input.trigger('fileselect', [numFiles, label]);
 
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    $scope.photoLocation.coords = position.coords;
-                });
+                    photoLocation.coords = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
 
-                $scope.foundPhotoLoaded = true;
-                $scope.$apply();
+                    $scope.foundPhotoLoaded = true;
+
+                    if (isLocationWithinRange(photoLocation))
+                        $scope.photoFound = true;
+                    else
+                        $scope.photoFound = false;
+
+                    $scope.$apply();
+                });
             });
         }
 
@@ -291,6 +303,16 @@
                             panControl: false
                         }
                     };
+        }
+
+        function isLocationWithinRange(photoLocation) {
+            if (photoLocation.coords.latitude < $scope.photo.location[1] - 0.0005 ||
+                photoLocation.coords.latitude > $scope.photo.location[1] + 0.0005)
+                return false;
+            if (photoLocation.coords.longitude < $scope.photo.location[0] - 0.0005 ||
+                photoLocation.coords.longitude > $scope.photo.location[0] + 0.0005)
+                return false;
+            return true;
         }
 
         function getDirection(posCoords, photoCoords) {
