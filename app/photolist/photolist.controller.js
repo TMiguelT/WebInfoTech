@@ -11,29 +11,14 @@ angular.module('app')
         self.query = null;
         
         self.searchPhotos = function() {
-
-            
-            if($scope.searchBy.length > 0)
-            {
-                photoService.searchPhotos(self.orderMode,$scope.searchBy,function(photos) {
-                self.photos = photos;
-                })
-            }
-            else{
-                self.orderPhotos();
-
-            }
-        }
-
-        self.orderPhotos = function() {
-            photoService.orderPhotos(self.orderMode,function(photos) {
-                self.photos = photos;
+            photoService.searchPhotos(self.orderMode,$scope.searchBy,function(photos) {
+            self.photos = photos;
             })
         }
 
         self.orderBy = function(toOrder){
             self.orderMode = toOrder;
-            //self.orderPhotos();
+            self.searchPhotos();
         };
         self.viewBy = function(toView){
             self.viewMode = toView;
@@ -45,7 +30,5 @@ angular.module('app')
             return photoService.getPhotoUrl();
 
         };
-
-
 
 }]);

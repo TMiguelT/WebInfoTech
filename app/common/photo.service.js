@@ -43,19 +43,7 @@
             },
             searchPhotos: function (orderBy,searchBy,callback) {
 
-                  $http.post('./api/photolist/search' + orderBy + "&" + searchBy, {cache: true})
-                    .success(function(data) {
-                        console.log(data);
-                        callback(data);
-                    })
-                    .error(function() {
-                        console.log("error: cannot GET /api/search");
-                    });
-            },
-
-            orderPhotos: function (orderBy,callback) {
-
-                  $http.post('./api/photolist/order' + orderBy, {cache: true})
+                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy})
                     .success(function(data) {
                         console.log(data);
                         callback(data);
