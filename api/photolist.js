@@ -5,7 +5,9 @@ var photoUrl = require('./photoUrl');
 router
 
     .post('/search', function *() {
-        console.log("ordering by" + this.request.body.orderBy)
+        console.log("SearchMode: " + this.request.body.searchMode);
+        console.log("SearchBy: " + this.request.body.searchBy);
+
     	var query = this.knex('photo')
             .select('image_path',
                 'photo.photo_id',
@@ -41,9 +43,21 @@ router
             .groupBy('user.username')
             .orderBy(this.request.body.orderBy);
 
+
+        if(this.request.body.searchMode == "Name"){
+            var tablename = 'photo.name';
+        }
+
+        else if(this.request.body.searchMode == "Description"){
+            var tablename = 'photo.description';
+        }
+        else if(this.request.body.searchMode == "User"){
+            var tablename = 'user.username';
+        }
+
         if(this.request.body.searchBy){
             var searchTerm = "%" + this.request.body.searchBy +  "%";
-            query = query.where('photo.name', 'ilike', searchTerm);
+            query = query.where(tablename, 'ilike', searchTerm);
         }
 
         var photos = yield query;
