@@ -15,6 +15,18 @@ angular.module("app")
 
         }
 
+        //$scope.getWorldLeaderboard = function() {
+        //    leaderboardService.getWorldLeaderboard(function(leaderboard) {
+        //        $scope.worldLeaderboard = leaderboard;
+        //    });
+        //};
+        //
+        //$scope.getFriendsLeaderboard = function() {
+        //    leaderboardService.getFriendsLeaderboard($scope.userData.user_id, function(leaderboard) {
+        //        $scope.friendsLeaderboard = leaderboard
+        //    });
+        //}
+
         $scope.getWorldLeaderboard = function() {
             leaderboardService.getWorldLeaderboard(function(leaderboard) {
                 $scope.worldLeaderboard = leaderboard;
@@ -23,17 +35,22 @@ angular.module("app")
 
         $scope.getFriendsLeaderboard = function() {
             leaderboardService.getFriendsLeaderboard($scope.userData.user_id, function(leaderboard) {
-                $scope.friendsLeaderboard = leaderboard
+                $scope.friendsLeaderoard = leaderboard
             });
+        };
+
+        //need to check for likes and dislikes to calculate score
+        $scope.getScore = function() {
+
         }
 
         $scope.filterBy = function (toFilter) {
             $scope.query = toFilter;
-        }
+        };
 
         $scope.toggleMode = function () {
             $scope.mode = oppositeMode($scope.mode);
-        }
+        };
 
         function init() {
             $scope.photoLoaded = false;
@@ -48,7 +65,7 @@ angular.module("app")
             $rootScope.$on('sessionChanged', function () {
                 $scope.userData = userService.data;
             });
-        }
+        };
 
         init();
 
