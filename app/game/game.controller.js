@@ -257,12 +257,14 @@
                         longitude: position.coords.longitude
                     };
 
-                    $scope.foundPhotoLoaded = true;
-
-                    if (isLocationWithinRange(photoLocation))
-                        $scope.photoFound = true;
-                    else
-                        $scope.photoFound = false;
+                    $scope.photoTaken = true;
+                    photoService.getGeoToLocation(position.coords, $scope.photo.id, function(data) {
+                        $scope.foundPhotoLoaded = true;
+                        if (isLocationWithinRange(data.distance))
+                            $scope.photoFound = true;
+                        else
+                            $scope.photoFound = false;
+                    });
 
                     $scope.$apply();
                 });
@@ -310,12 +312,8 @@
             };
         }
 
-        function isLocationWithinRange(photoLocation) {
-            if (photoLocation.coords.latitude < $scope.photo.location[1] - 0.0005 ||
-                photoLocation.coords.latitude > $scope.photo.location[1] + 0.0005)
-                return false;
-            if (photoLocation.coords.longitude < $scope.photo.location[0] - 0.0005 ||
-                photoLocation.coords.longitude > $scope.photo.location[0] + 0.0005)
+        function isLocationWithinRange(distance) {
+            if (distance > 5)
                 return false;
             return true;
         }
