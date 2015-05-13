@@ -34,7 +34,6 @@ module.exports = {
             .del());
     },
     addLike: function *(like, knex) {
-        console.log(like);
         return (yield knex("like")
                 .insert({
                 user_id: like.user_id,
@@ -47,5 +46,14 @@ module.exports = {
             user_id: like.user_id,
             value: like.value
         }).del());
+    },
+    addFind: function *(find, knex) {
+        return (yield knex("find")
+                .insert({
+                user_id: find.user_id,
+                photo_id: find.photo_id,
+                time_elapsed: 0,
+                date: find.date
+            }));
     }
 }

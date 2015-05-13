@@ -84,7 +84,7 @@
                     photo_id: photo_id,
                     user_id: user_id,
                     value: value
-                }
+                };
 
                 $http.post('./api/photo/like/add', like)
                     .success(function(data) {
@@ -96,7 +96,7 @@
                     photo_id: photo_id,
                     user_id: user_id,
                     value: value
-                }
+                };
 
                 $http.post('./api/photo/like/delete', like)
                     .success(function(data) {
@@ -112,6 +112,18 @@
                 });
 
                 return likes;
+            },
+            addFind: function(user_id, photo_id, date) {
+                var find = {
+                    user_id: user_id,
+                    photo_id: photo_id,
+                    date: date
+                };
+
+                $http.post('./api/photo/find/add', find)
+                    .success(function(data) {
+                        //console.log(data);
+                    });
             },
             getPhotoUrl: function() {
                 return 'http://192.241.210.241/photos/';

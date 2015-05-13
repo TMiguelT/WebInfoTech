@@ -7,7 +7,8 @@
             photoService.getPhotoById($routeParams.photoId, function(element) {
                 $scope.photo = element.photo;
 
-                $scope.hasUserLiked()
+                $scope.hasUserLiked();
+                $scope.hasUserFound();
                 $scope.photoLikes = photoService.getPhotoLikes($scope.photo, 1);
                 $scope.photoDislikes = photoService.getPhotoLikes($scope.photo, -1);
 
@@ -114,7 +115,7 @@
                     date_posted: dateTime,
                     text: comment_text,
                     user_id: $scope.userData.user_id,
-                    username: $scope.userData.username,
+                    username: $scope.userData.username
                 },
                 photo_id: $scope.photo.id
             }
@@ -164,6 +165,15 @@
             });
         };
 
+        $scope.hasUserFound = function() {
+            _.forEach($scope.photo.finds, function(find) {
+                console.log(find.user_id, $scope.userData.user_id);
+                if(find.user_id == $scope.userData.user_id) {
+                    $scope.userHasFound = true;
+                }
+            })
+        }
+
         $scope.changeMapCenter = function(centerType) {
             $scope.centerType = centerType;
 
@@ -186,6 +196,7 @@
 
         function init() {
             $scope.photoLoaded = false;
+            $scope.userHasFound = false;
             $scope.userData = userService.data;
             $scope.photoLikes = 0;
             $scope.userHasLiked = false;
@@ -227,6 +238,14 @@
             photoService.removeLike($scope.userData.user_id, $scope.photo.id, 1);
         }
 
+        function addFind() {
+            var dateTime = moment().format();
+
+            if ($scope.userData.logged_in && !$scope.userHasFound) {
+                photoService.addFind($scope.userData.user_id, $scope.photo.id, dateTime);
+            }
+        }
+
         function setFoundPhotoButton() {
             var photoLocation = {
                 orientation: {},
@@ -260,10 +279,12 @@
                     $scope.photoTaken = true;
                     photoService.getGeoToLocation(position.coords, $scope.photo.id, function(data) {
                         $scope.foundPhotoLoaded = true;
-                        if (isLocationWithinRange(data.distance))
+                        if (isLocationWithinRange(data.distance)) {
+                            addFind();
                             $scope.photoFound = true;
-                        else
+                        } else {
                             $scope.photoFound = false;
+                        }
                     });
 
                     $scope.$apply();

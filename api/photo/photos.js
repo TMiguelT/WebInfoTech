@@ -105,6 +105,15 @@ router
             console.error("db error: " + e);
         }
     })
+    .post('/find/add', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.addFind(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
     .post('/upload', function *() {
 
         // must parse some fields to the correct format
