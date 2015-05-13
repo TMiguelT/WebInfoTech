@@ -125,7 +125,7 @@
                                 Please <a href="/login">Log In</a> or <a href="/register">Register</a> before you can find the photo.
                             </div>
                             <button id="game--foundButton" class="file-input btn btn-success btn-file"
-                                    ng-if="!foundPhotoLoaded && userData.logged_in && (userData.user_id != photo.user.user_id)">
+                                    ng-if="!photoTaken && userData.logged_in && (userData.user_id != photo.user.user_id)">
                                 I Found It!<input type="file" accept="image/*" capture="camera"/>
                             </button>
                             <loading-box text="'Confirming...'" ng-if="photoTaken && !foundPhotoLoaded"></loading-box>

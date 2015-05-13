@@ -192,6 +192,7 @@
 
         $scope.tryAgain = function() {
             $scope.foundPhotoLoaded = false;
+            $scope.photoTaken = false;
         }
 
         function init() {
