@@ -41,7 +41,7 @@
                         console.error("error: cannot GET /api/photos");
                     });
             },
-            getDistanceAndDirectionToLocation: function(coords, photo_id, callback) {
+            getGeoToLocation: function(coords, photo_id, callback) {
                 $http
                     .post('./api/photo/distance', {
                         photo_id: photo_id,
@@ -54,18 +54,6 @@
                     .error(function() {
                         console.error("error: cannot POST /api/photo/distance");
                     })
-            },
-            getRandomRadiusCenter: function(photo_id, callback) {
-              $http
-                  .post('./api/photo/random_coordinate', {
-                      photo_id: photo_id
-                  })
-                  .success(function(data) {
-                      callback(data);
-                  })
-                  .error(function() {
-                      console.error("error: cannot POST /api/photo/random_coordinate");
-                  })
             },
             searchPhotos: function (orderBy,searchBy,searchMode,callback) {
 

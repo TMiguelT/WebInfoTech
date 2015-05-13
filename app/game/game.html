@@ -102,8 +102,11 @@
                 </div>
                 <div class="col-md-4">
                     <div class="game--element">
-                        <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
-                        <div><strong>{{ position.direction }}</strong> of your position</div>
+                        <loading-box text="'Loading Hints...'" ng-if="!position.distance && !position.direction"></loading-box>
+                        <div ng-if="position.distance && position.direction">
+                            <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
+                            <div><strong>{{ position.direction }}</strong> of your position</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">

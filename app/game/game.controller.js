@@ -15,29 +15,14 @@
                     $scope.userLocation = position.coords;
                     $scope.map = getMap(position.coords);
 
-                    $scope.position = {
-                        coords: position.coords
-                    };
+                    photoService.getGeoToLocation(position.coords, $scope.photo.id, function(data) {
+                        $scope.position = {
+                            coords: position.coords,
+                            distance: data.distance / 1000,
+                            direction: getDirection(data.direction)
+                        };
 
-                    photoService.getDistanceAndDirectionToLocation(position.coords, $scope.photo.id, function(data) {
-                        $scope.position.distance = data.distance / 1000;
-                        $scope.position.direction = getDirection(data.direction);
-                    });
-
-                    photoService.getRandomRadiusCenter($scope.photo.id, function(data) {
-                        $scope.photoRadius = {
-                            center: data,
-                            radius: 100,
-                            stroke: {
-                                color: '#0072ff',
-                                weight: 2,
-                                opacity: 1
-                            },
-                            fill: {
-                                color: '#0072ff',
-                                opacity: 0.2
-                            }
-                        }
+                        $scope.photoRadius = getRadius(data.random_coord);
                     });
 
                     $scope.photoLoaded = true;
@@ -292,10 +277,6 @@
             }
         }
 
-        function radians(num) {
-            return num * (Math.PI / 180);
-        }
-
         function getMap(posCoords) {
             return {
                     center:
@@ -311,6 +292,22 @@
                             panControl: false
                         }
                     };
+        }
+
+        function getRadius(coords) {
+            return {
+                center: coords,
+                radius: 100,
+                stroke: {
+                    color: '#0072ff',
+                    weight: 2,
+                    opacity: 1
+                },
+                fill: {
+                    color: '#0072ff',
+                    opacity: 0.2
+                }
+            };
         }
 
         function isLocationWithinRange(photoLocation) {
@@ -336,40 +333,6 @@
             else if (heading < (interval / 2) + interval) return "North East";
             else if (heading < (interval / 2) + (2 * interval)) return "East";
             else if (heading < (interval / 2) + (3 * interval)) return "South East";
-        }
-
-        function getDistanceToLocation(posCoords, photoCoords) {
-            var R = 6371; // metres
-            var lat1_rad = radians(posCoords.latitude);
-            var lat2_rad = radians(photoCoords[1]);
-            var diff_lat_rad = radians(photoCoords[1] - posCoords.latitude);
-            var diff_lon_rad = radians(photoCoords[0] - posCoords.longitude);
-
-            var a = Math.sin(diff_lat_rad/2) * Math.sin(diff_lat_rad/2) +
-                Math.cos(lat1_rad) * Math.cos(lat2_rad) *
-                Math.sin(diff_lon_rad/2) * Math.sin(diff_lon_rad/2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-            return R * c;
-        }
-
-        function getRandomRadiusCenter(latitude, longitude, radius) {
-            var radiusInDegrees = radius / 111000.0;
-
-            var u = Math.random();
-            var v = Math.random();
-            var w = radiusInDegrees * Math.sqrt(u);
-            var t = 2 * Math.PI * v;
-            var x = w * Math.cos(t);
-            var y = w * Math.sin(t);
-
-            var new_x = x / Math.cos(latitude)
-
-            var foundLatitude = new_x + latitude;
-            var foundLongitude = y + longitude;
-
-            return {latitude: foundLatitude,
-                        longitude: foundLongitude};
         }
 
         init();

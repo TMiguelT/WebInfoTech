@@ -59,18 +59,12 @@ router
         var photo_id = this.request.body.photo_id;
 
         try {
-            var element = yield photoQuery.getDistanceAndDirectionToLocation(photo_id, geo, this.knex);
-            this.body = element;
-        } catch(e) {
-            console.error(e);
-        }
-    })
-    .post('/random_coordinate', function *() {
-        var photo_id = this.request.body.photo_id;
-
-        try {
-            var element = yield photoQuery.getLocation(photo_id, this.knex);
-            this.body = geoHelper.getRandomRadiusCenter(element.location[1], element.location[0], 100);
+            var element = yield photoQuery.getGeoToLocation(photo_id, geo, this.knex);
+            this.body = {
+                distance: element.distance,
+                direction: element.direction,
+                random_coord: geoHelper.getRandomRadiusCenter(element.location[1], element.location[0], 100)
+            };
         } catch(e) {
             console.error(e);
         }
