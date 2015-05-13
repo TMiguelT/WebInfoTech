@@ -9,5 +9,6 @@
   "./bower_components/ng-tags-input/ng-tags-input.js",
   "./bower_components/moment/moment.js",
   "./app/vendor/jquery.flot.min.js",
-  "./bower_components/angular-flot/angular-flot.js"
+  "./bower_components/angular-flot/angular-flot.js",
+  "./bower_components/angular-cookies/angular-cookies.js"
 ]

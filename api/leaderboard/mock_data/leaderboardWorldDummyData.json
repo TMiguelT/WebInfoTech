@@ -1,0 +1,34 @@
+{
+  "leaderboard": [
+    {
+      "rank": 1,
+      "username": "JakeTheSnakeM8",
+      "score": 100
+    },
+    {
+      "rank": 2,
+      "username": "Chubbs",
+      "score": 70
+    },
+    {
+      "rank": 3,
+      "username": "emma0987",
+      "score": 60
+    },
+    {
+      "rank": 4,
+      "username": "TMiguelT",
+      "score": 55
+    },
+    {
+      "rank": 5,
+      "username": "Tester",
+      "score": 50
+    },
+    {
+      "rank": 6,
+      "username": "Andy",
+      "score": 40
+    }
+  ]
+}

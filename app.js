@@ -39,8 +39,8 @@ app
         formLimit: "50mb"
     })) //Use the form parser
     .use(require('koa-validate')()) //Mount the form validator
-    .use(mount("/api/user", require("./api/users"))) //Mount the users API
-    .use(mount("/api/leaderboard", require("./api/leaderboard"))) //Mount the leaderboard API
+    .use(mount("/api/user", require("./api/users/users"))) //Mount the users API
+    .use(mount("/api/leaderboard", require("./api/leaderboard/leaderboard"))) //Mount the leaderboard API
     .use(mount("/api/photo", require("./api/photo/photos"))) //Mount the users API
     .use(mount("/api/photolist", require("./api/photolist"))) //Mount the photolist API
     .use(mount("/public", require('koa-static')("public"))) //Mount the static file server

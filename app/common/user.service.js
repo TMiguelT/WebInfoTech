@@ -7,7 +7,7 @@
 
     angular
         .module("app")
-        .factory("userService", ['$http', '$rootScope', function ($http, $rootScope) {
+        .factory("userService", ['$http', '$rootScope', '$cookies', function ($http, $rootScope, $cookies) {
 
             //Called whenever the data changes to allow you to listen for the sessionChange event
             function alertChange(newData) {
@@ -22,6 +22,7 @@
                     return $http.post('/api/user/login', form).
                         success(function (data) {
                             service.data = data;
+                            $cookies.logged_in = true;
                             alertChange(data);
                         });
                 },
@@ -35,6 +36,7 @@
                     return $http.post('/api/user/logout')
                         .success(function () {
                             service.data = defaultData;
+                            $cookies.logged_in = false;
                             alertChange(defaultData);
                         });
                 }

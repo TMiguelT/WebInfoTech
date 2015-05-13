@@ -42,9 +42,15 @@ angular.module('app')
             self.query = toFilter;
         };
         self.showPhoto = function(photo){
-            return photoService.getPhotoUrl();
+            $location.path('/photo/'+photo.photo_id);
 
         };
+<<<<<<< HEAD
+=======
+        self.getPhotoUrl = function() {
+            return photoService.getPhotoUrl();
+        }
+>>>>>>> 20bfb3ee9d321441db815f07a285bbd7ef00b457
 
 
 

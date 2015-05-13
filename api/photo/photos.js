@@ -1,8 +1,7 @@
-var photoMapper = require('./photo_mapper');
-var photoQuery = require('./photo_query');
+var photoQuery = require('./queries/photo_query');
+var photoHelper = require('./helpers/photo_helper');
 var router = require('koa-router')();
-var co = require('co');
-var photoData = require("./photoDummyData.json");
+var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
 var fs = require('fs');
 
@@ -17,17 +16,13 @@ router
         var body_json = {};
 
         try {
-            body_json = {photos: []};
+            var elements = yield photoQuery.selectAllPhotos(elements, this.knex);
 
-            var photos = yield photoQuery.selectAllPhotos(photos, this.knex);
+            elements.forEach(function(element) {
+                photoHelper.removeDuplicates(element);
+            });
 
-            for (var i = 0; i < photos.length; i++) {
-                photo_json = {};
-
-                yield photoMapper.mapPhoto(photos[i], photo_json, this.knex);
-
-                body_json.photos.push(photo_json);
-            };
+            body_json = elements;
         } catch(e) {
             body_json = { error: String(e) };
             console.error(e);
@@ -40,9 +35,11 @@ router
         try {
             photo_id = this.params.photoId;
 
-            var photo = yield photoQuery.selectPhotoById(photo_id, this.knex);
+            var element = yield photoQuery.selectPhotoById(photo_id, this.knex);
 
-            yield photoMapper.mapPhoto(photo, body_json, this.knex)
+            photoHelper.removeDuplicates(element);
+
+            body_json = element;
         } catch(e) {
             body_json = { error: String(e) };
             console.error(e);
@@ -64,6 +61,24 @@ router
 
         try {
             yield photoQuery.deleteComment(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
+    .post('/like/add', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.addLike(this.body, this.knex);
+        } catch(e) {
+            console.error("db error: " + e);
+        }
+    })
+    .post('/like/delete', function *() {
+        this.body = this.request.body;
+
+        try {
+            yield photoQuery.deleteLike(this.body, this.knex);
         } catch(e) {
             console.error("db error: " + e);
         }

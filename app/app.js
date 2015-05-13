@@ -2,15 +2,17 @@
     'use strict';
 
     angular
-        .module("app", ['ngRoute', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput', 'angular-flot'])
+        .module("app", ['ngRoute', 'ngCookies', 'ngLodash', 'uiGmapgoogle-maps', 'ngTagsInput', 'angular-flot'])
         .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider
                 .when('/', {
                     templateUrl: '/public/about/about.html',
                     controller: 'aboutController',
                     resolve:{
-                        "check":function(userService, $location) {
-                            if(userService.data.logged_in) {
+                        "check":function($cookies, $location) {
+                            var logged_in = $cookies.logged_in;
+                            if (logged_in === "true") {
+                                console.log(logged_in);
                                 $location.path('/dashboard');
                             }
                         }
