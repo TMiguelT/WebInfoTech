@@ -88,6 +88,8 @@ router
         var data = this.request.body.fields;
         var photo = this.request.body.files.photo;
 
+        data.name = JSON.parse(data["name"])
+        data.description = JSON.parse(data["description"])
         data.tags = JSON.parse(data["tags"])
         data.position = JSON.parse(data["position"])
         data.orientation = JSON.parse(data["orientation"])
@@ -136,8 +138,14 @@ router
         }, 'photo_id');
 
 
+        var args = data.tags.map(function (tag) {
+            return "(?)"
+        }).join(", ")
+
         // insert into tag table
-        yield this.knex.raw("INSERT INTO tag (name) SELECT tag_name FROM (SELECT unnest(?::text[]) tag_name) as new WHERE new.tag_name NOT IN (SELECT name FROM tag)", [data.tags])
+        yield this.knex.raw("INSERT INTO tag (name) SELECT column1 FROM (VALUES "+
+        args +
+        ") as new WHERE new.column1 NOT IN (SELECT name FROM tag)", data.tags)
 
 		//@Andy the first query was working we just needed to add bracket
         //@Michael roger that

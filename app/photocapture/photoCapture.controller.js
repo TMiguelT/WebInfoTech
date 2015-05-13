@@ -4,7 +4,27 @@
 (function () {
     angular
         .module("app")
-        .controller("photoCaptureController", ["$scope", "$http", "userService", "$rootScope", function ($scope, $http, userService, $rootScope) {
+        .controller("photoCaptureController", ["$scope", "$http", "$location", "userService", "$rootScope", function ($scope, $http, $location, userService, $rootScope) {
+
+
+            // updates session information
+            function sessionUpdate(data) {
+
+                if (typeof data != 'undefined') {
+                    if (data.logged_in == false) {
+                        $location.path("/login");
+                    }
+
+                $scope.logged_in = data.logged_in;
+                $scope.user_id = data.user_id;
+                $scope.username = data.username;
+                }
+            }
+
+            sessionUpdate(userService.data);
+            $rootScope.$on('sessionChanged', function (angularBullshit, data) {
+                updateSession(data);
+            });
 
             window.addEventListener("deviceorientation", function(event) {
                 $scope.orientation = {
@@ -32,16 +52,6 @@
                 $scope.position = position;
                 $scope.$apply();
             });
-
-
-            // updates session information
-            function sessionUpdate(data) {
-                $scope.logged_in = data.logged_in;
-                $scope.user_id = data.user_id;
-                $scope.username = data.username;
-            }
-
-            sessionUpdate(userService.data);
 
             // set watch for session changes
             $rootScope.$on('sessionChanged', function (arg, data) {
