@@ -67,9 +67,9 @@
                       console.error("error: cannot POST /api/photo/random_coordinate");
                   })
             },
-            searchPhotos: function (orderBy,searchBy,callback) {
+            searchPhotos: function (orderBy,searchBy,searchMode,callback) {
 
-                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy})
+                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy, searchMode:searchMode})
                     .success(function(data) {
                         console.log(data);
                         callback(data);

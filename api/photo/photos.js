@@ -117,8 +117,7 @@ router
         var data = this.request.body.fields;
         var photo = this.request.body.files.photo;
 
-        data.name = JSON.parse(data["name"])
-        data.description = JSON.parse(data["description"])
+        //data.description = JSON.parse(data["description"])
         data.tags = JSON.parse(data["tags"])
         data.position = JSON.parse(data["position"])
         data.orientation = JSON.parse(data["orientation"])

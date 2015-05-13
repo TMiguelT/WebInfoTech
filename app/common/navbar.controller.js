@@ -14,7 +14,13 @@
         }
 
         $scope.logOut = function () {
-            userService.logout();
+            userService.logout()
+                .success(function(data) {
+                    //On successful logout return to about page
+                    $location.path('/');
+                })
+                .error($scope.showErrors());
+
         };
 
         //Get the starting session data

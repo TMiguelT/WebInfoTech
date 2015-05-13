@@ -6,8 +6,7 @@
 
         <!--Search bar-->
         <div class="photo-list-buttons">
-            <div class="col-md-8">
-                <div class="btn-group">
+            <div class="col-sm-1">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
                         Order by
                         <span class="caret"></span>
@@ -19,34 +18,30 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('description')">Description</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('num_finds')">Finds</a></li>
                     </ul>
-                    </ul>
-
-                </div>
-                <div class="btn-group">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownView" data-toggle="dropdown" aria-expanded="true" ng-show = "false">
-                    View
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownView">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy('list')">List</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="photoCtrl.viewBy('grid')">Grid</a></li>
-                </ul>
-                </div>
             </div>
-            <div class="col-md-4 input-group" style="float:right">
-                      <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" ng-model="searchBy">Search</button>
-                      </span>   
+
+            <div class="col-sm-2 input-group" style="float:right">
+                <span class="input-group-btn">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
+                        {{photoCtrl.searchMode}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('Name')">Name</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('User')">User</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('Description')">Description</a></li>
+                    </ul>
                 <form ng-submit = "photoCtrl.searchPhotos()">
                 <input type="text" class="form-control" placeholder="Search for..." ng-model="searchBy">
             </div>
         </div>
-
-        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
+        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.searchDone"></loading-box>
 
             <!-- Table-->
-        <div ng-show="photoCtrl.viewMode == 'list'">
-          <table class="table table-hover table-responsive" ng-show="photoCtrl.photos.length > 0" >
+        <div ng-show="photoCtrl.viewMode == 'list'" class= "table-responsive">
+
+            <p ng-show="photoCtrl.photos.length == 0"> No photos to show</p>
+          <table class="table table-hover" ng-show="photoCtrl.photos.length > 0" >
             <thead>
               <!-- Photo Headings-->
               <tr>
@@ -61,14 +56,14 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="pointer:cursor">
+              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
                         <td><img src="{{element.image_path}}" class="img-thumbnail" alt="{{element.name}}"></td>
 
                         <td>{{element.name}}</td>
                         <td>{{element.likes}}</td>
                         <td>{{element.num_finds}}</td>
-                        <td ng-show="element.description">{{element.description}}</td>
-                        <td><p ng-repeat="tag in element.tags">{{tag}}</p></td>
+                        <td style="pointer:cursor">{{element.description}}</td>
+                        <td><p ng-repeat="tag in element.tags">{{ tag }}</p></td>
                         <td>{{element.username}}</td>
               </tr>
             </tbody>

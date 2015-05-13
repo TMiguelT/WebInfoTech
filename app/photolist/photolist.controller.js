@@ -4,31 +4,56 @@
 angular.module('app')
     .controller('photolistController', ["$scope","$http", "photoService","$location", function ($scope,$http, photoService, $location) {
         var self = this;
-
-        self.orderMode = 'name';
-        self.viewMode = 'list';
+        this.orderMode = 'name';
+        this.viewMode = 'list';
+        this.searchMode = 'Name';       
         $scope.searchBy = "";
-        self.query = null;
-        
-        self.searchPhotos = function() {
-            photoService.searchPhotos(self.orderMode,$scope.searchBy,function(photos) {
+        this.query = null;
+        $scope.userLocation = "";
+        this.serchDone = false;
+
+        this.searchPhotos = function() {
+            self.serchDone = false;
+            console.log("Getting location");
+            navigator.geolocation.getCurrentPosition(function(position) {
+
+                    $scope.userLocation = position.coords;
+                    console.log("Location latitute: " + $scope.userLocation.latitude);
+                }, function() {
+                    var error = {
+                        name: "navigatorError",
+                        desc: "Cannot display map - please enable your location"
+                    };
+                    console.log(error.name);
+                });
+
+            console.log("Location: " + $scope.userLocation);
+            photoService.searchPhotos(this.orderMode,$scope.searchBy,this.searchMode,function(photos) {
             self.photos = photos;
-            })
+            self.searchDone = true;
+            });
         }
 
-        self.orderBy = function(toOrder){
-            self.orderMode = toOrder;
-            self.searchPhotos();
+        this.orderBy = function(toOrder){
+            this.orderMode = toOrder;
+            this.searchPhotos();
         };
-        self.viewBy = function(toView){
-            self.viewMode = toView;
+        this.viewBy = function(toView){
+            this.viewMode = toView;
         };
-        self.filterBy = function (toFilter) {
-            self.query = toFilter;
+        this.searchFor = function (toSearch) {
+            this.searchMode = toSearch;
         };
-        self.showPhoto = function(photo){
+        this.showPhoto = function(photo){
             $location.path('/photo/'+photo);
 
         };
+        this.showTag = function(tag){
+            $location.path('/tags/'+tag);
+
+        };
+
+
+
 
 }]);
