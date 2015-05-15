@@ -17,50 +17,27 @@
   width: 100%;
   padding: 2em 5em 5em 5em;
 }
-.main > .step > .step-content,
-.main > .step > .step-title,
-.main > .step > .sub-info {
-  padding-top: 30px;
-}
 
 .main > .step-content {
   font: 2em/1.5 "Oswald", sans-serif;
 }
 
 .main > .step {
-  > .step-title {font: 4em/1.5 "Oswald", sans-serif;}
-  > .step-content {font: 2em/1.5 "Oswald", sans-serif;}
+  > .step-title {font: 4em/1.5 "Oswald", sans-serif;padding-top: 30px;}
+  > .step-content {font: 2em/1.5 "Oswald", sans-serif;padding-top: 30px;}
 }
 
 .main > .instructions {
   font: 4em/1.5 "Oswald", sans-serif;
 }
-.main > .instructions {
-  > .first {background: url("about/login.png") center no-repeat;}
-  > .second {background: url("about/photos.png") center no-repeat;}
-  > .third {background: url("about/game.png") center no-repeat;}
-  > .last {background: url("about/last.png") center no-repeat;}
+.main > .instructions > .col-md-3 {
+  > .first {background: url("about/login.png") center no-repeat;height: 400px;}
+  > .second {background: url("about/photos.png") center no-repeat;height: 400px;}
+  > .third {background: url("about/game.png") center no-repeat;height: 400px;}
+  > .last {background: url("about/last.png") center no-repeat;height: 400px;}
 }
-
-.main > .step-instructions > .first,
-.main > .step-instructions > .second,
-.main > .step-instructions > .third,
-.main > .instructions > .first, 
-.main > .instructions > .second,
-.main > .instructions > .third {
-  float: left;
-  width: 20%;
-  height: 400px;
-  margin: 0px 25px;
+.main > .step-instructions > .col-md-3 {
   font: 2em/1.5 "Oswald", sans-serif;
-}
-.main > .step-instructions > .last,
-.main > .instructions > .last {
-  float: left;
-  width: 20%;
-  height: 400px;
-  font: 2em/1.5 "Oswald", sans-serif;
-  margin: 0px 0px 0px 25px;
 }
 
 @media only screen and (max-device-width: 800px) {
