@@ -20,28 +20,30 @@
       <p>Scroll down</p>
 
     </span>
-
     <div class="overlay"></div>
 </header>
-<section class="main about">
-    <div class="gallery">
-        </div>
+<section class="main coverFlow">
     <div class="step">
         <div class="step-title">
             What is Geogram?
         </div>
-        <div class="step-content">
-            <p>
-                Geogram is an online application that allows users to explore the city around them, by finding
-                the locations in our user-submitted photos. Users compete to be the best by scoring for each location
-                they find, as well as submitting really interesting locations.
-                Give it a go today!
-            </p>
-        </div>
+        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
+        <photo-carousel photos="trendingPhotos"></photo-carousel>
+    </div>
+</section>
+<section class="main about">
+    <div class="step-content">
+        <p>
+            Geogram is an online application that allows users to explore the city around them, by finding
+            the locations in our user-submitted photos. Users compete to be the best by scoring for each location
+            they find, as well as submitting really interesting locations.
+            Give it a go today!
+        </p>
     </div>
 </section>
 <section class="main howItWorks">
     <div class ="instructions">
+        <p>How to play</p>
         <div class="first">
         </div>
         <div class="second">
@@ -79,14 +81,5 @@
             <a class="btn btn-primary btn-lg btn-block center-block" style="color:#efefef" href="/login" role="button">Get started for free now!</a>
         </div>
     </div>
+</section>
 
-</section>
-<section class="main coverFlow">
-    <div class="step">
-        <div class="step-title">
-            Trending Photos
-        </div>
-        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-        <photo-carousel photos="trendingPhotos"></photo-carousel>
-    </div>
-</section>
