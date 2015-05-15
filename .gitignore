@@ -32,3 +32,5 @@ node_modules
 public
 bower_components/
 misc/
+
+.DS_Store

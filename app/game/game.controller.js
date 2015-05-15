@@ -7,7 +7,8 @@
             photoService.getPhotoById($routeParams.photoId, function(element) {
                 $scope.photo = element.photo;
 
-                $scope.hasUserLiked()
+                $scope.hasUserLiked();
+                $scope.hasUserFound();
                 $scope.photoLikes = photoService.getPhotoLikes($scope.photo, 1);
                 $scope.photoDislikes = photoService.getPhotoLikes($scope.photo, -1);
 
@@ -15,25 +16,15 @@
                     $scope.userLocation = position.coords;
                     $scope.map = getMap(position.coords);
 
-                    $scope.position = {
-                        coords: position.coords,
-                        distance: getDistanceToLocation(position.coords, element.photo.location),
-                        direction: getDirection(position.coords, element.photo.location)
-                    };
+                    photoService.getGeoToLocation(position.coords, $scope.photo.id, function(data) {
+                        $scope.position = {
+                            coords: position.coords,
+                            distance: data.distance / 1000,
+                            direction: getDirection(data.direction)
+                        };
 
-                    $scope.photoRadius = {
-                        center: getRandomRadiusCenter($scope.photo.location[1], $scope.photo.location[0], 100),
-                        radius: 100,
-                        stroke: {
-                            color: '#0072ff',
-                            weight: 2,
-                            opacity: 1
-                        },
-                        fill: {
-                            color: '#0072ff',
-                            opacity: 0.2
-                        }
-                    }
+                        $scope.photoRadius = getRadius(data.random_coord);
+                    });
 
                     $scope.photoLoaded = true;
                     $scope.$apply();
@@ -124,7 +115,7 @@
                     date_posted: dateTime,
                     text: comment_text,
                     user_id: $scope.userData.user_id,
-                    username: $scope.userData.username,
+                    username: $scope.userData.username
                 },
                 photo_id: $scope.photo.id
             }
@@ -174,6 +165,15 @@
             });
         };
 
+        $scope.hasUserFound = function() {
+            _.forEach($scope.photo.finds, function(find) {
+                console.log(find.user_id, $scope.userData.user_id);
+                if(find.user_id == $scope.userData.user_id) {
+                    $scope.userHasFound = true;
+                }
+            })
+        }
+
         $scope.changeMapCenter = function(centerType) {
             $scope.centerType = centerType;
 
@@ -192,10 +192,12 @@
 
         $scope.tryAgain = function() {
             $scope.foundPhotoLoaded = false;
+            $scope.photoTaken = false;
         }
 
         function init() {
             $scope.photoLoaded = false;
+            $scope.userHasFound = false;
             $scope.userData = userService.data;
             $scope.photoLikes = 0;
             $scope.userHasLiked = false;
@@ -237,6 +239,14 @@
             photoService.removeLike($scope.userData.user_id, $scope.photo.id, 1);
         }
 
+        function addFind() {
+            var dateTime = moment().format();
+
+            if ($scope.userData.logged_in && !$scope.userHasFound) {
+                photoService.addFind($scope.userData.user_id, $scope.photo.id, dateTime);
+            }
+        }
+
         function setFoundPhotoButton() {
             var photoLocation = {
                 orientation: {},
@@ -267,12 +277,16 @@
                         longitude: position.coords.longitude
                     };
 
-                    $scope.foundPhotoLoaded = true;
-
-                    if (isLocationWithinRange(photoLocation))
-                        $scope.photoFound = true;
-                    else
-                        $scope.photoFound = false;
+                    $scope.photoTaken = true;
+                    photoService.getGeoToLocation(position.coords, $scope.photo.id, function(data) {
+                        $scope.foundPhotoLoaded = true;
+                        if (isLocationWithinRange(data.distance)) {
+                            addFind();
+                            $scope.photoFound = true;
+                        } else {
+                            $scope.photoFound = false;
+                        }
+                    });
 
                     $scope.$apply();
                 });
@@ -285,10 +299,6 @@
             } else {
                 $(".photo-description").css("height", "100%");
             }
-        }
-
-        function radians(num) {
-            return num * (Math.PI / 180);
         }
 
         function getMap(posCoords) {
@@ -308,21 +318,31 @@
                     };
         }
 
-        function isLocationWithinRange(photoLocation) {
-            if (photoLocation.coords.latitude < $scope.photo.location[1] - 0.0005 ||
-                photoLocation.coords.latitude > $scope.photo.location[1] + 0.0005)
-                return false;
-            if (photoLocation.coords.longitude < $scope.photo.location[0] - 0.0005 ||
-                photoLocation.coords.longitude > $scope.photo.location[0] + 0.0005)
+        function getRadius(coords) {
+            return {
+                center: coords,
+                radius: 100,
+                stroke: {
+                    color: '#0072ff',
+                    weight: 2,
+                    opacity: 1
+                },
+                fill: {
+                    color: '#0072ff',
+                    opacity: 0.2
+                }
+            };
+        }
+
+        function isLocationWithinRange(distance) {
+            if (distance > 10)
                 return false;
             return true;
         }
 
-        function getDirection(posCoords, photoCoords) {
+        function getDirection(direction) {
             var interval = 45;
-            var point1 = new google.maps.LatLng(posCoords.latitude, posCoords.longitude);
-            var point2 = new google.maps.LatLng(photoCoords[1], photoCoords[0]);
-            var heading = google.maps.geometry.spherical.computeHeading(point1,point2);
+            var heading = direction;
 
             if (heading < -(interval / 2) - (3 * interval)
                 || heading > (interval / 2) + (3 * interval)) return "South";
@@ -333,40 +353,6 @@
             else if (heading < (interval / 2) + interval) return "North East";
             else if (heading < (interval / 2) + (2 * interval)) return "East";
             else if (heading < (interval / 2) + (3 * interval)) return "South East";
-        }
-
-        function getDistanceToLocation(posCoords, photoCoords) {
-            var R = 6371; // metres
-            var lat1_rad = radians(posCoords.latitude);
-            var lat2_rad = radians(photoCoords[1]);
-            var diff_lat_rad = radians(photoCoords[1] - posCoords.latitude);
-            var diff_lon_rad = radians(photoCoords[0] - posCoords.longitude);
-
-            var a = Math.sin(diff_lat_rad/2) * Math.sin(diff_lat_rad/2) +
-                Math.cos(lat1_rad) * Math.cos(lat2_rad) *
-                Math.sin(diff_lon_rad/2) * Math.sin(diff_lon_rad/2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-            return R * c;
-        }
-
-        function getRandomRadiusCenter(latitude, longitude, radius) {
-            var radiusInDegrees = radius / 111000.0;
-
-            var u = Math.random();
-            var v = Math.random();
-            var w = radiusInDegrees * Math.sqrt(u);
-            var t = 2 * Math.PI * v;
-            var x = w * Math.cos(t);
-            var y = w * Math.sin(t);
-
-            var new_x = x / Math.cos(latitude)
-
-            var foundLatitude = new_x + latitude;
-            var foundLongitude = y + longitude;
-
-            return {latitude: foundLatitude,
-                        longitude: foundLongitude};
         }
 
         init();

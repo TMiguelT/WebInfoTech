@@ -12,7 +12,7 @@
 
         <div class="photo-description--content col-md-10 col-md-offset-1">
             <div class="col-md-5" style="text-align: center;">
-                <div class="photo-description--finds"><strong>{{ photo.finds }}</strong> Finds</div>
+                <div class="photo-description--finds"><strong>{{ photo.finds.length }}</strong> Finds</div>
                 <img class="photo-description--photo" src="{{ getPhotoUrl(photo.url) }}" ng-click="viewPhoto()"/>
                 <div class="alert alert-danger alert-box" role="alert" ng-show="userCannotLike()">
                     To like or dislike please <a href="/login">Log In</a> or <a href="/register">Register</a>.
@@ -102,8 +102,11 @@
                 </div>
                 <div class="col-md-4">
                     <div class="game--element">
-                        <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
-                        <div><strong>{{ position.direction }}</strong> of your position</div>
+                        <loading-box text="'Loading Hints...'" ng-if="!position.distance && !position.direction"></loading-box>
+                        <div ng-if="position.distance && position.direction">
+                            <div><strong>{{ position.distance.toFixed(2) }}km</strong> away</div>
+                            <div><strong>{{ position.direction }}</strong> of your position</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -112,17 +115,30 @@
                         computer, not a mobile device). In order to play the game with full functionality, please
                         use an orientation capable device (e.g. your mobile).
                     </div>
-                    <button id="game--foundButton" class="file-input btn btn-success btn-file" ng-if="isOrientationCapable && !foundPhotoLoaded">
-                        I Found It!<input type="file" accept="image/*" capture="camera"/>
-                    </button>
-                    <div class="alert alert-info alert-box" role="alert" ng-if="foundPhotoLoaded && photoFound">
-                        You found the photo! Congratulations!<br/>
-                        You have earnt <strong>10</strong> points.<br/>
-                        <a href="./photolist">Back to the photo list.</a>
-                    </div>
-                    <div class="alert alert-danger alert-box" role="alert" ng-if="foundPhotoLoaded && !photoFound">
-                        Ahh! It seems the photo is not located at this position!<br/>
-                        <a href="#" ng-click="tryAgain()">Try again</a>
+                    <div ng-show="isOrientationCapable">
+                        <div class="alert alert-info alert-box" role="alert" ng-show="userHasFound">
+                            You have already found this photo!<br/>
+                            <a href="./photolist">Back to the photo list.</a>
+                        </div>
+                        <div ng-hide="userHasFound">
+                            <div class="alert alert-danger alert-box" role="alert" ng-hide="userData.logged_in">
+                                Please <a href="/login">Log In</a> or <a href="/register">Register</a> before you can find the photo.
+                            </div>
+                            <button id="game--foundButton" class="file-input btn btn-success btn-file"
+                                    ng-if="!photoTaken && userData.logged_in && (userData.user_id != photo.user.user_id)">
+                                I Found It!<input type="file" accept="image/*" capture="camera"/>
+                            </button>
+                            <loading-box text="'Confirming...'" ng-if="photoTaken && !foundPhotoLoaded"></loading-box>
+                            <div class="alert alert-info alert-box" role="alert" ng-if="foundPhotoLoaded && photoFound">
+                                You found the photo! Congratulations!<br/>
+                                You have earnt <strong>10</strong> points.<br/>
+                                <a href="./photolist">Back to the photo list.</a>
+                            </div>
+                            <div class="alert alert-danger alert-box" role="alert" ng-if="foundPhotoLoaded && !photoFound">
+                                Ahh! It seems the photo is not located at this position!<br/>
+                                <a href="#" ng-click="tryAgain()">Try again</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

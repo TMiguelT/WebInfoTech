@@ -38,8 +38,22 @@
                         callback(data);
                     })
                     .error(function() {
-                        console.log("error: cannot GET /api/photos");
+                        console.error("error: cannot GET /api/photos");
                     });
+            },
+            getGeoToLocation: function(coords, photo_id, callback) {
+                $http
+                    .post('./api/photo/distance', {
+                        photo_id: photo_id,
+                        latitude: coords.latitude,
+                        longitude: coords.longitude
+                    })
+                    .success(function(data) {
+                        callback(data);
+                    })
+                    .error(function() {
+                        console.error("error: cannot POST /api/photo/distance");
+                    })
             },
             searchPhotos: function (orderBy,searchBy,searchMode,callback) {
 
@@ -49,7 +63,7 @@
                         callback(data);
                     })
                     .error(function() {
-                        console.log("error: cannot GET /api/search");
+                        console.log("error: cannot GET /api/photolist/search");
                     });
             },
 
@@ -70,7 +84,7 @@
                     photo_id: photo_id,
                     user_id: user_id,
                     value: value
-                }
+                };
 
                 $http.post('./api/photo/like/add', like)
                     .success(function(data) {
@@ -82,7 +96,7 @@
                     photo_id: photo_id,
                     user_id: user_id,
                     value: value
-                }
+                };
 
                 $http.post('./api/photo/like/delete', like)
                     .success(function(data) {
@@ -98,6 +112,18 @@
                 });
 
                 return likes;
+            },
+            addFind: function(user_id, photo_id, date) {
+                var find = {
+                    user_id: user_id,
+                    photo_id: photo_id,
+                    date: date
+                };
+
+                $http.post('./api/photo/find/add', find)
+                    .success(function(data) {
+                        //console.log(data);
+                    });
             },
             getPhotoUrl: function() {
                 return 'http://192.241.210.241/photos/';

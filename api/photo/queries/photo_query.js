@@ -2,6 +2,7 @@ var moment = require('moment');
 var fs = require('fs');
 
 var select_photos = fs.readFileSync('./api/photo/sql_queries/photo_select_query.sql').toString();
+var select_distance = fs.readFileSync('./api/photo/sql_queries/distance_select_query.sql').toString();
 var group_photos = fs.readFileSync('./api/photo/sql_queries/photo_group_query.sql').toString();
 
 module.exports = {
@@ -10,6 +11,9 @@ module.exports = {
     },
     selectPhotoById: function *(photo_id, knex) {
         return (yield knex.raw(select_photos + 'WHERE photo.photo_id = ?' + group_photos, [photo_id])).rows[0];
+    },
+    getGeoToLocation: function *(photo_id, geo, knex) {
+        return (yield knex.raw(select_distance, [geo, geo, photo_id])).rows[0].json_build_object;
     },
     addComment: function *(comment, knex) {
         return (yield knex("comment")
@@ -30,7 +34,6 @@ module.exports = {
             .del());
     },
     addLike: function *(like, knex) {
-        console.log(like);
         return (yield knex("like")
                 .insert({
                 user_id: like.user_id,
@@ -43,5 +46,14 @@ module.exports = {
             user_id: like.user_id,
             value: like.value
         }).del());
+    },
+    addFind: function *(find, knex) {
+        return (yield knex("find")
+                .insert({
+                user_id: find.user_id,
+                photo_id: find.photo_id,
+                time_elapsed: 0,
+                date: find.date
+            }));
     }
 }
