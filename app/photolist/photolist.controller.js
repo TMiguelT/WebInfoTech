@@ -11,6 +11,7 @@ angular.module('app')
         this.query = null;
         $scope.userLocation = "";
         this.serchDone = false;
+        this.pageNumber = 1;
 
         this.searchPhotos = function() {
             self.serchDone = false;
@@ -50,6 +51,10 @@ angular.module('app')
         };
         this.showTag = function(tag){
             $location.path('/tags/'+tag);
+
+        };
+        this.setPage = function(number){
+            this.pageNumber = number;
 
         };
 
