@@ -10,7 +10,8 @@
                         <label for="photoInputField">Photo:</label>
                         <span ng-show="fillMessages['file']" class="help-block h">Please include a photo.</span>
                         <span ng-show="fillMessages['fileType']" class="help-block h">Error, incorrect file format.</span>
-                        <input type="file" id="photoInputField" ng-model="form.photo" accept="image">
+                        <!-- there is currently no support for bindings with file input tags-->
+                        <input type="file" id="photoInputField" ng-model="form.photo" accept="image" onchange="angular.element(this).scope().updatePositionToSend()">
                     </div>
                     <div class="form-group" ng-class="{'has-error' : fillMessages['name']}">
                         <label for="nameInputField">Name:</label>
