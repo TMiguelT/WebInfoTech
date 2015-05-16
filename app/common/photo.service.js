@@ -57,9 +57,9 @@
             },
             searchPhotos: function (orderBy,searchBy,searchMode,callback) {
 
-                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy, searchMode:searchMode})
+                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy, searchMode :searchMode})
                     .success(function(data) {
-                        console.log(data);
+                        // console.log(data);
                         callback(data);
                     })
                     .error(function() {

@@ -335,7 +335,7 @@
         }
 
         function isLocationWithinRange(distance) {
-            if (distance > 5)
+            if (distance > 10)
                 return false;
             return true;
         }
