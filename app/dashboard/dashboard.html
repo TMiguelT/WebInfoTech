@@ -23,8 +23,8 @@
 
         <div class="col-md-9">
             <div class="dashboard-content" ng-controller="dashboardController as dashCtrl">
-                <div class="floated_image" ng-repeat="photo in trendingPhotos">
-                    <img ng-src="{{ getPhotoUrl(photo.url) }}" alt="{{photo.name}}">
+                <div class="floated_image" ng-repeat="element in trendingPhotos">
+                    <img src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}">
                 </div>
             </div>
 
