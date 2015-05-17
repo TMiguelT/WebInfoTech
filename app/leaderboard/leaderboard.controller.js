@@ -15,6 +15,7 @@ angular.module("app")
 
         }
 
+
         $scope.getWorldLeaderboard = function () {
             leaderboardService.getWorldLeaderboard(function (leaderboard) {
                 $scope.worldLeaderboard = leaderboard;
