@@ -5,7 +5,7 @@ var fs = require('fs');
 var select_users = fs.readFileSync('./api/leaderboard/sql_queries/user_select_query.sql').toString();
 
 
-/*
+
 router
     .get('/world', function *() {
         this.body = leaderboardWorldMockData;
@@ -15,12 +15,11 @@ router
 
         this.body = leaderboardFriendsMockData;
     });
-*/
+
 
 module.exports = {
     selectAllUsers: function *(users, knex) {
         return (yield knew.raw(select_users)).rows
     }
-
 
 }
