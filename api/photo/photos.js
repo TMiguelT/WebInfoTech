@@ -4,7 +4,9 @@ var geoHelper = require('./helpers/geo_helper');
 var router = require('koa-router')();
 var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
-var fs = require('fs');
+var lwip = require('lwip-promise');
+var Promise = require("bluebird");
+var fs = Promise.promisifyAll(require("fs"));
 
 router
     .get('/all_mock', function *(next) {
@@ -108,6 +110,7 @@ router
     .post('/find/add', function *() {
         this.body = this.request.body;
 
+
         try {
             yield photoQuery.addFind(this.body, this.knex);
         } catch(e) {
@@ -120,10 +123,9 @@ router
         var data = this.request.body.fields;
         var photo = this.request.body.files.photo;
 
-        //data.description = JSON.parse(data["description"])
         data.tags = JSON.parse(data["tags"])
+        console.log(data["position"])
         data.position = JSON.parse(data["position"])
-        data.orientation = JSON.parse(data["orientation"])
 
         if (data.description == "undefined") {
             data.description = null;
@@ -131,6 +133,26 @@ router
 
         var time = new Date();
         var suffix = photo.type.split("/")[1]
+
+        // ensure the image is not too large.
+        var filesize = fs.statSync(photo.path)["size"] / 1000000.0; // filesize in Mb
+
+        // rename file to add extension
+        yield fs.renameAsync(photo.path, photo.path + "." + suffix);
+        photo.path = photo.path + "." + suffix;
+
+        if (filesize > 4) {
+            // file is too large, will have to scale down
+
+            var scaleRatio = 4.0 / filesize;
+
+            var image = yield lwip.openAsync(photo.path)
+            yield image.batch().scale(scaleRatio).writeFileAsync(photo.path);
+
+        }
+
+        //////////////////////////////////////////// test the above ////////////////////////////////////////////////////
+
 
         //post the photo
         var options = {
@@ -142,15 +164,15 @@ router
             }
         };
 
-        var response = yield request(options)
-
+        try {
+            var response = yield request(options)
+        } catch(err) {
+            console.log(err)
+        }
         // if photo post is unsuccessful do not continue
         if (response != "OK") {
             return;
         }
-
-        // TODO remove this once orientation is functioning
-        data.orientation.absolute = 0;
 
         // insert the photo
         var this_photo_id = yield this.knex("photo").insert({
@@ -161,12 +183,6 @@ router
                     data.position.latitude
                 ]
             }),
-            orientation: [
-                data.orientation.absolute,
-                data.orientation.alpha,
-                data.orientation.beta,
-                data.orientation.gamma
-            ],
             "name": data.name,
             "description": data.description,
             "user_id": data.user_id
