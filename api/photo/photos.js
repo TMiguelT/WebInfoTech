@@ -4,7 +4,7 @@ var geoHelper = require('./helpers/geo_helper');
 var router = require('koa-router')();
 var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
-
+var fs = require("fs");
 router
 
 /**
