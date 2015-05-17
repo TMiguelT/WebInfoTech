@@ -1,9 +1,9 @@
 
-<section class="dashboard">
+<section class="dashboard" ng-controller="dashboardController as dashCtrl">
         <div class="col-md-3">
             <div class="dashboard-sidebar">
-                <h4><a href="/public/leaderboard/leaderboard.html"></a>Leaderboard</h4>
-                <table class="table" ng-controller="leaderboardController as boardCtrl">
+                <h4><a ng-click="dashCtrl.showLeaderboard()" style="cursor:pointer;">Leaderboard</a></h4>
+                <table class="table" ng-controller="leaderboardController">
                         <thead>
                             <tr>
                                 <th>Rank</th>
@@ -11,8 +11,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="user in boardCtrl.players">
-                                <td>{{user.rank}}</td>
+                            <tr ng-repeat="user in worldLeaderboard | limitTo:10">
+                                <td>{{$index + 1}}</td>
                                 <td>{{user.username}}</td>
                             </tr>
                         </tbody>
@@ -22,7 +22,10 @@
         </div>
 
         <div class="col-md-9">
-            <div class="dashboard-content" ng-controller="dashboardController as dashCtrl">
+            <div class="dashboard-content">
+
+                <loading-box text="'Loading Photos...'" ng-hide="trendingPhotos.length>0"></loading-box>
+
                 <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="element in trendingPhotos" style="cursor: pointer;">
                     <a class="thumbnail" ng-click="dashCtrl.showPhoto(element.photo.id)">
                         <img class="img-responsive" src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}">

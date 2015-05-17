@@ -21,8 +21,11 @@
 
         this.showPhoto = function(photo){
             $location.path('/photo/'+photo);
-
         };
+
+        this.showLeaderboard = function(){
+            $location.path('/leaderboard');
+        }
     }
 
     angular
