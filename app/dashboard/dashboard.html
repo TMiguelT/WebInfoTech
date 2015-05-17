@@ -1,9 +1,9 @@
 
 <section class="dashboard" ng-controller="dashboardController as dashCtrl">
-        <div class="col-md-3">
+        <div class="col-md-3" ng-controller="leaderboardController as leaderboardCtrl">
             <div class="dashboard-sidebar">
                 <h4><a ng-click="dashCtrl.showLeaderboard()" style="cursor:pointer;">Leaderboard</a></h4>
-                <table class="table" ng-controller="leaderboardController">
+                <table class="table">
                         <thead>
                             <tr>
                                 <th>Rank</th>
