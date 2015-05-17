@@ -31,21 +31,18 @@ angular.module('app')
             navigator.geolocation.getCurrentPosition(function(position) {
             //Get coordinations
             $scope.userLocation = position.coords;
+
         
             // Search for the right photos to show
             photoService.searchPhotos(self.orderMode,self.searchBy,self.searchMode,self.rows, self.photosPerPage,position.coords,function(photos) {
                 self.photos = photos;
                 self.searchDone = true;
-                self.numPage = Math.floor(self.photos.length / self.photosPerPage);
-                if(self.photos.length % self.photosPerPage != 0){
-                    self.numPage++;
-                }
             });
 
             }, function() {
                 var error = {
                     name: "navigatorError",
-                    desc: "Cannot display map - please enable your location"
+                    desc: "Cannot display distance to photos - please enable your location"
                 };
                 console.log(error.name);
             });
