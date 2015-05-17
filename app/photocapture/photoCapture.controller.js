@@ -6,6 +6,8 @@
         .module("app")
         .controller("photoCaptureController", ["$scope", "$http", "$location", "userService", "$rootScope", function ($scope, $http, $location, userService, $rootScope) {
 
+            $scope.uploading = false;
+
             // updates session information
             function sessionUpdate(data) {
                 $scope.logged_in = data.logged_in;
@@ -132,6 +134,9 @@
                 if (!isValid) {
                     return;
                 }
+
+                // display loading box.
+                $scope.uploading = true;
 
                 // simplify tags field
                 var tags = [];

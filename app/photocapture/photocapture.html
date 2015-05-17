@@ -36,8 +36,8 @@
                         position: ({{position.coords.latitude}}, {{position.coords.longitude}})
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-primary center-block" type="button" value="Submit" ng-click="submit(isValid())">
-                        <span ng-show="fillMessages['showSuccess']">{{photoName}} has been successfully uploaded!</span>
+                        <loading-box text="'Uploading Photo...'" ng-show="uploading"></loading-box>
+                        <input class="btn btn-primary center-block" type="button" value="Submit" ng-hide="uploading" ng-click="submit(isValid())">
                     </div>
                 </form>
             </div>
