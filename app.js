@@ -5,10 +5,6 @@ var path = require('path');
 var session = require('koa-generic-session');
 var PgStore = require('koa-pg-session');
 
-process.on('uncaughtException', function (err) {
-    console.log(err);
-})
-
 const indexFile = path.join(__dirname, 'app/index.html');
 const dbInfo = {
     client: 'pg',

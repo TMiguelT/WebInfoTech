@@ -4,9 +4,6 @@ var geoHelper = require('./helpers/geo_helper');
 var router = require('koa-router')();
 var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
-var lwip = require('lwip-promise');
-var Promise = require("bluebird");
-var fs = Promise.promisifyAll(require("fs"));
 
 router
 
@@ -200,26 +197,6 @@ router
         var time = new Date();
         var suffix = photo.type.split("/")[1]
 
-        // ensure the image is not too large.
-        var filesize = fs.statSync(photo.path)["size"] / 1000000.0; // filesize in Mb
-
-        // rename file to add extension
-        yield fs.renameAsync(photo.path, photo.path + "." + suffix);
-        photo.path = photo.path + "." + suffix;
-
-        if (filesize > 4) {
-            // file is too large, will have to scale down
-
-            var scaleRatio = 4.0 / filesize;
-
-            var image = yield lwip.openAsync(photo.path)
-            yield image.batch().scale(scaleRatio).writeFileAsync(photo.path);
-
-        }
-
-        //////////////////////////////////////////// test the above ////////////////////////////////////////////////////
-
-
         //post the photo
         var options = {
             uri: 'http://192.241.210.241/photos',
@@ -230,11 +207,8 @@ router
             }
         };
 
-        try {
-            var response = yield request(options)
-        } catch(err) {
-            console.log(err)
-        }
+        var response = yield request(options)
+
         // if photo post is unsuccessful do not continue
         if (response != "OK") {
             return;
