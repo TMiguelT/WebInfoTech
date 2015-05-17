@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tagsInputField">Tags:</label>
-                        <tags-input min-length="1" id="tagsInputField" ng-model="form.tags"></tags-input>
+                        <tags-input min-length="1" id="tagsInputField" ng-model="form.tags" add-on-space="true" allow-leftover-text="false"></tags-input>
                     </div>
                     <div class="form-group" ng-class="{'has-error' : fillMessages['locationSupport'] || fillMessages['locationAvailable']}">
                         <span ng-show="fillMessages['locationSupport']" class="help-block h">Location services not supported by your device.</span>
