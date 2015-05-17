@@ -14,6 +14,10 @@
         $scope.goTo = function(elName) {
             scrollService.goTo(elName)
         };
+
+        $scope.getPhotoUrl = function(url) {
+            return photoService.getPhotoUrl() + url;
+        };
     }
 
     angular

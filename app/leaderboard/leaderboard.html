@@ -1,8 +1,6 @@
 <!-- Created by Emma Jamieson-Hoare -->
 
 
-<!-- FIRST LOAD ALL THE USERS INTO LEADERBOARD THEN DO THE QUERY -->
-
 <section class=leaderboard>
     <div class="leaderboard-title">Leaderboard</div>
 
@@ -17,7 +15,6 @@
                 <div class="btn-group">
                     <ul class="nav nav-pills" role="tablist">
                         <li ng-click="mode = 'world'" role="presentation" ng-class="{active: mode == 'world'}"><a href="#" role="tab">World</a></li>
-                        <li ng-click="mode = 'friends'" role="presentation" ng-class="{active: mode == 'friends'}"><a href="#" role="tab">Friends</a></li>
                     </ul>
                 </div>
             </div>
@@ -29,14 +26,6 @@
             </div>
         </div>
 
-        <!-- within table form
-            <div ng-if="mode == 'world'">
-
-            or
-
-            <div ng-if="mode == 'friends'">
-
-        <!--LeaderBoard Table-->
         <table class="table">
             <thead>
                 <tr>
@@ -46,21 +35,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-show="mode == 'world'" ng-repeat="player in worldLeaderboard | filter: query">
+                <tr ng-show="mode == 'world'" ng-repeat="element in worldLeaderboard | filter: query">
 
-                    <td>{{player.rank}}</td>
+                    <td>{{$index + 1}}</td>
 
-                    <td>{{player.username}}</td>
+                    <td>{{element.user.username}}</td>
 
-                    <td>{{player.score}}</td>
+                    <td>{{element.user.score}}</td>
 
-                </tr>
-                <tr ng-show="mode == 'friends'" ng-repeat="player in friendsLeaderboard | filter: query">
-                    <td>{{player.rank}}</td>
-
-                    <td>{{player.username}}</td>
-
-                    <td>{{player.score}}</td>
                 </tr>
             </tbody>
         </table>
