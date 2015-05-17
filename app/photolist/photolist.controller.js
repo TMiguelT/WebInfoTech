@@ -28,9 +28,7 @@ angular.module('app')
             var coords = null;
             navigator.geolocation.getCurrentPosition(function(position) {
             //Get coordinations
-            $scope.userLocation = position.coords;
-
-        
+            
             // Search for the right photos to show
             photoService.searchPhotos(self.orderMode,self.searchBy,self.searchMode,self.rows, self.photosPerPage,position.coords,function(photos) {
                 self.photos = photos;
@@ -43,7 +41,16 @@ angular.module('app')
                     desc: "Cannot display distance to photos - please enable your location"
                 };
                 console.log(error.name);
+
+                var position;
+
+                photoService.searchPhotos(self.orderMode,self.searchBy,self.searchMode,self.rows, self.photosPerPage,position,function(photos) {
+                   self.photos = photos;
+                self.searchDone = true;
+                });
             });
+
+
        
         }
 
