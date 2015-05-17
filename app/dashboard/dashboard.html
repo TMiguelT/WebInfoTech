@@ -1,25 +1,32 @@
+<!-- Created by Jordan Lo Presti -->
 
 <section class="dashboard" ng-controller="dashboardController as dashCtrl">
-        <div class="col-md-3" ng-controller="leaderboardController as leaderboardCtrl">
-            <div class="dashboard-sidebar">
-                <h4><a ng-click="dashCtrl.showLeaderboard()" style="cursor:pointer;">Leaderboard</a></h4>
-                <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>User</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="user in worldLeaderboard | limitTo:10">
-                                <td>{{$index + 1}}</td>
-                                <td>{{user.username}}</td>
-                            </tr>
-                        </tbody>
 
-                    </table>
-                </div>
+    <!-- Sidebar leaderboard using leaderboardController -->
+
+    <div class="col-md-3" ng-controller="leaderboardController as leaderboardCtrl">
+
+        <div class="dashboard-sidebar">
+            <h4><a ng-click="dashCtrl.showLeaderboard()" style="cursor:pointer;">Leaderboard</a></h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in worldLeaderboard | limitTo:10">
+                    <td>{{$index + 1}}</td>
+                    <td>{{user.username}}</td>
+                </tr>
+                </tbody>
+
+            </table>
         </div>
+    </div>
+
+    <!--Main Dashboard content -->
 
         <div class="col-md-9">
             <div class="dashboard-content">
