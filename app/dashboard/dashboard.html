@@ -22,7 +22,11 @@
         </div>
 
         <div class="col-md-9">
-            <div class="dashboard-content">
+            <div class="dashboard-content" ng-controller="dashboardController as dashCtrl">
+                <div class="floated_image" ng-repeat="element in trendingPhotos">
+                    <img src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}">
+                </div>
+            </div>
 
                 <section class="main coverFlow">
                     <div class="step">
