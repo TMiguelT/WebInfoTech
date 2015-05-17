@@ -8,6 +8,15 @@
 
             $scope.uploading = false;
 
+            // if the user is not logged in, redirect to the login page
+            function redirectCheck() {
+                if ($location.path() == "/capture") {
+                    if ( $scope.logged_in != true) {
+                        $location.path("/login");
+                    }
+                }
+            }
+
             // updates session information
             function sessionUpdate(data) {
                 $scope.logged_in = data.logged_in;
@@ -21,12 +30,12 @@
 
             // if user navigates to this page without logging in, redirect them to the login/register page
             $rootScope.$on("$locationChangeSuccess", function () {
-                if ($location.path() == "/capture") {
-                    if ( $scope.logged_in != true) {
-                        $location.path("/login");
-                    }
-                }
+                redirectCheck();
             });
+
+            $scope.initialize = function() {
+                redirectCheck();
+            }
 
 
             // TODO talk to miguel, not sure if time to implement orientation.
