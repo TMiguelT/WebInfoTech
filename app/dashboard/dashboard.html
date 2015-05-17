@@ -23,43 +23,11 @@
 
         <div class="col-md-9">
             <div class="dashboard-content" ng-controller="dashboardController as dashCtrl">
-                <div class="floated_image" ng-repeat="element in trendingPhotos">
-                    <img src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}">
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="element in trendingPhotos">
+                    <a class="thumbnail" ng-click="dashCtrl.showPhoto(element.photo.photo_id)">
+                        <img class="img-responsive" src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}">
+                    </a>
                 </div>
-            </div>
-
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Trending Photos
-                        </div>
-                        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
-
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Photos by Friends
-                        </div>
-                        <loading-box text="'Loading Photos by Friends...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
-
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Nearby Photos
-                        </div>
-                        <loading-box text="'Loading Nearby Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
             </div>
         </div>
 </section>

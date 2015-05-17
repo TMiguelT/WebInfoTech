@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    function dashboardController($scope, photoService, scrollService) {
+    function dashboardController($scope, photoService, scrollService, $location) {
         function init() {
             $scope.trendingPhotos = [];
             photoService.getTrendingPhotos(function(photos) {
@@ -18,6 +18,11 @@
         $scope.getPhotoUrl = function(url) {
             return photoService.getPhotoUrl() + url;
         };
+
+        this.showPhoto = function(photo){
+            $location.path('/photo/'+photo);
+
+        };
     }
 
     angular
@@ -25,6 +30,7 @@
         .controller("dashboardController", ["$scope",
             "photoService",
             "scrollService",
+            "$location",
             dashboardController
         ]);
 })();
