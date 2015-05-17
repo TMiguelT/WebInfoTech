@@ -55,9 +55,9 @@
                         console.error("error: cannot POST /api/photo/distance");
                     })
             },
-            searchPhotos: function (orderBy,searchBy,searchMode,callback) {
+            searchPhotos: function (orderBy,searchBy,searchMode,rows,photosPerPage,coords,callback) {
 
-                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy, searchMode :searchMode})
+                  $http.post('./api/photolist/search', {cache: true, orderBy: orderBy, searchBy : searchBy, searchMode :searchMode,rows:rows, photosPerPage:photosPerPage, coords:coords})
                     .success(function(data) {
                         // console.log(data);
                         callback(data);
