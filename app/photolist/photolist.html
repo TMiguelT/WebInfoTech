@@ -21,7 +21,7 @@
                     </ul>
             </div>
 
-            <div class="order-by col-md-4">
+            <div class="order-by col-md-2">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
                         Photos: {{photoCtrl.photosPerPage}}
                         <span class="caret"></span>
@@ -36,7 +36,7 @@
             </div>
 
             <!-- Search Bar-->
-            <div class="search-by col-md-3 input-group" style="float:right">
+            <div class=" col-md-3 input-group" style="float:right">
                 <div class="input-group-btn">
                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         {{photoCtrl.searchMode}} <span class="caret"></span></button>
@@ -68,7 +68,7 @@
                 <th class="col-md-3">Photo</th>
                 <th>Name</th>
 
-                <th>Distance</th>
+                <th ng-show="photoCtrl.photos[0].distance">Distance</th>
                 <th class="col-md-3">Description</th>
                 <th>Tags</th>        
                 <th>User</th>
@@ -77,10 +77,10 @@
             </thead>
             <tbody>
 
-              <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
+              <tr class = "photolist-hover" ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
                         <td><img src="{{element.image_path}}" class="list-photo" alt="{{element.name}}"></td>
                         <td>{{element.name}}</td>
-                        <td>{{element.distance}}</td>
+                        <td ng-show="photoCtrl.photos[0].distance">{{element.distance}} km</td>
                         <td>{{element.description}}</td>
                         <td><p ng-repeat="tag in element.tags" class= "list-tag" ng-show="tag">{{tag}}</p></td>
                         <td>{{element.username}}</td>

@@ -5,17 +5,18 @@ var photoUrl = require('./photoUrl');
 router
 
     .post('/search', function *() {
-        console.log('Rows: ' + this.request.body.rows + "Photos per Page: " + this.request.body.photosPerPage + "Seach: " + this.request.body.searchBy);
-
+        
         var test_location = '{"type":"Point","coordinates":[-48.23456,20.12345]}';
 
-        var geo = {
-            type: "Point",
-            coordinates: [
-                parseFloat(this.request.body.coords.longitude),
-                parseFloat(this.request.body.coords.latitude)
-            ]
-        };
+        if (this.request.body.coords){
+            var geo = {
+                type: "Point",
+                coordinates: [
+                    parseFloat(this.request.body.coords.longitude),
+                    parseFloat(this.request.body.coords.latitude)
+                ]
+            };
+        }
 
 
     	var query = this.knex('photo')
@@ -25,8 +26,7 @@ router
                 'description',
                 'username',
                 'num_finds',
-                this.knex.raw('json_agg(tag.name) AS tags'),
-                this.knex.raw('ST_Distance(photo.location, ST_GeomFromGeoJSON(?)) AS distance', [geo])
+                this.knex.raw('json_agg(tag.name) AS tags')
                 )
 
             .count('like.value as likes')
@@ -56,6 +56,19 @@ router
 
             .limit(this.request.body.photosPerPage);
 
+
+            if (this.request.body.coords){
+                var geo = {
+                    type: "Point",
+                    coordinates: [
+                        parseFloat(this.request.body.coords.longitude),
+                        parseFloat(this.request.body.coords.latitude)
+                    ]
+                };
+
+            query = query.select(this.knex.raw('ST_Distance(photo.location, ST_GeomFromGeoJSON(?)) AS distance', [geo]));
+
+            }
 
             // Order By 
             if(this.request.body.orderBy == 'Name'){
@@ -101,14 +114,13 @@ router
                 query = query.where(tablename, 'ilike', searchTerm);
             }
 
-
             // Execute query
             var photos = yield query;
             
             // Fix the photo URl and the distance to integers
             photos.forEach(function (row) {
                 row.image_path = photoUrl.fullUrl(row.image_path)
-                row.distance = Math.round(row.distance);
+                row.distance = Math.round(row.distance)/1000;
             });
 
 
