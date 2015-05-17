@@ -5,8 +5,9 @@ var photoUrl = require('./photoUrl');
 router
 
     .post('/search', function *() {
-        console.log("SearchMode: " + this.request.body.searchMode);
-        console.log("SearchBy: " + this.request.body.searchBy);
+        console.log('Rows: ' + this.request.body.rows + "Photos per Page: " + this.request.body.photosPerPage + "Seach: " + this.request.body.searchBy);
+
+        var geo = this.knex('')
 
     	var query = this.knex('photo')
             .select('image_path',
@@ -18,9 +19,9 @@ router
                 'num_finds',
                 this.knex.raw('json_agg(tag.name) AS tags')
                 )
+
             .count('like.value as likes')
             .count('dislike.value as dislikes')
-            .limit(10)
 
             .leftJoin('user','user.user_id', 'photo.user_id')
 
@@ -41,7 +42,9 @@ router
             })
             .groupBy('photo.photo_id')
             .groupBy('user.username')
-            .orderBy(this.request.body.orderBy);
+            .orderBy(this.request.body.orderBy)
+            .offset(this.request.body.rows)
+            .limit(this.request.body.photosPerPage);
 
 
         if(this.request.body.searchMode == "Name"){
@@ -53,6 +56,9 @@ router
         }
         else if(this.request.body.searchMode == "User"){
             var tablename = 'user.username';
+        }
+        else if(this.request.body.searchMode == "Tag"){
+            var tablename = 'tag.name';
         }
 
         if(this.request.body.searchBy){
@@ -67,14 +73,25 @@ router
         });
 
 
+        //var location = '{"type":"Point","coordinates":[-48.23456,20.12345]}';
+        //var dist_query = this.knex.raw('SELECT ST_AsText(ST_GeomFromGeoJSON(?)) As distance FROM photo',[location]);
+        //var distance_photos = yield dist_query;
+
+        //distance_photos.forEach(function (row) {
+            //console.log(row.distance);
+        //});
+        
         this.body = photos;
 
         this.status = 200;
 
-    })
+    }
 
 
 
+    )
+
+    
 
 
     

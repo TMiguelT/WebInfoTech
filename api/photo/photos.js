@@ -7,18 +7,32 @@ var request = require("request-promise");
 var fs = require('fs');
 
 router
+
+/**
+ * GET /photo/all_mock
+ *
+ * Displays mock data of photos as a JSON endpoint
+ *
+ */
     .get('/all_mock', function *(next) {
         this.body = {
             photos: photoData
         };
     })
+
+/**
+ * GET /photo/all
+ *
+ * Displays all the photos as a JSON endpoint
+ */
     .get('/all', function *() {
-        console.log("In /all (api photo)");
         var body_json = {};
 
         try {
+            // Make a call to the database to select all the photos
             var elements = yield photoQuery.selectAllPhotos(elements, this.knex);
 
+            // Remove all the duplicates from the records.
             elements.forEach(function(element) {
                 photoHelper.removeDuplicates(element);
             });
@@ -31,10 +45,16 @@ router
 
         this.body = body_json;
     })
+
+/**
+ * GET /photo/:photoId
+ *
+ * Displays photo information for a given photo as a JSON endpoint
+ */
     .get('/:photoId', function *() {
         var body_json = {};
         try {
-            photo_id = this.params.photoId;
+            var photo_id = this.params.photoId;
 
             var element = yield photoQuery.selectPhotoById(photo_id, this.knex);
 
@@ -48,7 +68,15 @@ router
 
         this.body = body_json;
     })
+
+/**
+ * POST /photo/distance
+ *
+ * Displays the distance, direction and a random coordinate within a given radius
+ * to the photo as a JSON endpoint.
+ */
     .post('/distance', function *() {
+        // Set up the GeoJSON
         var geo = {
             type: "Point",
             coordinates: [
@@ -56,6 +84,8 @@ router
                 parseFloat(this.request.body.latitude)
             ]
         };
+
+        // Set the photo ID to a variable
         var photo_id = this.request.body.photo_id;
 
         try {
@@ -69,6 +99,12 @@ router
             console.error(e);
         }
     })
+
+/**
+ * POST /photo/comment/add
+ *
+ * Adds a comment to the photo
+ */
     .post('/comment/add', function *() {
         this.body = this.request.body;
 
@@ -78,6 +114,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/comment/delete
+ *
+ * Deletes a comment from the photo
+ */
     .post('/comment/delete', function *() {
         this.body = this.request.body;
 
@@ -87,6 +129,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/like/add
+ *
+ * Adds a like to the photo
+ */
     .post('/like/add', function *() {
         this.body = this.request.body;
 
@@ -96,6 +144,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/like/delete
+ *
+ * Deletes a like from a photo
+ */
     .post('/like/delete', function *() {
         this.body = this.request.body;
 
@@ -105,6 +159,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/find/add
+ *
+ * Adds a find to a photo
+ */
     .post('/find/add', function *() {
         this.body = this.request.body;
 
@@ -114,6 +174,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * /photo/upload
+ *
+ * Uploads a photo
+ */
     .post('/upload', function *() {
 
         // must parse some fields to the correct format
@@ -124,6 +190,10 @@ router
         data.tags = JSON.parse(data["tags"])
         data.position = JSON.parse(data["position"])
         data.orientation = JSON.parse(data["orientation"])
+
+        if (data.description == "undefined") {
+            data.description = null;
+        }
 
         var time = new Date();
         var suffix = photo.type.split("/")[1]
@@ -138,10 +208,10 @@ router
             }
         };
 
-        this.body = yield request(options)
+        var response = yield request(options)
 
         // if photo post is unsuccessful do not continue
-        if (this.body != "OK") {
+        if (response != "OK") {
             return;
         }
 
@@ -168,29 +238,31 @@ router
             "user_id": data.user_id
         }, 'photo_id');
 
+        this.body = this_photo_id;
 
-        var args = data.tags.map(function (tag) {
-            return "(?)"
-        }).join(", ")
+        if (data.tags.length > 0) {
+            var args = data.tags.map(function (tag) {
+                return "(?)"
+            }).join(", ")
 
-        // insert into tag table
-        yield this.knex.raw("INSERT INTO tag (name) SELECT column1 FROM (VALUES "+
-        args +
-        ") as new WHERE new.column1 NOT IN (SELECT name FROM tag)", data.tags)
+            // insert into tag table
+            yield this.knex.raw("INSERT INTO tag (name) SELECT column1 FROM (VALUES " +
+            args +
+            ") as new WHERE new.column1 NOT IN (SELECT name FROM tag)", data.tags)
 
-		//@Andy the first query was working we just needed to add bracket
-        //@Michael roger that
-        var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
+            //@Andy the first query was working we just needed to add bracket
+            //@Michael roger that
+            var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
 
-        // insert into photo-tag table
-        var tags_with_photo_id = []
-        
-        //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before
-        tag_ids.rows.forEach(function(row){
-              tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
-        });
-        
-        var result = yield this.knex('photo_tag').insert(tags_with_photo_id)
+            // insert into photo-tag table
+            var tags_with_photo_id = []
+
+            //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before
+            tag_ids.rows.forEach(function (row) {
+                tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
+            });
+            var result = yield this.knex('photo_tag').insert(tags_with_photo_id)
+        }
     })
     .get('/upload_session_info', function *() {
         this.body = this.session;

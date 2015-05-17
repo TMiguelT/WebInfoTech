@@ -6,7 +6,7 @@
 
         <!--Search bar-->
         <div class="photo-list-buttons">
-            <div class="col-sm-1">
+            <div class="col-md-4">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
                         Order by
                         <span class="caret"></span>
@@ -19,23 +19,36 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('num_finds')">Finds</a></li>
                     </ul>
             </div>
+            <!-- Pagination -->
+            <div class="col-md-4" style="float:left">
+                <ul class="pager" style="margin: 0;">
+                  <li ng-class="{disabled: photoCtrl.currentPage == 0}">
+                    <a ng-click="photoCtrl.prevPage()">« Prev</a>
+                  </li>
+                
+                  <li ng-class="{disabled: photoCtrl.photos.length < photoCtrl.photosPerPage}">
+                    <a href ng-click="photoCtrl.nextPage()">Next »</a>
+                  </li>
+                </ul>
+            </div>
 
-            <div class="col-sm-2 input-group" style="float:right">
-                <span class="input-group-btn">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
-                        {{photoCtrl.searchMode}}
-                        <span class="caret"></span>
-                    </button>
+            <div class="col-md-3 input-group" style="float:right">
+                <div class="input-group-btn">
+                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {{photoCtrl.searchMode}} <span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('Tag')">Tag</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('Name')">Name</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('User')">User</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.searchFor('Description')">Description</a></li>
+
                     </ul>
-                <form ng-submit = "photoCtrl.searchPhotos()">
-                <input type="text" class="form-control" placeholder="Search for..." ng-model="searchBy">
+                </div>
+                <form ng-submit = "photoCtrl.goSearch()">
+                <input type="text" class="form-control" placeholder="Search for..." ng-model="photoCtrl.searchBy">
             </div>
         </div>
-        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.searchDone"></loading-box>
+        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
 
             <!-- Table-->
         <div ng-show="photoCtrl.viewMode == 'list'" class= "table-responsive">
@@ -70,17 +83,7 @@
           </table>
       </div>
 
-        <div ng-show="photoCtrl.viewMode == 'grid'" >
-        <a ng-href="/photo/{{photo.id}}" class="row photo-list-element" ng-repeat="photo in photoCtrl.photos ">
-                    <div class="col-sm-4" ng-if="$even">
-                        <img src="./public/photos/{{photoCtrl.photos[$index].url}}" class="img-thumbnail" alt="{{photoCtrl.photos[$index].name}}">
-                    </div>
-                    <div class="col-sm-1">
-                        {{photoCtrl.photos[$index].name}}
-                    </div>
-            </a>
 
-    </div>
 </section>
 
 

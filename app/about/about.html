@@ -1,7 +1,4 @@
 <header>
-    <video class="about-video" autoplay loop controls muted>
-        <source src="./public/about/geogram.mp4" type="video/mp4">
-    </video>
     <div class="content">
         <div class="heading">
             <h1 style = "margin-top:100px">Geogram</h1>
@@ -10,7 +7,7 @@
             <a class="btn btn-primary btn-lg btn-block center-block" href="/login" role="button">Sign up and try for free!</a>
         </div>
     </div>
-      <span class="scroll-btn">
+      <span class="scroll-btn" ng-click="goTo('.coverFlow')">
         <a href="#">
             <span class="mouse">
                 <span>
@@ -20,49 +17,57 @@
       <p>Scroll down</p>
 
     </span>
-
     <div class="overlay"></div>
 </header>
-<section class="main about">
-    <div class="gallery">
-        </div>
+<section class="main coverFlow">
     <div class="step">
         <div class="step-title">
             What is Geogram?
         </div>
-        <div class="step-content">
-            <p>
-                Geogram is an online application that allows users to explore the city around them, by finding
-                the locations in our user-submitted photos. Users compete to be the best by scoring for each location
-                they find, as well as submitting really interesting locations.
-                Give it a go today!
-            </p>
-        </div>
+        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
+        <photo-carousel photos="trendingPhotos"></photo-carousel>
+    </div>
+</section>
+<section class="main about">
+    <div class="step-content">
+        <p>
+            Geogram is an online application that allows users to explore the city around them, by finding
+            the locations in our user-submitted photos. Users compete to be the best by scoring for each location
+            they find, as well as submitting really interesting locations.
+            Give it a go today!
+        </p>
     </div>
 </section>
 <section class="main howItWorks">
     <div class ="instructions">
-        <div class="first">
+        <p style="padding-bottom: 30px">How to play</p>
+        <div class="col-md-3">
+            <div class="first">
+            </div>
+            <div>
+                <p class="step-instructions">Step 1: Simply signup or login</p>
+            </div>
         </div>
-        <div class="second">
+        <div class="col-md-3">
+            <div class="second">
+            </div>
+            <div>
+                <p class="step-instructions">Step 2: Select a photo of interest</p>
+            </div>
         </div>
-        <div class="third">
+        <div class="col-md-3">
+            <div class="third">
+            </div>
+            <div>
+                <p class="step-instructions">Step 3: Start playing!</p>
+            </div>
         </div>
-        <div class="last">
-        </div>
-    </div>
-    <div class ="step-instructions">
-        <div class="first">
-            <p>Step 1: Simply signup or login</p>
-        </div>
-        <div class="second">
-            <p>Step 2: Select a photo of interest</p>
-        </div>
-        <div class="third">
-            <p>Step 3: Start playing!</p>
-        </div>
-        <div class="last">
-            <p>Step 4: Earn points to top the leaderboard</p>
+        <div class="col-md-3">
+            <div class="last">
+            </div>
+            <div>
+                <p class="step-instructions">Step 4: Earn points to top the leaderboard</p>
+            </div>
         </div>
     </div>
     <div class="step">
@@ -79,14 +84,5 @@
             <a class="btn btn-primary btn-lg btn-block center-block" style="color:#efefef" href="/login" role="button">Get started for free now!</a>
         </div>
     </div>
+</section>
 
-</section>
-<section class="main coverFlow">
-    <div class="step">
-        <div class="step-title">
-            Trending Photos
-        </div>
-        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-        <photo-carousel photos="trendingPhotos"></photo-carousel>
-    </div>
-</section>
