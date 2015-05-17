@@ -7,22 +7,36 @@
         <!--Order By-->
 
         <div class="photo-list-buttons">
-            <div class="order-by col-md-4">
+            <div class="order-by col-md-2">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
-                        Order by
+                        Order: {{photoCtrl.orderMode}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('name')">Name</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('likes')">Likes</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('username')">User</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('description')">Description</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('distance')">Distance</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('Name')">Name</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('Likes')">Likes</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('User')">User</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('Description')">Description</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.orderBy('Distance')">Distance</a></li>
+                    </ul>
+            </div>
+
+            <div class="order-by col-md-4">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
+                        Photos: {{photoCtrl.photosPerPage}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOrder">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy(10)">10</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy(20)">20</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy(50)">50</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href ng-click="photoCtrl.viewBy(100)">100</a></li>
+     
                     </ul>
             </div>
 
             <!-- Search Bar-->
-            <div class="search-by col-md-4 input-group" style="float:right">
+            <div class="search-by col-md-3 input-group" style="float:right">
                 <div class="input-group-btn">
                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         {{photoCtrl.searchMode}} <span class="caret"></span></button>
@@ -42,7 +56,7 @@
 
         <!-- Pagination-->
 
-        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.photos.length > 0"></loading-box>
+        <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.searchDone"></loading-box>
 
             <!-- Table-->
         <p ng-show="photoCtrl.photos.length == 0"> No photos to show</p>
@@ -53,23 +67,24 @@
               <tr>
                 <th class="col-md-3">Photo</th>
                 <th>Name</th>
-                <th>Likes</th>
+
                 <th>Distance</th>
                 <th class="col-md-3">Description</th>
                 <th>Tags</th>        
                 <th>User</th>
+                <th>Likes</th>
               </tr>
             </thead>
             <tbody>
 
               <tr ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
-                        <td><img src="{{element.image_path}}" class="user-photo" alt="{{element.name}}"></td>
+                        <td><img src="{{element.image_path}}" class="list-photo" alt="{{element.name}}"></td>
                         <td>{{element.name}}</td>
-                        <td>{{element.likes}}</td>
                         <td>{{element.distance}}</td>
                         <td>{{element.description}}</td>
-                        <td><p ng-repeat="tag in element.tags" class= "tag" ng-show="tag">{{tag}}</p></td>
+                        <td><p ng-repeat="tag in element.tags" class= "list-tag" ng-show="tag">{{tag}}</p></td>
                         <td>{{element.username}}</td>
+                        <td>{{element.likes}}</td>
               </tr>
             </tbody>
           </table>

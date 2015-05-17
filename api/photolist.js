@@ -51,38 +51,65 @@ router
             })
             .groupBy('photo.photo_id')
             .groupBy('user.username')
-            .orderBy(this.request.body.orderBy)
-            .offset(this.request.body.rows)
 
+            .offset(this.request.body.rows)
 
             .limit(this.request.body.photosPerPage);
 
 
-        if(this.request.body.searchMode == "Name"){
-            var tablename = 'photo.name';
-        }
+            // Order By 
+            if(this.request.body.orderBy == 'Name'){
+                var ordername = 'name';
+            }
 
-        else if(this.request.body.searchMode == "Description"){
-            var tablename = 'photo.description';
-        }
-        else if(this.request.body.searchMode == "User"){
-            var tablename = 'user.username';
-        }
-        else if(this.request.body.searchMode == "Tag"){
-            var tablename = 'tag.name';
-        }
+            else if(this.request.body.orderBy == 'User'){
+                var ordername = 'username';
+            }
 
-        if(this.request.body.searchBy){
-            var searchTerm = "%" + this.request.body.searchBy +  "%";
-            query = query.where(tablename, 'ilike', searchTerm);
-        }
+            else if(this.request.body.orderBy == 'Distance'){
+                var ordername = 'distance';
+            }
 
-        var photos = yield query;
+            else if(this.request.body.orderBy == 'Description'){
+                var ordername = 'description';
+            }
+            else if(this.request.body.orderBy == 'Likes'){
+                var ordername = 'like';
+            }
 
-        photos.forEach(function (row) {
-            row.image_path = photoUrl.fullUrl(row.image_path)
-            row.distance = Math.round(row.distance);
-        });
+            query = query.orderBy(ordername)
+
+
+            // Search in the right table 
+            if(this.request.body.searchMode == "Name"){
+                var tablename = 'photo.name';
+            }
+
+            else if(this.request.body.searchMode == "Description"){
+                var tablename = 'photo.description';
+            }
+            else if(this.request.body.searchMode == "User"){
+                var tablename = 'user.username';
+            }
+            else if(this.request.body.searchMode == "Tag"){
+                var tablename = 'tag.name';
+            }
+            
+            // If searchterm is provided, only return those photos
+            if(this.request.body.searchBy){
+                var searchTerm = "%" + this.request.body.searchBy +  "%";
+                query = query.where(tablename, 'ilike', searchTerm);
+            }
+
+
+            // Execute query
+            var photos = yield query;
+            
+            // Fix the photo URl and the distance to integers
+            photos.forEach(function (row) {
+                row.image_path = photoUrl.fullUrl(row.image_path)
+                row.distance = Math.round(row.distance);
+            });
 
 
   
