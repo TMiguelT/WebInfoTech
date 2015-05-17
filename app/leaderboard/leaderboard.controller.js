@@ -66,6 +66,7 @@ angular.module("app")
                 $scope.userData = userService.data;
             });
         };
+        };
 
         init();
 
