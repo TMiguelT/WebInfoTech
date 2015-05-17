@@ -16,6 +16,8 @@
                     }
                 }
             }
+            // if user navigates to this page without logging in, redirect them to the login/register page
+            $rootScope.$on("$locationChangeSuccess", redirectCheck);
 
             // updates session information
             function sessionUpdate(data) {
@@ -28,14 +30,16 @@
                 sessionUpdate(data);
             });
 
-            // if user navigates to this page without logging in, redirect them to the login/register page
-            $rootScope.$on("$locationChangeSuccess", function () {
+            $scope.init = function () {
                 redirectCheck();
-            });
 
-            $scope.initialize = function() {
-                redirectCheck();
+                // grab initial value of the users location.
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    $scope.position = position;
+                });
             }
+
+
 
 
             // TODO talk to miguel, not sure if time to implement orientation.
