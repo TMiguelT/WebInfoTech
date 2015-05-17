@@ -1,6 +1,8 @@
 var router = require('koa-router')();
 var bcrypt = require('bcrypt-as-promised');
 var photoUrl = require('./../photoUrl');
+var _ = require('lodash');
+var queries = require("./queries");
 
 router
     .post('/login', function *() {
@@ -118,48 +120,85 @@ router
         this.body = "Success!";
     })
 
+    .post('/userData', function *() {
+
+        //Get the user ID that the user is querying
+        var userId = queries.userIdFromQuery(this);
+
+        //If they're querying themselves, include private data
+        if (this.session.logged_id && this.session.user_id == userId)
+            this.body = yield queries.privateUserData(this.knex, userId);
+        else
+            this.body = yield queries.publicUserData(this.knex, userId);
+    })
+
+    .post('/photos', function *() {
+        //Get the user ID that the user is querying
+        var userId = queries.userIdFromQuery(this);
+
+        //Send the query response
+        this.body = yield queries.userPhotos(this.knex, this.request.body.page, userId);
+        return;
+    })
+
+    .post('/finds', function *() {
+        //Get the user ID that the user is querying
+        var userId = queries.userIdFromQuery(this);
+
+        //Send the query response
+        this.body = yield queries.userFinds(this.knex, this.request.body.page, userId);
+        return;
+    })
+
+    //Get the user's stats for the users page
     .post('/stats', function *() {
-        //If they're logged in, log them out
-        if (this.session.logged_in) {
-            var finds = yield this.knex('find')
-                .where({"find.user_id": this.session.user_id})
-                .join('photo', 'photo.photo_id', '=', 'find.photo_id');
+        var userId;
 
-            finds.forEach(function (row) {
-                row.image_path = photoUrl.fullUrl(row.image_path)
-            });
+        //If they're looking for a specific user id, use it
+        if ('userId' in this.request.body)
+            userId = this.request.body.userId;
+        //Otherwise, if they're logged in, use their id from the session data
+        else if (this.session.logged_in)
+            userId = this.session.user_id;
+        else
+            throw new Error("You must be logged in or provide a user ID to access the user page");
 
-			var photos = yield this.knex('photo')
-                .select('image_path', 'num_finds')
-                .count('like.value as likes')
-                .count('dislike.value as dislikes')
-                .where('photo.user_id', '=', this.session.user_id)
-                .leftJoin('like', function(){
-                    this.on('photo.photo_id', '=', 'like.photo_id')
-                        .on('like.value', '>', 1)
-                })
-                .leftJoin('like AS dislike', function(){
-                    this.on('photo.photo_id', '=', 'like.photo_id')
-                        .on('like.value', '<', 1)
-                })
-                .groupBy('photo.photo_id');
+        var finds = yield this.knex('find')
+            .where({"find.user_id": userId})
+            .join('photo', 'photo.photo_id', '=', 'find.photo_id');
 
-            photos.forEach(function (row) {
-                row.image_path = photoUrl.fullUrl(row.image_path)
-            });
+        var userData = yield this.knex('user')
+            .select("user_id", 'username')
+            .where({user_id: userId});
 
-            this.body = {
-                photos: photos,
-                finds: finds
-            };
-            this.status = 200;
-        }
+        finds.forEach(function (row) {
+            row.image_path = photoUrl.fullUrl(row.image_path)
+        });
 
-        //If they're not logged in, wtf r u doing
-        else {
-            this.status = 400;
-            this.body = "Not logged in!";
-        }
+        var photos = yield this.knex('photo')
+            .select('image_path', 'num_finds')
+            .count('like.value as likes')
+            .count('dislike.value as dislikes')
+            .where({'photo.user_id': userId})
+            .leftJoin('like', function () {
+                this.on('photo.photo_id', '=', 'like.photo_id')
+                    .on('like.value', '>', 1)
+            })
+            .leftJoin('like AS dislike', function () {
+                this.on('photo.photo_id', '=', 'like.photo_id')
+                    .on('like.value', '<', 1)
+            })
+            .groupBy('photo.photo_id');
+
+        photos.forEach(function (row) {
+            row.image_path = photoUrl.fullUrl(row.image_path)
+        });
+
+        this.body = _.assign({
+            photos: photos,
+            finds: finds
+        }, userData[0]);
+        this.status = 200;
     });
 
 module.exports = router.routes();
