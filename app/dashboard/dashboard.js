@@ -6,6 +6,7 @@
             $scope.trendingPhotos = [];
             photoService.getTrendingPhotos(function(photos) {
                 $scope.trendingPhotos = photos;
+
             })
         }
 
@@ -26,6 +27,11 @@
         this.showLeaderboard = function(){
             $location.path('/leaderboard');
         }
+
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     }
 
     angular
