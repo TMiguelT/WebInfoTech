@@ -10,39 +10,16 @@ angular.module("app")
         var oppositeMode = function (mode) {
             if (mode == "world")
                 return "friends";
-             else
+            else
                 return "world";
 
         }
 
-        //$scope.getWorldLeaderboard = function() {
-        //    leaderboardService.getWorldLeaderboard(function(leaderboard) {
-        //        $scope.worldLeaderboard = leaderboard;
-        //    });
-        //};
-        //
-        //$scope.getFriendsLeaderboard = function() {
-        //    leaderboardService.getFriendsLeaderboard($scope.userData.user_id, function(leaderboard) {
-        //        $scope.friendsLeaderboard = leaderboard
-        //    });
-        //}
-
-        $scope.getWorldLeaderboard = function() {
-            leaderboardService.getWorldLeaderboard(function(leaderboard) {
+        $scope.getWorldLeaderboard = function () {
+            leaderboardService.getWorldLeaderboard(function (leaderboard) {
                 $scope.worldLeaderboard = leaderboard;
             });
         };
-
-        $scope.getFriendsLeaderboard = function() {
-            leaderboardService.getFriendsLeaderboard($scope.userData.user_id, function(leaderboard) {
-                $scope.friendsLeaderoard = leaderboard
-            });
-        };
-
-        //need to check for likes and dislikes to calculate score
-        $scope.getScore = function() {
-
-        }
 
         $scope.filterBy = function (toFilter) {
             $scope.query = toFilter;
@@ -53,12 +30,7 @@ angular.module("app")
         };
 
         function init() {
-            $scope.photoLoaded = false;
             $scope.userData = userService.data;
-            $scope.mode = "world";
-
-            if ($scope.userData.logged_in)
-                $scope.getFriendsLeaderboard();
 
             $scope.getWorldLeaderboard();
 

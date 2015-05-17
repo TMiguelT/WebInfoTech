@@ -1,63 +1,98 @@
 /**
  * Created by Johanna on 30/03/15.
  */
+
 angular.module('app')
-    .controller('photolistController', ["$scope", "$http", "photoService", "$location",
-        function ($scope, $http, photoService, $location) {
-            var self = this;
-            this.orderMode = 'name';
-            this.viewMode = 'list';
-            this.searchMode = 'Name';
-            $scope.searchBy = "";
-            this.query = null;
-            $scope.userLocation = "";
-            this.serchDone = false;
-            this.pageNumber = 1;
+    .controller('photolistController', ["$scope","$http", "photoService","$location", function ($scope,$http, photoService, $location) {
+        var self = this;
+        this.orderMode = 'Name';
+        this.searchMode = 'Name';       
+        $scope.searchBy = "";
 
-            this.searchPhotos = function () {
-                self.serchDone = false;
-                console.log("Getting location");
-                navigator.geolocation.getCurrentPosition(function (position) {
+        $scope.userLocation = "";
 
-                    $scope.userLocation = position.coords;
-                    console.log("Location latitute: " + $scope.userLocation.latitude);
-                }, function () {
-                    var error = {
-                        name: "navigatorError",
-                        desc: "Cannot display map - please enable your location"
-                    };
-                    console.log(error.name);
+        this.currentPage = 0;
+        this.photosPerPage = 10;
+        this.rows = 0;
+
+
+        this.goSearch = function(){
+            this.currentPage = 0;
+            this.rows = 0;
+            this.searchPhotos();
+
+        };
+
+        this.searchPhotos = function() {
+            self.serchDone = false;
+            var coords = null;
+            navigator.geolocation.getCurrentPosition(function(position) {
+            //Get coordinations
+            
+            // Search for the right photos to show
+            photoService.searchPhotos(self.orderMode,self.searchBy,self.searchMode,self.rows, self.photosPerPage,position.coords,function(photos) {
+                self.photos = photos;
+                self.searchDone = true;
+            });
+
+            }, function() {
+                var error = {
+                    name: "navigatorError",
+                    desc: "Cannot display distance to photos - please enable your location"
+                };
+                console.log(error.name);
+
+                var position;
+
+                photoService.searchPhotos(self.orderMode,self.searchBy,self.searchMode,self.rows, self.photosPerPage,position,function(photos) {
+                   self.photos = photos;
+                self.searchDone = true;
                 });
+            });
 
-                console.log("Location: " + $scope.userLocation);
-                photoService.searchPhotos(this.orderMode, $scope.searchBy, this.searchMode, function (photos) {
-                    self.photos = photos;
-                    self.searchDone = true;
-                });
-            }
 
-            this.orderBy = function (toOrder) {
-                this.orderMode = toOrder;
-                this.searchPhotos();
+       
+        }
+
+        this.orderBy = function(toOrder){
+            this.orderMode = toOrder;
+            this.goSearch();
+        };
+        this.viewBy = function(toView){
+            this.photosPerPage = toView;
+            this.goSearch();
+        };
+
+        this.searchFor = function (toSearch) {
+            this.searchMode = toSearch;
+        };
+
+        this.showPhoto = function(photo){
+            $location.path('/photo/'+photo);
+
+        };
+
+        this.prevPage = function () {
+        self.serchDone = false;
+        if (this.currentPage > 0) {
+          this.currentPage--;
             };
-            this.viewBy = function (toView) {
-                this.viewMode = toView;
-            };
-            this.searchFor = function (toSearch) {
-                this.searchMode = toSearch;
-            };
-            this.showPhoto = function (photo) {
-                $location.path('/photo/' + photo);
+            this.searchPhotos();
+        };
 
+        this.nextPage = function () {
+        self.serchDone = false;
+        if (this.currentPage < this.photos.length - 1) {
+          this.currentPage++;
             };
-            this.showTag = function (tag) {
-                $location.path('/tags/' + tag);
+            self.rows = self.getRows()
+            this.searchPhotos();
+        };
 
-            };
-            this.setPage = function (number) {
-                this.pageNumber = number;
-
-            };
+        this.getRows = function(){
+            return this.currentPage * this.photosPerPage;
+        };
 
 
-        }]);
+
+}]);

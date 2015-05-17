@@ -53,6 +53,7 @@
   }
 }
 .scroll-btn {
+  z-index: 2;
   display: block;
   position: absolute;
   left: 0;
@@ -106,4 +107,10 @@
   -webkit-animation: ani-mouse 2.5s linear infinite;
   -moz-animation: ani-mouse 2.5s linear infinite;
   animation: ani-mouse 2.5s linear infinite;
+}
+
+@media only screen and (max-height: 600px) {
+  .scroll-btn {
+    display: none;
+  }
 }
