@@ -6,26 +6,30 @@
         .module("app")
         .controller("photoCaptureController", ["$scope", "$http", "$location", "userService", "$rootScope", function ($scope, $http, $location, userService, $rootScope) {
 
+            $scope.uploading = false;
 
             // updates session information
             function sessionUpdate(data) {
-
-                if (typeof data != 'undefined') {
-                    if (data.logged_in == false) {
-                        $location.path("/login");
-                    }
-
                 $scope.logged_in = data.logged_in;
                 $scope.user_id = data.user_id;
                 $scope.username = data.username;
-                }
             }
-
             sessionUpdate(userService.data);
-            $rootScope.$on('sessionChanged', function (angularBullshit, data) {
-                updateSession(data);
+            $rootScope.$on('sessionChanged', function (arg, data) {
+                sessionUpdate(data);
             });
 
+            // if user navigates to this page without logging in, redirect them to the login/register page
+            $rootScope.$on("$locationChangeSuccess", function () {
+                if ($location.path() == "/capture") {
+                    if ( $scope.logged_in != true) {
+                        $location.path("/login");
+                    }
+                }
+            });
+
+
+            // TODO talk to miguel, not sure if time to implement orientation.
             window.addEventListener("deviceorientation", function(event) {
                 $scope.orientation = {
                     "absolute": event.absolute,
@@ -35,6 +39,10 @@
                 };
             }, true);
 
+
+            // these are used to help determine when messages should appear in the form
+            // the content of each message is defined in photocapture.html
+            // this is mainly used to show users what fields they need to fill out in the form.
             $scope.fillMessages = {
                 "file": false,
                 "name": false,
@@ -53,11 +61,6 @@
                 $scope.$apply();
             });
 
-            // set watch for session changes
-            $rootScope.$on('sessionChanged', function (arg, data) {
-                sessionUpdate(data);
-            });
-
 
             $scope.showErrors = function (err) {
                 var msg = "Errors:\n";
@@ -68,11 +71,11 @@
                 }
                 else
                     msg += err;
-                alert(msg);
+                console.log(msg);
             };
 
             $scope.isValid = function () {
-                flag = true;
+                                flag = true;
 
                 if ($scope.form.name == null || $scope.form.name == "") {
                     $scope.fillMessages["name"] = true;
@@ -116,17 +119,24 @@
                 return flag;
             }
 
-            $scope.submit = function (isValid) {
-                if (!$scope.logged_in) {
-                    alert("error please log in to submit photos");
-                    return;
-                }
+            // this function is called when a new file is selected in the form
+            // ensuring that the location sent to the server with the photo
+            // was observed during the time in which the photo was taken
+            $scope.updatePositionToSend = function() {
+                console.log("updating positionToSend");
+                $scope.positionToSend = JSON.stringify({
+                    latitude: $scope.position.coords.latitude,
+                    longitude: $scope.position.coords.longitude
+                });
+            }
 
+            $scope.submit = function (isValid) {
                 if (!isValid) {
                     return;
                 }
 
-                var submission = new FormData();
+                // display loading box.
+                $scope.uploading = true;
 
                 // simplify tags field
                 var tags = [];
@@ -134,17 +144,15 @@
                     tags.push(tag.text);
                 });
 
+                var submission = new FormData();
                 submission.append("orientation", JSON.stringify($scope.orientation));
-                submission.append("position", JSON.stringify({
-                    latitude: $scope.position.coords.latitude,
-                    longitude: $scope.position.coords.longitude
-                }));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
                 submission.append("hint", $scope.form.hint);
                 submission.append("tags", JSON.stringify(tags));
                 submission.append("user_id", $scope.user_id);
+                submission.append("position", $scope.positionToSend);
 
                 $scope.photoName = $("#photoInputField")[0].files[0].name;
 
@@ -155,6 +163,9 @@
                 })
                     .success(function (data) {
                         $scope.fillMessages.showSuccess = true;
+
+                        // redirect user to the photo page.
+                        $location.path("/photo/" + data);
                     })
                     .error($scope.showErrors);
             };

@@ -125,6 +125,10 @@ router
         data.position = JSON.parse(data["position"])
         data.orientation = JSON.parse(data["orientation"])
 
+        if (data.description == "undefined") {
+            data.description = null;
+        }
+
         var time = new Date();
         var suffix = photo.type.split("/")[1]
 
@@ -138,10 +142,10 @@ router
             }
         };
 
-        this.body = yield request(options)
+        var response = yield request(options)
 
         // if photo post is unsuccessful do not continue
-        if (this.body != "OK") {
+        if (response != "OK") {
             return;
         }
 
@@ -168,29 +172,31 @@ router
             "user_id": data.user_id
         }, 'photo_id');
 
+        this.body = this_photo_id;
 
-        var args = data.tags.map(function (tag) {
-            return "(?)"
-        }).join(", ")
+        if (data.tags.length > 0) {
+            var args = data.tags.map(function (tag) {
+                return "(?)"
+            }).join(", ")
 
-        // insert into tag table
-        yield this.knex.raw("INSERT INTO tag (name) SELECT column1 FROM (VALUES "+
-        args +
-        ") as new WHERE new.column1 NOT IN (SELECT name FROM tag)", data.tags)
+            // insert into tag table
+            yield this.knex.raw("INSERT INTO tag (name) SELECT column1 FROM (VALUES " +
+            args +
+            ") as new WHERE new.column1 NOT IN (SELECT name FROM tag)", data.tags)
 
-		//@Andy the first query was working we just needed to add bracket
-        //@Michael roger that
-        var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
+            //@Andy the first query was working we just needed to add bracket
+            //@Michael roger that
+            var tag_ids = yield this.knex.raw("SELECT tag_id FROM tag WHERE name = ANY(?)", [data.tags])
 
-        // insert into photo-tag table
-        var tags_with_photo_id = []
-        
-        //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before
-        tag_ids.rows.forEach(function(row){
-              tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
-        });
-        
-        var result = yield this.knex('photo_tag').insert(tags_with_photo_id)
+            // insert into photo-tag table
+            var tags_with_photo_id = []
+
+            //@Andy you needed to iterate over the .rows property because you were iterating over the entire result object before
+            tag_ids.rows.forEach(function (row) {
+                tags_with_photo_id.push({tag_id: row.tag_id, photo_id: this_photo_id[0]})
+            });
+            var result = yield this.knex('photo_tag').insert(tags_with_photo_id)
+        }
     })
     .get('/upload_session_info', function *() {
         this.body = this.session;
