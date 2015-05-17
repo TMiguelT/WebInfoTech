@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>Geogram</title>
+    <base href="/">
+    <link rel="stylesheet" href="/public/app.css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="navbarController">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand navbar-title" href="/">Geogram</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+<<<<<<< HEAD
+                <li class=""><a href="/">Home</a></li>
+                <li><a href="/photolist">Photos</a></li>
+                <li><a href="/capture">Add a Photo</a></li>
+                <li><a href="/leaderboard">View Leaderboard</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li ng-show="!logged_in"><a href="/login">Login/Register</a></li>
+                <li ng-show="logged_in"><a href="/user">{{username}}</a></li>
+                <li ng-show="logged_in" ng-click="logOut()"><a href="#">Logout</a></li>
+=======
+                <li><a href="/photolist"><span class="glyphicon glyphicon-picture"> </span> Photos</a></li>
+                <li><a href="/capture"><span class="glyphicon glyphicon-camera"> </span> Add a Photo</a></li>
+                <li><a href="/leaderboard"><span class="glyphicon glyphicon-list"> </span> View Leaderboard</a></li>
+                <li><a href="/dashboard"><span class="glyphicon glyphicon-th"> </span> Dashboard</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="!logged_in"><button class="btn btn-primary navbar-btn" ng-click="goToPage('/login')">Login/Register</button></li>
+                <li ng-show="logged_in"><a href="/user"><span class="glyphicon glyphicon-user"> </span> {{username}}</a></li>
+                <li ng-show="logged_in"><button class="btn btn-primary navbar-btn" ng-click="logOut()">Logout</button></li>
+>>>>>>> 58ccf8397b70554bd1a3febb4842ccb7302d6f4b
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="site" ng-view></div>
+<script src="/public/vendor.js"></script>
+<script src="/public/app.js"></script>
+</body>
+</html>

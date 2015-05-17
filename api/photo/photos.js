@@ -9,18 +9,32 @@ var Promise = require("bluebird");
 var fs = Promise.promisifyAll(require("fs"));
 
 router
+
+/**
+ * GET /photo/all_mock
+ *
+ * Displays mock data of photos as a JSON endpoint
+ *
+ */
     .get('/all_mock', function *(next) {
         this.body = {
             photos: photoData
         };
     })
+
+/**
+ * GET /photo/all
+ *
+ * Displays all the photos as a JSON endpoint
+ */
     .get('/all', function *() {
-        console.log("In /all (api photo)");
         var body_json = {};
 
         try {
+            // Make a call to the database to select all the photos
             var elements = yield photoQuery.selectAllPhotos(elements, this.knex);
 
+            // Remove all the duplicates from the records.
             elements.forEach(function(element) {
                 photoHelper.removeDuplicates(element);
             });
@@ -33,10 +47,16 @@ router
 
         this.body = body_json;
     })
+
+/**
+ * GET /photo/:photoId
+ *
+ * Displays photo information for a given photo as a JSON endpoint
+ */
     .get('/:photoId', function *() {
         var body_json = {};
         try {
-            photo_id = this.params.photoId;
+            var photo_id = this.params.photoId;
 
             var element = yield photoQuery.selectPhotoById(photo_id, this.knex);
 
@@ -50,7 +70,15 @@ router
 
         this.body = body_json;
     })
+
+/**
+ * POST /photo/distance
+ *
+ * Displays the distance, direction and a random coordinate within a given radius
+ * to the photo as a JSON endpoint.
+ */
     .post('/distance', function *() {
+        // Set up the GeoJSON
         var geo = {
             type: "Point",
             coordinates: [
@@ -58,6 +86,8 @@ router
                 parseFloat(this.request.body.latitude)
             ]
         };
+
+        // Set the photo ID to a variable
         var photo_id = this.request.body.photo_id;
 
         try {
@@ -71,6 +101,12 @@ router
             console.error(e);
         }
     })
+
+/**
+ * POST /photo/comment/add
+ *
+ * Adds a comment to the photo
+ */
     .post('/comment/add', function *() {
         this.body = this.request.body;
 
@@ -80,6 +116,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/comment/delete
+ *
+ * Deletes a comment from the photo
+ */
     .post('/comment/delete', function *() {
         this.body = this.request.body;
 
@@ -89,6 +131,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/like/add
+ *
+ * Adds a like to the photo
+ */
     .post('/like/add', function *() {
         this.body = this.request.body;
 
@@ -98,6 +146,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/like/delete
+ *
+ * Deletes a like from a photo
+ */
     .post('/like/delete', function *() {
         this.body = this.request.body;
 
@@ -107,6 +161,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * POST /photo/find/add
+ *
+ * Adds a find to a photo
+ */
     .post('/find/add', function *() {
         this.body = this.request.body;
 
@@ -117,6 +177,12 @@ router
             console.error("db error: " + e);
         }
     })
+
+/**
+ * /photo/upload
+ *
+ * Uploads a photo
+ */
     .post('/upload', function *() {
 
         // must parse some fields to the correct format

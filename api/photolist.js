@@ -5,22 +5,32 @@ var photoUrl = require('./photoUrl');
 router
 
     .post('/search', function *() {
-        console.log("SearchMode: " + this.request.body.searchMode);
-        console.log("SearchBy: " + this.request.body.searchBy);
+        
+        var test_location = '{"type":"Point","coordinates":[-48.23456,20.12345]}';
+
+        if (this.request.body.coords){
+            var geo = {
+                type: "Point",
+                coordinates: [
+                    parseFloat(this.request.body.coords.longitude),
+                    parseFloat(this.request.body.coords.latitude)
+                ]
+            };
+        }
+
 
     	var query = this.knex('photo')
             .select('image_path',
                 'photo.photo_id',
                 'photo.name AS name',
-                'num_finds',
                 'description',
                 'username',
                 'num_finds',
                 this.knex.raw('json_agg(tag.name) AS tags')
                 )
+
             .count('like.value as likes')
             .count('dislike.value as dislikes')
-            .limit(10)
 
             .leftJoin('user','user.user_id', 'photo.user_id')
 
@@ -41,40 +51,92 @@ router
             })
             .groupBy('photo.photo_id')
             .groupBy('user.username')
-            .orderBy(this.request.body.orderBy);
+
+            .offset(this.request.body.rows)
+
+            .limit(this.request.body.photosPerPage);
 
 
-        if(this.request.body.searchMode == "Name"){
-            var tablename = 'photo.name';
-        }
+            if (this.request.body.coords){
+                var geo = {
+                    type: "Point",
+                    coordinates: [
+                        parseFloat(this.request.body.coords.longitude),
+                        parseFloat(this.request.body.coords.latitude)
+                    ]
+                };
 
-        else if(this.request.body.searchMode == "Description"){
-            var tablename = 'photo.description';
-        }
-        else if(this.request.body.searchMode == "User"){
-            var tablename = 'user.username';
-        }
+            query = query.select(this.knex.raw('ST_Distance(photo.location, ST_GeomFromGeoJSON(?)) AS distance', [geo]));
 
-        if(this.request.body.searchBy){
-            var searchTerm = "%" + this.request.body.searchBy +  "%";
-            query = query.where(tablename, 'ilike', searchTerm);
-        }
+            }
 
-        var photos = yield query;
+            // Order By 
+            if(this.request.body.orderBy == 'Name'){
+                var ordername = 'name';
+            }
 
-        photos.forEach(function (row) {
-            row.image_path = photoUrl.fullUrl(row.image_path)
-        });
+            else if(this.request.body.orderBy == 'User'){
+                var ordername = 'username';
+            }
+
+            else if(this.request.body.orderBy == 'Distance'){
+                var ordername = 'distance';
+            }
+
+            else if(this.request.body.orderBy == 'Description'){
+                var ordername = 'description';
+            }
+            else if(this.request.body.orderBy == 'Likes'){
+                var ordername = 'like';
+            }
+
+            query = query.orderBy(ordername)
 
 
+            // Search in the right table 
+            if(this.request.body.searchMode == "Name"){
+                var tablename = 'photo.name';
+            }
+
+            else if(this.request.body.searchMode == "Description"){
+                var tablename = 'photo.description';
+            }
+            else if(this.request.body.searchMode == "User"){
+                var tablename = 'user.username';
+            }
+            else if(this.request.body.searchMode == "Tag"){
+                var tablename = 'tag.name';
+            }
+            
+            // If searchterm is provided, only return those photos
+            if(this.request.body.searchBy){
+                var searchTerm = "%" + this.request.body.searchBy +  "%";
+                query = query.where(tablename, 'ilike', searchTerm);
+            }
+
+            // Execute query
+            var photos = yield query;
+            
+            // Fix the photo URl and the distance to integers
+            photos.forEach(function (row) {
+                row.image_path = photoUrl.fullUrl(row.image_path)
+                row.distance = Math.round(row.distance)/1000;
+            });
+
+
+  
+        
         this.body = photos;
 
         this.status = 200;
 
-    })
+    }
 
 
 
+    )
+
+    
 
 
     

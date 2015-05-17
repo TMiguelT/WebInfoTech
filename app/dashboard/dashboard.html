@@ -1,9 +1,9 @@
 
-<section class="dashboard">
-        <div class="col-md-3">
+<section class="dashboard" ng-controller="dashboardController as dashCtrl">
+        <div class="col-md-3" ng-controller="leaderboardController as leaderboardCtrl">
             <div class="dashboard-sidebar">
-                <h4><a href="/public/leaderboard/leaderboard.html"></a>Leaderboard</h4>
-                <table class="table" ng-controller="leaderboardController as boardCtrl">
+                <h4><a ng-click="dashCtrl.showLeaderboard()" style="cursor:pointer;">Leaderboard</a></h4>
+                <table class="table">
                         <thead>
                             <tr>
                                 <th>Rank</th>
@@ -11,8 +11,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="user in boardCtrl.players">
-                                <td>{{user.rank}}</td>
+                            <tr ng-repeat="user in worldLeaderboard | limitTo:10">
+                                <td>{{$index + 1}}</td>
                                 <td>{{user.username}}</td>
                             </tr>
                         </tbody>
@@ -24,38 +24,14 @@
         <div class="col-md-9">
             <div class="dashboard-content">
 
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Trending Photos
-                        </div>
-                        <loading-box text="'Loading Trending Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
+                <loading-box text="'Loading Photos...'" ng-hide="trendingPhotos.length>0"></loading-box>
 
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
-
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Photos by Friends
-                        </div>
-                        <loading-box text="'Loading Photos by Friends...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
-
-                <section class="main coverFlow">
-                    <div class="step">
-                        <div class="step-title">
-                            Nearby Photos
-                        </div>
-                        <loading-box text="'Loading Nearby Photos...'" ng-hide="trendingPhotos.length > 0"></loading-box>
-
-                        <photo-carousel photos="trendingPhotos"></photo-carousel>
-                    </div>
-                </section>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="element in trendingPhotos" style="cursor: pointer;">
+                    <a class="thumbnail" ng-click="dashCtrl.showPhoto(element.photo.id)">
+                        <img class="img-responsive" src="{{ getPhotoUrl(element.photo.url) }}" alt="{{element.photo.name}}"
+                             data-toggle="tooltip" data-placement="bottom" title="{{element.photo.name}}" tooltip>
+                    </a>
+                </div>
             </div>
         </div>
 </section>

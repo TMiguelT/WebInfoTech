@@ -30,7 +30,8 @@ app
             yield next;
         }
         catch (ex) {
-            console.trace(ex);
+            //console.log(ex.message);
+            console.log(ex.stack);
         }
     }) //Error logging
     .use(require('koa-knex')(dbInfo)) //Use the database connection

@@ -1,26 +1,21 @@
 var router = require('koa-router')();
-var leaderboardFriendsMockData = require("./mock_data/leaderboardFriendsDummyData.json");
-var leaderboardWorldMockData = require("./mock_data/leaderboardWorldDummyData.json");
+var rankHelper = require('./helpers/rank_helper');
 var fs = require('fs');
 var select_users = fs.readFileSync('./api/leaderboard/sql_queries/user_select_query.sql').toString();
 
 
-/*
+
 router
     .get('/world', function *() {
-        this.body = leaderboardWorldMockData;
-    })
-    .post('/friends', function *() {
-        var user_id = this.request.body;
+        leaderboard = (yield this.knex.raw(select_users)).rows;
 
-        this.body = leaderboardFriendsMockData;
+        leaderboard = rankHelper.order(leaderboard);
+
+        this.body = {
+            leaderboard: leaderboard
+        };
+
     });
-*/
-
-module.exports = {
-    selectAllUsers: function *(users, knex) {
-        return (yield knew.raw(select_users)).rows
-    }
 
 
-}
+module.exports = router.routes();

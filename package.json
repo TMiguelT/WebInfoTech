@@ -39,6 +39,7 @@
   "dependencies": {
     "bcrypt-as-promised": "^1.0.1",
     "bluebird": "^2.9.24",
+    "gulp-sourcemaps": "^1.5.2",
     "knex": "^0.7.6",
     "knex-postgis": "^0.1.7",
     "koa": "^0.18.1",
