@@ -4,8 +4,7 @@ var geoHelper = require('./helpers/geo_helper');
 var router = require('koa-router')();
 var photoData = require("./mock_data/photoDummyData.json");
 var request = require("request-promise");
-var fs = require('fs');
-
+var fs = require("fs");
 router
 
 /**
@@ -168,6 +167,7 @@ router
     .post('/find/add', function *() {
         this.body = this.request.body;
 
+
         try {
             yield photoQuery.addFind(this.body, this.knex);
         } catch(e) {
@@ -186,10 +186,9 @@ router
         var data = this.request.body.fields;
         var photo = this.request.body.files.photo;
 
-        //data.description = JSON.parse(data["description"])
         data.tags = JSON.parse(data["tags"])
+        console.log(data["position"])
         data.position = JSON.parse(data["position"])
-        data.orientation = JSON.parse(data["orientation"])
 
         if (data.description == "undefined") {
             data.description = null;
@@ -215,9 +214,6 @@ router
             return;
         }
 
-        // TODO remove this once orientation is functioning
-        data.orientation.absolute = 0;
-
         // insert the photo
         var this_photo_id = yield this.knex("photo").insert({
             "image_path": options.formData.name,
@@ -227,12 +223,6 @@ router
                     data.position.latitude
                 ]
             }),
-            orientation: [
-                data.orientation.absolute,
-                data.orientation.alpha,
-                data.orientation.beta,
-                data.orientation.gamma
-            ],
             "name": data.name,
             "description": data.description,
             "user_id": data.user_id

@@ -8,6 +8,27 @@
 
             $scope.uploading = false;
 
+            $scope.init = function () {
+                redirectCheck();
+                // grab initial value of the users location.
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    $scope.position = position;
+                });
+            }
+
+            // if the user is not logged in, redirect to the login page
+            function redirectCheck() {
+                if ($location.path() == "/capture") {
+                    if ( $scope.logged_in != true) {
+                        $location.path("/login");
+                    }
+                }
+            }
+            // if user navigates to this page without logging in, redirect them to the login/register page
+            $rootScope.$on("$locationChangeSuccess", function () {
+                redirectCheck();
+            });
+
             // updates session information
             function sessionUpdate(data) {
                 $scope.logged_in = data.logged_in;
@@ -17,15 +38,6 @@
             sessionUpdate(userService.data);
             $rootScope.$on('sessionChanged', function (arg, data) {
                 sessionUpdate(data);
-            });
-
-            // if user navigates to this page without logging in, redirect them to the login/register page
-            $rootScope.$on("$locationChangeSuccess", function () {
-                if ($location.path() == "/capture") {
-                    if ( $scope.logged_in != true) {
-                        $location.path("/login");
-                    }
-                }
             });
 
 
@@ -123,7 +135,7 @@
             // ensuring that the location sent to the server with the photo
             // was observed during the time in which the photo was taken
             $scope.updatePositionToSend = function() {
-                console.log("updating positionToSend");
+                console.log("updating positionToSend: " + $scope.position.coords.latitude + "," + $scope.position.coords.longitude);
                 $scope.positionToSend = JSON.stringify({
                     latitude: $scope.position.coords.latitude,
                     longitude: $scope.position.coords.longitude
@@ -145,7 +157,6 @@
                 });
 
                 var submission = new FormData();
-                submission.append("orientation", JSON.stringify($scope.orientation));
                 submission.append("photo", $("#photoInputField")[0].files[0]);
                 submission.append("name", $scope.form.name);
                 submission.append("description", $scope.form.description);
