@@ -21,12 +21,6 @@ angular.module("app")
             });
         };
 
-        $scope.getFriendsLeaderboard = function () {
-            leaderboardService.getFriendsLeaderboard($scope.userData.user_id, function (leaderboard) {
-                $scope.friendsLeaderoard = leaderboard
-            });
-        };
-
         $scope.filterBy = function (toFilter) {
             $scope.query = toFilter;
         };
@@ -36,12 +30,7 @@ angular.module("app")
         };
 
         function init() {
-            $scope.photoLoaded = false;
             $scope.userData = userService.data;
-            $scope.mode = "world";
-
-            if ($scope.userData.logged_in)
-                $scope.getFriendsLeaderboard();
 
             $scope.getWorldLeaderboard();
 

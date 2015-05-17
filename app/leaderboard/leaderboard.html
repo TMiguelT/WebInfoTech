@@ -11,13 +11,6 @@
 
         <!-- leaderboard toggle buttons -->
         <div class="switch-leaderboards">
-            <div class="col-md-12 text-center">
-                <div class="btn-group">
-                    <ul class="nav nav-pills" role="tablist">
-                        <li ng-click="mode = 'world'" role="presentation" ng-class="{active: mode == 'world'}"><a href="#" role="tab">World</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="col-md-4 input-group" style="float:right">
                       <span class="input-group-btn">
                         <button class="btn btn-default" type="button">Search</button>
@@ -35,13 +28,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-show="mode == 'world'" ng-repeat="element in worldLeaderboard | filter: query">
+                <tr ng-repeat="user in worldLeaderboard | filter: query">
 
                     <td>{{$index + 1}}</td>
 
-                    <td>{{element.user.username}}</td>
+                    <td>{{user.username}}</td>
 
-                    <td>{{element.user.score}}</td>
+                    <td>{{user.score}}</td>
 
                 </tr>
             </tbody>
