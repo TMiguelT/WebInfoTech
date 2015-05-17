@@ -8,18 +8,10 @@ var select_users = fs.readFileSync('./api/leaderboard/sql_queries/user_select_qu
 
 router
     .get('/world', function *() {
-        this.body = leaderboardWorldMockData;
-    })
-    .post('/friends', function *() {
-        var user_id = this.request.body;
-
-        this.body = leaderboardFriendsMockData;
+        this.body = {
+            leaderboard: (yield this.knex.raw(select_users)).rows
+        }
     });
 
 
-module.exports = {
-    selectAllUsers: function *(users, knex) {
-        return (yield knew.raw(select_users)).rows
-    }
-
-}
+module.exports = router.routes();
