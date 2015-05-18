@@ -4,6 +4,8 @@ var fs = require('fs');
 var select_users = fs.readFileSync('./api/leaderboard/sql_queries/user_select_query.sql').toString();
 
 
+// This API calls the database for the users score and username information
+// it then orders the records by score using rankHelper
 
 router
     .get('/world', function *() {

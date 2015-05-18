@@ -32,5 +32,15 @@
             </div>
             <button ng-click="submit()" type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+        <br>
+
+        <div class="alert alert-warning" ng-show="errors.length" role="alert">
+            <div ng-repeat="error in errors">
+                <p ng-repeat="subError in error">{{subError}}</p>
+            </div>
+        </div>
+
+        <loading-box ng-show="loading" text="loadingText"></loading-box>
     </div>
 </div>

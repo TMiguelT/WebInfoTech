@@ -1,3 +1,10 @@
+/**
+ *
+ * This function obtains all username and score data from the JSON endpoint,
+ * which is found at /api/leaderboard/world
+ *
+ */
+
 (function() {
     "use strict";
 
