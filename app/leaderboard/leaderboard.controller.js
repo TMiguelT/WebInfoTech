@@ -6,32 +6,39 @@
 
 angular.module("app")
     .controller('leaderboardController', ["$scope", "$rootScope", "userService", "leaderboardService", function ($scope, $rootScope, userService, leaderboardService) {
-        var self = this;
-        var oppositeMode = function (mode) {
-            if (mode == "world")
-                return "friends";
-            else
-                return "world";
 
-        }
-
-
+        /**
+         *
+         * getWorldLeaderboard()
+         *
+         * This function obtains all the usernames and scores
+         *
+         */
         $scope.getWorldLeaderboard = function () {
             leaderboardService.getWorldLeaderboard(function (leaderboard) {
                 $scope.worldLeaderboard = leaderboard;
             });
         };
 
+        /**
+         *
+         * filterBy()
+         *
+         * Allows a user to search through the leaderboard table for another player
+         *
+         * @param toFilter - the variable to filter by in the table
+         */
         $scope.filterBy = function (toFilter) {
             $scope.query = toFilter;
         };
 
-        $scope.toUserID = 'user/{{user.user_id}}';
 
-        $scope.toggleMode = function () {
-            $scope.mode = oppositeMode($scope.mode);
-        };
-
+        /**
+         *
+         * init()
+         *
+         * The initializer function for the controller
+         */
         function init() {
             $scope.userData = userService.data;
 

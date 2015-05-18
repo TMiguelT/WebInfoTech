@@ -9,7 +9,7 @@
 
     <div class="leaderboard-content container" ng-controller="leaderboardController">
 
-        <!-- leaderboard toggle buttons -->
+        <!-- leaderboard search function -->
         <div class="switch-leaderboards">
             <div class="col-md-4 input-group" style="float:right">
                       <span class="input-group-btn">
@@ -19,6 +19,7 @@
             </div>
         </div>
 
+        <!-- leaderboard table -->
         <table class="table">
             <thead>
                 <tr>
@@ -28,11 +29,12 @@
                 </tr>
             </thead>
             <tbody>
+
+                <!-- For each user in the database it displays, a rank, their name and score in the table -->
                 <tr ng-repeat="user in worldLeaderboard | filter: query">
 
                     <td>{{$index + 1}}</td>
-
-                    <td>< href="/user/{{user.user_id}}">{{user.username}}</td>
+                    <td><a href="/user/{{user.user_id}}">{{user.username}}</td>
                     <td>{{user.score}}</td>
 
                 </tr>
