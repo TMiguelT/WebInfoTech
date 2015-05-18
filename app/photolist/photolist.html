@@ -1,11 +1,12 @@
+<!-- Created by Johanna Sjogren on 30/03/15. -->
+<section class = "photo-list" ng-controller="photolistController as photoCtrl">
 
-<section class = photo-list>
+    <!--Title-->
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
-    <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.searchPhotos()">
+    <div class="photo-list-content col-md-12" ng-init="photoCtrl.searchPhotos()">
 
         <!--Order By-->
-
         <div class="photo-list-buttons">
             <div class="order-by col-md-2">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
@@ -21,6 +22,7 @@
                     </ul>
             </div>
 
+        <!--Number of photos-->
             <div class="order-by col-md-2">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownOrder" data-toggle="dropdown" aria-expanded="true">
                         Photos: {{photoCtrl.photosPerPage}}
@@ -54,15 +56,14 @@
         </div>
         
 
-        <!-- Pagination-->
-
+        <!-- Loading Box-->
         <loading-box text="'Loading Photos...'" ng-hide="photoCtrl.searchDone"></loading-box>
 
-            <!-- Table-->
-        <p ng-show="photoCtrl.photos.length == 0"> No photos to show</p>
-
-          <table class="table" ng-show="photoCtrl.searchDone" >
-            <!-- Photo Headings-->
+    
+    
+        <!-- Photo Table-->
+        <table class="table" ng-show="photoCtrl.searchDone" >
+        <!-- Photo Headings-->
             <thead>
               <tr>
                 <th class="col-md-3">Photo</th>
@@ -75,34 +76,40 @@
                 <th>Likes</th>
               </tr>
             </thead>
+            
+            <!-- For each photo in the photolist, display image and information-->  
             <tbody>
+                <!-- If no photos to show-->    
+                <tr ng-show="photoCtrl.photos.length == 0"> <td> No photos to show</td></tr>
 
-              <tr class = "photolist-hover" ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
-                        <td><img src="{{element.image_path}}" class="list-photo" alt="{{element.name}}"></td>
-                        <td>{{element.name}}</td>
-                        <td ng-show="photoCtrl.photos[0].distance">{{element.distance}} km</td>
-                        <td>{{element.description}}</td>
-                        <td><p ng-repeat="tag in element.tags" class= "list-tag" ng-show="tag">{{tag}}</p></td>
-                        <td>{{element.username}}</td>
-                        <td>{{element.likes}}</td>
-              </tr>
+                <!-- If photos to show-->   
+                <tr class = "photolist-hover" ng-repeat="element in photoCtrl.photos" ng-click="photoCtrl.showPhoto(element.photo_id)" style="cursor: pointer;">
+                    <td><img src="{{element.image_path}}" class="list-photo" alt="{{element.name}}"></td>
+                    <td>{{element.name}}</td>
+                    <td ng-show="photoCtrl.photos[0].distance">{{element.distance}} km</td>
+                    <td>{{element.description}}</td>
+                    <td><p ng-repeat="tag in element.tags" class= "list-tag" ng-show="tag">{{tag}}</p></td>
+                    <td>{{element.username}}</td>
+                    <td>{{element.likes}}</td>
+                  </tr>
             </tbody>
-          </table>
+        </table>
 
+        <!-- Horizontal Breaker-->
         <hr>
-                      <!-- Pagination -->
-            <div class="col-md-12" style="float:left">
-                <ul class = "pager" style="margin: 0;">
-                  <li class="previous" ng-class="{disabled: photoCtrl.currentPage == 0}">
-                    <a  ng-click="photoCtrl.prevPage()">« Prev</a>
-                  </li>
-                
-                  <li class="next" ng-class="{disabled: photoCtrl.photos.length < photoCtrl.photosPerPage}">
-                    <a href ng-click="photoCtrl.nextPage()">Next »</a>
-                  </li>
-                </ul>
-            </div>
+        <!-- Pager -->
+        <div class="col-md-12" style="float:left">
+            <ul class = "pager" style="margin: 0;">
+              <li class="previous" ng-class="{disabled: photoCtrl.currentPage == 0}">
+                <a href ng-click="photoCtrl.prevPage()">« Prev</a>
+              </li>
+            
+              <li class="next" ng-class="{disabled: photoCtrl.photos.length < photoCtrl.photosPerPage}">
+                <a href ng-click="photoCtrl.nextPage()">Next »</a>
+              </li>
+            </ul>
         </div>
+    </div>
 </section>
 
 
