@@ -1,10 +1,10 @@
 <!-- Created by Johanna Sjogren on 30/03/15. -->
-<section class = photo-list>
+<section class = "photo-list" ng-controller="photolistController as photoCtrl">
 
     <!--Title-->
     <div class="photo-list-title"><h1>Photos</h1> </div>
 
-    <div class="photo-list-content col-md-12" ng-controller="photolistController as photoCtrl" ng-init="photoCtrl.searchPhotos()">
+    <div class="photo-list-content col-md-12" ng-init="photoCtrl.searchPhotos()">
 
         <!--Order By-->
         <div class="photo-list-buttons">
