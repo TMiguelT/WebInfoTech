@@ -26,6 +26,8 @@ angular.module("app")
             $scope.query = toFilter;
         };
 
+        $scope.toUserID = 'user/{{user.user_id}}';
+
         $scope.toggleMode = function () {
             $scope.mode = oppositeMode($scope.mode);
         };
