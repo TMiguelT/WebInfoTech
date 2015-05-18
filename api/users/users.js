@@ -5,16 +5,20 @@ var _ = require('lodash');
 var queries = require("./queries");
 
 router
+
+    //Endpoint for logging in. Takes an email and password field
     .post('/login', function *() {
         var form = this.request.body;
         var user;
 
-        //Validate parameters
+        //Validate form parameters and return them to the client
         this.checkBody('email').notEmpty("Email cannot be empty");
         this.checkBody('password').notEmpty("Password cannot be empty");
         if (this.errors) {
             this.status = 400;
-            this.body = this.errors;
+            this.body = _.chain(this.errors).map(function(error){
+                return _.values(error);
+            }).flatten().value();
             return;
         }
 
@@ -28,10 +32,10 @@ router
                 }))[0];
         }
 
-            //If there's an error (no such email) throw an error
+        //If there's an error (no such email) throw an error
         catch (e) {
             this.status = 400;
-            this.body = e.message;
+            this.body = [e.message];
             return;
         }
 
@@ -45,11 +49,11 @@ router
         }
         if (!pwMatches) {
             this.status = 400;
-            this.body = "Invalid password!";
+            this.body = ["Invalid password!"];
             return;
         }
 
-        //If everything is k, log them in
+        //If everything is ok, log them in
         this.session.logged_in = true;
         this.session.user_id = user.user_id;
         this.session.username = user.username;
@@ -64,6 +68,7 @@ router
         this.body = this.session;
     })
 
+    //Logs a user out
     .post('/logout', function *() {
         //If they're logged in, log them out
         if (this.session.logged_in) {
@@ -71,13 +76,14 @@ router
             this.status = 200;
         }
 
-        //If they're not logged in, wtf r u doing
+        //If they're not logged in, something is wrong
         else {
             this.status = 400;
             this.body = "Not logged in!";
         }
     })
 
+    //Endpoint for registering a user. Takes username, email, password and confirmPassword fields.
     .post('/register', function *() {
 
         var form = this.request.body;
@@ -91,7 +97,9 @@ router
         //If one of the parameters is invalid, throw an error
         if (this.errors) {
             this.status = 400;
-            this.body = this.errors;
+            this.body = _.chain(this.errors).map(function(error){
+                return _.values(error);
+            }).flatten().value();
             return;
         }
 
@@ -109,10 +117,13 @@ router
                 });
         }
 
-            //If there's an error (e.g. an existing username or email) throw an error
+        //If there's an error (e.g. an existing username or email) throw an error
         catch (e) {
             this.status = 400;
-            this.body = e.message;
+            if (e.message.indexOf("user_username_key") != -1)
+                this.body = ["This email address is already registered. Please choose a unique email address"];
+            else
+                this.body = [e.message];
             return;
         }
 
@@ -120,9 +131,10 @@ router
         this.body = "Success!";
     })
 
+    //Used by the user page to get basic stats (score, number of finds, username etc.)
     .post('/userData', function *() {
 
-        //Get the user ID that the user is querying
+        //Get the user ID that the user is querying, which will be the user's own ID if not specified
         var userId = queries.userIdFromQuery(this);
 
         //If they're querying themselves, include private data
@@ -132,6 +144,7 @@ router
             this.body = yield queries.publicUserData(this.knex, userId);
     })
 
+    //Gets all the photos posted by the given user. Has userId and page fields as inputs. Includes a page variable for use in paginating the photos (each page is 10 photos)
     .post('/photos', function *() {
         //Get the user ID that the user is querying
         var userId = queries.userIdFromQuery(this);
@@ -141,6 +154,7 @@ router
         return;
     })
 
+        //Gets all the photos found by the given user. Has userId and page fields as inputs. Includes a page variable for use in paginating the photos (each page is 10 photos)
     .post('/finds', function *() {
         //Get the user ID that the user is querying
         var userId = queries.userIdFromQuery(this);
@@ -148,57 +162,6 @@ router
         //Send the query response
         this.body = yield queries.userFinds(this.knex, this.request.body.page, userId);
         return;
-    })
-
-    //Get the user's stats for the users page
-    .post('/stats', function *() {
-        var userId;
-
-        //If they're looking for a specific user id, use it
-        if ('userId' in this.request.body)
-            userId = this.request.body.userId;
-        //Otherwise, if they're logged in, use their id from the session data
-        else if (this.session.logged_in)
-            userId = this.session.user_id;
-        else
-            throw new Error("You must be logged in or provide a user ID to access the user page");
-
-        var finds = yield this.knex('find')
-            .where({"find.user_id": userId})
-            .join('photo', 'photo.photo_id', '=', 'find.photo_id');
-
-        var userData = yield this.knex('user')
-            .select("user_id", 'username')
-            .where({user_id: userId});
-
-        finds.forEach(function (row) {
-            row.image_path = photoUrl.fullUrl(row.image_path)
-        });
-
-        var photos = yield this.knex('photo')
-            .select('image_path', 'num_finds')
-            .count('like.value as likes')
-            .count('dislike.value as dislikes')
-            .where({'photo.user_id': userId})
-            .leftJoin('like', function () {
-                this.on('photo.photo_id', '=', 'like.photo_id')
-                    .on('like.value', '>', 1)
-            })
-            .leftJoin('like AS dislike', function () {
-                this.on('photo.photo_id', '=', 'like.photo_id')
-                    .on('like.value', '<', 1)
-            })
-            .groupBy('photo.photo_id');
-
-        photos.forEach(function (row) {
-            row.image_path = photoUrl.fullUrl(row.image_path)
-        });
-
-        this.body = _.assign({
-            photos: photos,
-            finds: finds
-        }, userData[0]);
-        this.status = 200;
     });
 
 module.exports = router.routes();
