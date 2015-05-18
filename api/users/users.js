@@ -10,8 +10,8 @@ router
         var user;
 
         //Validate parameters
-        this.checkBody('email').notEmpty();
-        this.checkBody('password').notEmpty();
+        this.checkBody('email').notEmpty("Email cannot be empty");
+        this.checkBody('password').notEmpty("Password cannot be empty");
         if (this.errors) {
             this.status = 400;
             this.body = this.errors;
@@ -83,9 +83,9 @@ router
         var form = this.request.body;
 
         //Validate parameters
-        this.checkBody('username').notEmpty().len(5, 20, "Username must be between 5 and 20 characters.");
-        this.checkBody('email').notEmpty().isEmail("Invalid email entered.");
-        this.checkBody('password').notEmpty().len(3, 20, "Password must be between 3 and 20 characters.");
+        this.checkBody('username').notEmpty("Username cannot be empty").len(5, 20, "Username must be between 5 and 20 characters.");
+        this.checkBody('email').notEmpty("Email cannot be empty").isEmail("Invalid email entered.");
+        this.checkBody('password').notEmpty("Password cannot be empty").len(3, 20, "Password must be between 3 and 20 characters.");
         this.checkBody('confirmPassword').eq(form.password, "Both the password fields must be the same.");
 
         //If one of the parameters is invalid, throw an error
@@ -126,7 +126,7 @@ router
         var userId = queries.userIdFromQuery(this);
 
         //If they're querying themselves, include private data
-        if (this.session.logged_id && this.session.user_id == userId)
+        if (this.session.logged_in && this.session.user_id == userId)
             this.body = yield queries.privateUserData(this.knex, userId);
         else
             this.body = yield queries.publicUserData(this.knex, userId);

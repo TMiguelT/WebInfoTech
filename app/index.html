@@ -7,10 +7,8 @@
     <title>Geogram</title>
     <base href="/">
     <link rel="stylesheet" href="/public/app.css">
-
-    <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/lumen/bootstrap.min.css">
+    <!--<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>-->
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navbarController">
@@ -29,7 +27,6 @@
                 <li><a href="/photolist"><span class="glyphicon glyphicon-picture"> </span> Photos</a></li>
                 <li><a href="/capture"><span class="glyphicon glyphicon-camera"> </span> Add a Photo</a></li>
                 <li><a href="/leaderboard"><span class="glyphicon glyphicon-list"> </span> View Leaderboard</a></li>
-                <li><a href="/dashboard"><span class="glyphicon glyphicon-th"> </span> Dashboard</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show="!logged_in"><button class="btn btn-primary navbar-btn" ng-click="goToPage('/login')">Login/Register</button></li>

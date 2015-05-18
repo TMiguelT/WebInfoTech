@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div ng-show="hasLoaded && user_id" class="center-block panel panel-primary" style="margin-top: 50px">
+    <div ng-show="hasLoaded && user_id" class="center-block panel" style="margin-top: 50px">
         <div class="panel-heading">
             <h1>{{username}}</h1>
         </div>
@@ -23,15 +23,46 @@
                     <td>User ID:</td>
                     <td>{{user_id}}</td>
                 </tr>
-                <tr>
+                <tr ng-show="email">
                     <td>Email Address:</td>
                     <td>{{email}}</td>
+                </tr>
+                <!--<tr ng-show="private !== undefined">-->
+                <!--<td>Private Mode:</td>-->
+                <!--<td>{{private}}</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td>Total Finds:</td>
+                    <td>{{num_finds}}</td>
+                </tr>
+                <tr>
+                    <td>Total Photos:</td>
+                    <td>{{num_photos}}</td>
+                </tr>
+                <tr>
+                    <td>Total Score:</td>
+                    <td>{{score}}</td>
                 </tr>
             </table>
 
             <h2>Photos</h2>
 
             <loading-box text="'Loading Taken Photos...'" ng-hide="loadedPhotos"></loading-box>
+            <!-- Pagination -->
+            <div class="col-md-12" style="float:left">
+                <ul class="pager" style="margin: 0;">
+                    <li class="previous" ng-class="{disabled: photoPage == 1}">
+                        <a ng-click="photoPage = photoPage - 1">« Prev</a>
+                    </li>
+
+                    <li class="next">
+                        <a href ng-click="photoPage = photoPage + 1">Next »</a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+
             <div ng-repeat="photo in photos">
                 <div class="row vertical-align-flex">
                     <div class="col-xs-6">
@@ -53,6 +84,20 @@
             <h2>Finds</h2>
 
             <loading-box text="'Loading Found Photos...'" ng-hide="loadedFinds"></loading-box>
+            <!-- Pagination -->
+            <div class="col-md-12" style="float:left">
+                <ul class="pager" style="margin: 0;">
+                    <li class="previous" ng-class="{disabled: findPage == 1}">
+                        <a ng-click="findPage = findPage  - 1">« Prev</a>
+                    </li>
+
+                    <li class="next">
+                        <a href ng-click="findPage = findPage  + 1">Next »</a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
             <div ng-repeat="photo in finds">
                 <div class="row vertical-align-flex">
                     <div class="col-xs-6">
@@ -71,34 +116,34 @@
                 <hr>
             </div>
             <!--<table class="table-centered table table-striped">-->
-                <!--<tr>-->
-                    <!--<td>Photo</td>-->
-                    <!--<td>Total Finds</td>-->
-                    <!--<td>Total Likes</td>-->
-                    <!--<td>Total Dislikes</td>-->
-                <!--</tr>-->
-                <!--<tr ng-repeat="photo in photos">-->
-                    <!--<td><img src="{{photo.image_path}}" class="user-photo img-thumbnail"></td>-->
-                    <!--<td>{{photo.num_finds}} <span class="glyphicon glyphicon-search" aria-hidden="true"></span></td>-->
-                    <!--<td>{{photo.likes}} <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></td>-->
-                    <!--<td>{{photo.dislikes}} <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></td>-->
-                <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>Photo</td>-->
+            <!--<td>Total Finds</td>-->
+            <!--<td>Total Likes</td>-->
+            <!--<td>Total Dislikes</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="photo in photos">-->
+            <!--<td><img src="{{photo.image_path}}" class="user-photo img-thumbnail"></td>-->
+            <!--<td>{{photo.num_finds}} <span class="glyphicon glyphicon-search" aria-hidden="true"></span></td>-->
+            <!--<td>{{photo.likes}} <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></td>-->
+            <!--<td>{{photo.dislikes}} <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></td>-->
+            <!--</tr>-->
             <!--</table>-->
 
             <!--<h2>Finds</h2>-->
             <!--<table class="table">-->
-                <!--<tr>-->
-                    <!--<td>Photo</td>-->
-                    <!--<td>Date Found</td>-->
-                    <!--<td>Time Taken</td>-->
-                    <!--<td>Points</td>-->
-                <!--</tr>-->
-                <!--<tr ng-repeat="find in finds">-->
-                    <!--<td><img src="{{find.image_path}}" class="user-photo"></td>-->
-                    <!--<td>{{find.date}}</td>-->
-                    <!--<td>{{find.time_elapsed}}</td>-->
-                    <!--<td>{{find.points}}</td>-->
-                <!--</tr>-->
+            <!--<tr>-->
+            <!--<td>Photo</td>-->
+            <!--<td>Date Found</td>-->
+            <!--<td>Time Taken</td>-->
+            <!--<td>Points</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="find in finds">-->
+            <!--<td><img src="{{find.image_path}}" class="user-photo"></td>-->
+            <!--<td>{{find.date}}</td>-->
+            <!--<td>{{find.time_elapsed}}</td>-->
+            <!--<td>{{find.points}}</td>-->
+            <!--</tr>-->
             <!--</table>-->
         </div>
     </div>
