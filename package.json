@@ -52,7 +52,6 @@
     "koa-router": "^4.2.0",
     "koa-static": "^1.4.9",
     "koa-validate": "^0.2.11",
-    "lwip-promise": "^0.1.0",
     "moment": "^2.10.2",
     "pg": "^4.3.0",
     "request-promise": "^0.4.2"

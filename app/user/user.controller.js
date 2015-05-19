@@ -26,26 +26,26 @@ angular.module("app")
                     });
             });
 
+            //True when the basic stats have loaded
             $scope.hasLoaded = false;
+            //True when the request for getting the photos is complete
             $scope.loadedPhotos = false;
+            //True when the request for getting the found photos is complete
             $scope.loadedFinds = false;
+            
+            //Setting these variables will trigger the $scope.$watch which will fire the queries
+            //The current page of the found photos list (it's paginated into groups of 10 photos)
             $scope.findPage = 1;
+            //The current page of the taken photos list (it's paginated into groups of 10 photos)
             $scope.photoPage = 1;
 
-            if ('userId' in $routeParams)
-            //On load, if we're looking at another user, store it
-                $scope.userId = $routeParams.userId;
-            else {
-                //Otherwise use the session data for the userId, and watch for updates
-                $scope.userId = userService.data.userId;
-            }
-
             //Request the basic data
-            $http.post('/api/user/userData', {userId: $scope.userId})
+            $http.post('/api/user/userData', {userId:  $routeParams.userId})
                 .success(function (data) {
                     _.assign($scope, data);
                 })
                 .finally(function () {
                     $scope.hasLoaded = true;
                 });
-        }]);
+        }
+    ]);
