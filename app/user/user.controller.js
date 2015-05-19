@@ -5,7 +5,7 @@ angular.module("app")
             //Whenever they change the page of the finds table, send a new request
             $scope.$watch('findPage', function () {
                 $scope.loadedFinds = false;
-                $http.post('/api/user/finds', {userId: $scope.userId, page: $scope.findPage})
+                $http.post('/api/user/finds', {userId: $routeParams.userId, page: $scope.findPage})
                     .success(function (data) {
                         $scope.finds = data;
                     })
@@ -17,7 +17,7 @@ angular.module("app")
             //Whenever they change the page of the photos table, send a new request
             $scope.$watch('photoPage', function () {
                 $scope.loadedPhotos = false;
-                $http.post('/api/user/photos', {userId: $scope.userId, page: $scope.photoPage})
+                $http.post('/api/user/photos', {userId: $routeParams.userId, page: $scope.photoPage})
                     .success(function (data) {
                         $scope.photos = data;
                     })
@@ -32,7 +32,7 @@ angular.module("app")
             $scope.loadedPhotos = false;
             //True when the request for getting the found photos is complete
             $scope.loadedFinds = false;
-            
+
             //Setting these variables will trigger the $scope.$watch which will fire the queries
             //The current page of the found photos list (it's paginated into groups of 10 photos)
             $scope.findPage = 1;
@@ -40,7 +40,7 @@ angular.module("app")
             $scope.photoPage = 1;
 
             //Request the basic data
-            $http.post('/api/user/userData', {userId:  $routeParams.userId})
+            $http.post('/api/user/userData', {userId: $routeParams.userId})
                 .success(function (data) {
                     _.assign($scope, data);
                 })

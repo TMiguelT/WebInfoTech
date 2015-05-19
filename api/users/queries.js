@@ -53,17 +53,17 @@ module.exports = {
     //Gets a list of photos taken by the given user
     userPhotos: function *(knex, page, userId) {
         var query = knex('photo')
-            .select('image_path', 'num_finds')
-            .count('like.value as likes')
-            .count('dislike.value as dislikes')
+            .select('image_path', 'num_finds', 'photo.photo_id')
+            .count('like as likes')
+            .count('dislike as dislikes')
             .where({'photo.user_id': userId})
             .leftJoin('like', function () {
                 this.on('photo.photo_id', '=', 'like.photo_id')
-                    .on('like.value', '>', 1)
+                    .on('like.value', '=', 1)
             })
             .leftJoin('like AS dislike', function () {
                 this.on('photo.photo_id', '=', 'like.photo_id')
-                    .on('like.value', '<', 1)
+                    .on('like.value', '=', -1)
             })
             .groupBy('photo.photo_id')
             .limit(PHOTOS_PER_PAGE)
@@ -78,11 +78,11 @@ module.exports = {
     //Gets a list of photos found by the given user
     userFinds: function *(knex, page, userId) {
         var query = knex('find')
-            .select("date", "image_path")
+            .select("date", 'image_path', 'photo.photo_id')
             .where({"find.user_id": userId})
             .leftJoin('photo', 'photo.photo_id', '=', 'find.photo_id')
             .limit(PHOTOS_PER_PAGE)
-            .offset(PHOTOS_PER_PAGE * page);
+            .offset(PHOTOS_PER_PAGE * (page - 1));
 
         return query.map(function (row) {
             row.image_path = photoUrl.fullUrl(row.image_path);

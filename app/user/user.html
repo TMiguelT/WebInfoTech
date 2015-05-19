@@ -66,16 +66,22 @@
             <div ng-repeat="photo in photos">
                 <div class="row vertical-align-flex">
                     <div class="col-xs-6">
-                        <img src="{{photo.image_path}}" class="user-photo img-thumbnail">
+                        <a ng-href="/photo/{{photo.photo_id}}"><img src="{{photo.image_path}}" class="user-photo img-thumbnail"></a>
                     </div>
                     <div class="col-xs-2">
-                        {{photo.num_finds}} <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        &nbsp;
+                        {{photo.num_finds}}
                     </div>
                     <div class="col-xs-2">
-                        {{photo.likes}} <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        &nbsp;
+                        {{photo.likes}}
                     </div>
                     <div class="col-xs-2">
-                        {{photo.dislikes}} <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        &nbsp;
+                        {{photo.dislikes}}
                     </div>
                 </div>
                 <hr>
@@ -101,16 +107,12 @@
             <div ng-repeat="photo in finds">
                 <div class="row vertical-align-flex">
                     <div class="col-xs-6">
-                        <img src="{{photo.image_path}}" class="user-photo img-thumbnail">
+                        <a ng-href="/photo/{{photo.photo_id}}"><img src="{{photo.image_path}}" class="user-photo img-thumbnail"></a>
                     </div>
-                    <div class="col-xs-2">
-                        {{photo.num_finds}} <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </div>
-                    <div class="col-xs-2">
-                        {{photo.likes}} <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    </div>
-                    <div class="col-xs-2">
-                        {{photo.dislikes}} <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    <div class="col-xs-6">
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                        &nbsp;
+                        {{photo.date | date:'MM/dd/yyyy'}}
                     </div>
                 </div>
                 <hr>
